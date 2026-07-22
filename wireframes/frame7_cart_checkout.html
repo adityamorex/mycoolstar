@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cool Star - Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .glass-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Sticky Reference Banner -->
+    <div class="bg-amber-500 text-white text-center py-2 px-4 text-xs font-bold uppercase tracking-wider shadow-sm sticky top-0 z-[100] flex justify-center items-center space-x-2">
+        <span>⚠️ Note: This screen is for design and flow reference purposes only.</span>
+    </div>
+
+    <!-- Header (Simplified for Checkout) -->
+    <header class="glass-header sticky top-0 z-50">
+        <div class="max-w-[1200px] mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="text-2xl font-bold tracking-tight text-slate-900">MyCoolStar<span class="text-blue-600">.</span></div>
+            <div class="text-sm font-bold text-slate-500 flex items-center space-x-2">
+                <span class="text-blue-600">Cart</span>
+                <span>&rarr;</span>
+                <span class="text-slate-900">Checkout</span>
+            </div>
+            <a href="frame1_catalog.html" class="text-sm font-bold text-slate-600 hover:text-slate-900">Return to Shop</a>
+        </div>
+    </header>
+
+    <!-- Checkout Process -->
+    <section class="py-12">
+        <div class="max-w-[1200px] mx-auto px-8">
+            <h1 class="text-3xl font-extrabold text-slate-900 mb-10 tracking-tight">Complete your Order</h1>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                <!-- Main Checkout Form -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Billing Details -->
+                    <div class="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100">
+                        <h2 class="text-xl font-bold mb-6 text-slate-900 flex items-center"><span class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center text-sm mr-3">1</span>Billing Details</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">First Name</label>
+                                <input type="text" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" value="Rahul">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Last Name</label>
+                                <input type="text" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" value="Sharma">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Company Name / GSTIN (B2B)</label>
+                                <input type="text" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" value="Sharma Electronics - 07AACCS4493A1Z8">
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Address</label>
+                                <input type="text" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" value="Shop No 14, Main Market, Lajpat Nagar">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">City</label>
+                                <input type="text" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" value="New Delhi">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">PIN Code</label>
+                                <input type="text" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none" value="110024">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Method -->
+                    <div class="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100">
+                        <h2 class="text-xl font-bold mb-6 text-slate-900 flex items-center"><span class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center text-sm mr-3">2</span>Payment Method</h2>
+                        <div class="space-y-4">
+                            <label class="flex items-center gap-4 p-4 border-2 border-blue-500 bg-blue-50/30 rounded-2xl cursor-pointer">
+                                <input type="radio" name="payment" class="w-5 h-5 text-blue-600" checked>
+                                <div class="flex-1">
+                                    <span class="block font-bold text-slate-900">Pay via Credit Limit (Dealer)</span>
+                                    <span class="block text-sm text-slate-500 mt-0.5 font-medium">Use your pre-approved SalesOn credit</span>
+                                </div>
+                                <span class="ml-auto text-sm bg-emerald-100 text-emerald-700 py-1.5 px-3 rounded-full font-bold">Available: ₹1,50,000</span>
+                            </label>
+                            <label class="flex items-center gap-4 p-4 border border-slate-200 rounded-2xl cursor-pointer hover:bg-slate-50 transition">
+                                <input type="radio" name="payment" class="w-5 h-5 text-blue-600">
+                                <div>
+                                    <span class="block font-bold text-slate-900">Standard Payment</span>
+                                    <span class="block text-sm text-slate-500 mt-0.5 font-medium">Credit Card, UPI, Netbanking or Cheque</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div class="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 h-fit sticky top-32">
+                    <h2 class="text-xl font-bold mb-6 text-slate-900">Order Summary</h2>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="flex justify-between items-center py-4 border-b border-slate-100">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100">
+                                    <img src="mcs_ceiling_fan.png" class="w-12 h-12 object-contain" alt="Fan">
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900">Ceiling Fan Pro</p>
+                                    <p class="text-sm text-slate-500 font-medium">Qty: 50</p>
+                                </div>
+                            </div>
+                            <span class="font-bold text-slate-900">₹60,000</span>
+                        </div>
+                        <div class="flex justify-between items-center py-4 border-b border-slate-100">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 bg-slate-50 rounded-xl flex items-center justify-center border border-slate-100">
+                                    <img src="mcs_room_heater.png" class="w-12 h-12 object-contain" alt="Heater">
+                                </div>
+                                <div>
+                                    <p class="font-bold text-slate-900">Room Heater</p>
+                                    <p class="text-sm text-slate-500 font-medium">Qty: 20</p>
+                                </div>
+                            </div>
+                            <span class="font-bold text-slate-900">₹30,000</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 mb-8">
+                        <div class="flex justify-between text-slate-500 font-medium text-sm">
+                            <span>Subtotal</span>
+                            <span class="text-slate-900 font-bold">₹90,000</span>
+                        </div>
+                        <div class="flex justify-between text-slate-500 font-medium text-sm">
+                            <span>GST (18%)</span>
+                            <span class="text-slate-900 font-bold">₹16,200</span>
+                        </div>
+                        <div class="flex justify-between text-xl font-extrabold text-slate-900 pt-6 border-t border-slate-100">
+                            <span>Total</span>
+                            <span>₹1,06,200</span>
+                        </div>
+                    </div>
+
+                    <button class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl transition shadow-lg">Place Order Securely</button>
+                    <p class="text-xs font-medium text-slate-400 text-center mt-4">By placing an order, you agree to our Terms & Conditions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

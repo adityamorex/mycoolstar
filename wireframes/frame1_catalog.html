@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frame 1: Elite B2B Catalog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .glass-header { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0,0,0,0.05); }
+        .card-shadow { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
+        .card-hover:hover { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04); transform: translateY(-2px); }
+        .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Reference Screen Notice Banner -->
+    <div class="bg-amber-500 text-white text-center py-2 px-4 text-xs font-bold uppercase tracking-wider shadow-sm sticky top-0 z-[100] flex justify-center items-center space-x-2">
+        <span>⚠️ Note: This screen is for design and flow reference purposes only.</span>
+    </div>
+
+    <!-- Top Utility Bar -->
+    <div class="bg-slate-900 text-slate-300 text-xs py-2 px-8 flex justify-between items-center font-medium">
+        <div class="flex items-center space-x-4">
+            <span>Welcome, Sri Electronics (GST: 27AABCS1429B1Z)</span>
+            <span class="border-l border-slate-700 pl-4 text-emerald-400">Available Credit: ₹2,50,000</span>
+        </div>
+        <div class="flex space-x-6">
+            <a href="frame2_dealer_dashboard.html" class="hover:text-white transition">My Dashboard</a>
+            <a href="#" class="hover:text-white transition">Support</a>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="glass-header sticky top-0 z-50">
+        <div class="max-w-[1600px] mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="text-2xl font-bold tracking-tight text-slate-900">MyCoolStar<span class="text-blue-600">.</span></div>
+            
+            <div class="flex-1 max-w-3xl mx-12">
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    </div>
+                    <input type="text" class="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition" placeholder="Search by SKU, product name, or specifications...">
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-6 text-sm font-semibold text-slate-600">
+                <a href="frame0_homepage.html" class="hover:text-blue-600">Home</a>
+                <a href="#" class="text-blue-600">Catalog</a>
+                <a href="#" class="hover:text-blue-600">About Us</a>
+                <a href="#" class="hover:text-blue-600">Contact Us</a>
+            </div>
+
+            <div class="flex items-center space-x-6 ml-6 border-l border-slate-200 pl-6">
+                <div class="text-right hidden md:block">
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-0.5">Order Total</p>
+                    <p class="text-sm font-bold text-slate-900">₹42,500</p>
+                </div>
+                <button class="bg-blue-600 text-white px-5 py-2.5 rounded-full text-sm font-semibold hover:bg-blue-700 transition shadow-sm hover:shadow flex items-center">
+                    <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                    Review Order (2)
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[1600px] mx-auto px-8 py-10 flex gap-8">
+        
+        <!-- Sidebar -->
+        <aside class="w-64 flex-shrink-0 hidden lg:block">
+            <h2 class="text-xs font-bold text-slate-900 uppercase tracking-widest mb-6">Categories</h2>
+            <div class="space-y-1 mb-10">
+                <a href="#" class="block px-3 py-2 rounded-lg bg-blue-50 text-blue-700 font-bold text-sm">All Appliances</a>
+                <a href="#" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold text-sm transition">Ceiling Fans (45)</a>
+                <a href="#" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold text-sm transition">Desert Coolers (12)</a>
+                <a href="#" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold text-sm transition">Room Heaters (24)</a>
+                <a href="#" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold text-sm transition">Geysers (8)</a>
+                <a href="#" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100 font-semibold text-sm transition">Spare Parts (120)</a>
+            </div>
+            
+            <h2 class="text-xs font-bold text-slate-900 uppercase tracking-widest mb-6">Stock Status</h2>
+            <div class="space-y-3">
+                <label class="flex items-center space-x-3 cursor-pointer">
+                    <input type="checkbox" checked class="h-4 w-4 text-blue-600 rounded border-slate-300 focus:ring-blue-500">
+                    <span class="text-sm font-semibold text-slate-700">In Stock Only</span>
+                </label>
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <div class="flex-1">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-slate-900">Wholesale Catalog</h1>
+                <div class="flex items-center space-x-2 text-sm text-slate-500">
+                    <span class="font-medium">Sort by:</span>
+                    <select class="border border-slate-200 bg-white rounded-lg px-3 py-1 font-semibold text-slate-900 focus:ring-0 cursor-pointer text-xs">
+                        <option>Most Popular</option>
+                        <option>Price: Low to High</option>
+                        <option>SKU (A-Z)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 4 Columns Grid on Extra Large Screens -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                
+                <!-- Product 1 -->
+                <div class="bg-white rounded-2xl border border-slate-100 card-shadow card-hover transition-all duration-300 flex flex-col overflow-hidden">
+                    <a href="frame4_product_detail.html" class="bg-slate-50 h-48 relative flex items-center justify-center group overflow-hidden">
+                        <img src="mcs_ceiling_fan.png" alt="Ceiling Fan" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-slate-800 shadow-sm border border-slate-200">MCS-FAN-1200</div>
+                        <div class="absolute top-3 right-3 bg-emerald-50 text-emerald-700 px-2 py-1 rounded text-[10px] font-bold border border-emerald-100">In Stock</div>
+                    </a>
+                    <div class="p-4 flex flex-col flex-1">
+                        <a href="frame4_product_detail.html" class="font-bold text-sm text-slate-900 mb-1 hover:text-blue-600 transition">AeroSmart BLDC Ceiling Fan</a>
+                        <p class="text-[11px] text-slate-500 mb-4 line-clamp-2">1200mm Sweep | 35W BLDC Motor | Smart Remote included</p>
+                        <div class="mt-auto">
+                            <div class="flex justify-between items-end mb-3">
+                                <div>
+                                    <p class="text-[9px] uppercase font-bold tracking-wider text-slate-400 mb-0.5">Dealer Price</p>
+                                    <p class="text-lg font-extrabold text-slate-900">₹1,850</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[9px] uppercase font-bold tracking-wider text-slate-400 mb-0.5">Min. Order</p>
+                                    <p class="text-xs font-bold text-slate-700">50 Units</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="number" value="50" min="50" class="w-16 pl-2 pr-1 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-center font-bold text-sm text-slate-900 focus:outline-none focus:ring-2 focus:border-blue-500 transition">
+                                <button class="flex-1 bg-slate-900 text-white rounded-lg py-1.5 text-xs font-bold hover:bg-blue-600 transition shadow-sm">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="bg-white rounded-2xl border border-slate-100 card-shadow card-hover transition-all duration-300 flex flex-col overflow-hidden">
+                    <a href="frame4_product_detail.html" class="bg-slate-50 h-48 relative flex items-center justify-center group overflow-hidden">
+                        <img src="mcs_desert_cooler.png" alt="Cooler" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-slate-800 shadow-sm border border-slate-200">MCS-COOL-50L</div>
+                        <div class="absolute top-3 right-3 bg-amber-50 text-amber-700 px-2 py-1 rounded text-[10px] font-bold border border-amber-100">Low Stock</div>
+                    </a>
+                    <div class="p-4 flex flex-col flex-1">
+                        <a href="frame4_product_detail.html" class="font-bold text-sm text-slate-900 mb-1 hover:text-blue-600 transition">Desert Cooler 50L Heavy Duty</a>
+                        <p class="text-[11px] text-slate-500 mb-4 line-clamp-2">50L tank capacity | Honeycomb cooling pads | Inverter compatible</p>
+                        <div class="mt-auto">
+                            <div class="flex justify-between items-end mb-3">
+                                <div>
+                                    <p class="text-[9px] uppercase font-bold tracking-wider text-slate-400 mb-0.5">Dealer Price</p>
+                                    <p class="text-lg font-extrabold text-slate-900">₹4,200</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[9px] uppercase font-bold tracking-wider text-slate-400 mb-0.5">Min. Order</p>
+                                    <p class="text-xs font-bold text-slate-700">10 Units</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="number" value="10" min="10" class="w-16 pl-2 pr-1 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-center font-bold text-sm text-slate-900 focus:outline-none focus:ring-2 focus:border-blue-500 transition">
+                                <button class="flex-1 bg-slate-900 text-white rounded-lg py-1.5 text-xs font-bold hover:bg-blue-600 transition shadow-sm">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="bg-white rounded-2xl border border-slate-100 card-shadow card-hover transition-all duration-300 flex flex-col overflow-hidden">
+                    <a href="frame4_product_detail.html" class="bg-slate-50 h-48 relative flex items-center justify-center group overflow-hidden">
+                        <img src="mcs_room_heater.png" alt="Heater" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-slate-800 shadow-sm border border-slate-200">MCS-HEAT-3R</div>
+                        <div class="absolute top-3 right-3 bg-emerald-50 text-emerald-700 px-2 py-1 rounded text-[10px] font-bold border border-emerald-100">In Stock</div>
+                    </a>
+                    <div class="p-4 flex flex-col flex-1">
+                        <a href="frame4_product_detail.html" class="font-bold text-sm text-slate-900 mb-1 hover:text-blue-600 transition">Halogen Room Heater</a>
+                        <p class="text-[11px] text-slate-500 mb-4 line-clamp-2">3-rod setup | 1200W Max | Tip-over safety switch</p>
+                        <div class="mt-auto">
+                            <div class="flex justify-between items-end mb-3">
+                                <div>
+                                    <p class="text-[9px] uppercase font-bold tracking-wider text-slate-400 mb-0.5">Dealer Price</p>
+                                    <p class="text-lg font-extrabold text-slate-900">₹850</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[9px] uppercase font-bold tracking-wider text-slate-400 mb-0.5">Min. Order</p>
+                                    <p class="text-xs font-bold text-slate-700">100 Units</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="number" value="100" min="100" class="w-16 pl-2 pr-1 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-center font-bold text-sm text-slate-900 focus:outline-none focus:ring-2 focus:border-blue-500 transition">
+                                <button class="flex-1 bg-slate-900 text-white rounded-lg py-1.5 text-xs font-bold hover:bg-blue-600 transition shadow-sm">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="bg-white rounded-2xl border border-slate-100 card-shadow card-hover transition-all duration-300 flex flex-col overflow-hidden">
+                    <a href="frame4_product_detail.html" class="bg-slate-50 h-48 relative flex items-center justify-center group overflow-hidden">
+                        <img src="mcs_water_geyser.png" alt="Geyser" class="w-full h-full object-cover group-hover:scale-105 transition duration-500 opacity-90">
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded text-[10px] font-bold text-slate-800 shadow-sm border border-slate-200">MCS-GEY-15L</div>
+                        <div class="absolute top-3 right-3 bg-emerald-50 text-emerald-700 px-2 py-1 rounded text-[10px] font-bold border border-emerald-100">In Stock</div>
+                    </a>
+                    <div class="p-4 flex flex-col flex-1">
+                        <a href="frame4_product_detail.html" class="font-bold text-sm text-slate-900 mb-1 hover:text-blue-600 transition">Storage Water Geyser 15L</a>
+                        <p class="text-[11px] text-slate-500 mb-4 line-clamp-2">15L Capacity | Glass-lined tank | 8-bar pressure rating</p>
+                        <div class="mt-auto">
+                            <div class="flex justify-between items-end mb-3">
+                                <div>
+                                    <p class="text-[9px] uppercase font-bold tracking-wider text-slate-400 mb-0.5">Dealer Price</p>
+                                    <p class="text-lg font-extrabold text-slate-900">₹3,150</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[9px] uppercase font-bold tracking-wider text-slate-400 mb-0.5">Min. Order</p>
+                                    <p class="text-xs font-bold text-slate-700">25 Units</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="number" value="25" min="25" class="w-16 pl-2 pr-1 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-center font-bold text-sm text-slate-900 focus:outline-none focus:ring-2 focus:border-blue-500 transition">
+                                <button class="flex-1 bg-slate-900 text-white rounded-lg py-1.5 text-xs font-bold hover:bg-blue-600 transition shadow-sm">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+</body>
+</html>

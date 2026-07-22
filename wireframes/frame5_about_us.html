@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cool Star - About Us</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #ffffff; color: #0f172a; }
+        .glass-header { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Sticky Reference Banner -->
+    <div class="bg-amber-500 text-white text-center py-2 px-4 text-xs font-bold uppercase tracking-wider shadow-sm sticky top-0 z-[100] flex justify-center items-center space-x-2">
+        <span>⚠️ Note: This screen is for design and flow reference purposes only.</span>
+    </div>
+
+    <!-- Header -->
+    <header class="glass-header sticky top-0 z-50">
+        <div class="max-w-[1600px] mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="text-2xl font-bold tracking-tight text-slate-900">MyCoolStar<span class="text-blue-600">.</span></div>
+            
+            <div class="flex items-center space-x-10 text-sm font-bold text-slate-600">
+                <a href="frame0_homepage.html" class="hover:text-blue-600 transition">Home</a>
+                <a href="frame1_catalog.html" class="hover:text-blue-600 transition">Catalogue</a>
+                <a href="frame5_about_us.html" class="text-blue-600">About Us</a>
+                <a href="#" class="hover:text-blue-600 transition">Blog</a>
+                <a href="frame6_contact_us.html" class="hover:text-blue-600 transition">Contact Us</a>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <a href="frame8_login_signup.html" class="text-sm font-bold text-slate-600 hover:text-slate-900">B2B Login</a>
+                <a href="frame1_catalog.html" class="bg-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:bg-blue-700 transition shadow-sm hover:shadow">Order Now</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-24 bg-slate-50 border-b border-slate-100">
+        <div class="max-w-4xl mx-auto px-8 text-center">
+            <span class="inline-block py-1 px-3 rounded-full bg-slate-200 text-slate-700 text-xs font-bold uppercase tracking-widest mb-6">Our Story</span>
+            <h1 class="text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-6">
+                Engineering comfort for every Indian home.
+            </h1>
+            <p class="text-xl text-slate-600 font-medium leading-relaxed">
+                We believe that premium climate control shouldn't be a luxury. Discover the technology, the people, and the passion behind MyCoolStar.
+            </p>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="order-2 md:order-1">
+                    <h2 class="text-3xl font-extrabold text-slate-900 mb-6">Built on Trust and Innovation.</h2>
+                    <p class="text-slate-600 leading-relaxed mb-6 text-lg">
+                        Founded with a mission to provide high-quality, energy-efficient appliances, My Cool Star has grown into a trusted name across the country. From BLDC ceiling fans to heavy-duty desert coolers, we ensure absolute comfort in every season.
+                    </p>
+                    <p class="text-slate-600 leading-relaxed mb-8 text-lg">
+                        Our robust dealer network and dedicated manufacturing teams work tirelessly to bring innovation and reliability into your living spaces, setting new standards in the home appliance industry.
+                    </p>
+                    <div class="grid grid-cols-2 gap-8 pt-8 border-t border-slate-100">
+                        <div>
+                            <div class="text-4xl font-extrabold text-slate-900 mb-2">5k+</div>
+                            <div class="text-sm font-bold text-slate-500 uppercase tracking-wider">Active Dealers</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-extrabold text-slate-900 mb-2">10+</div>
+                            <div class="text-sm font-bold text-slate-500 uppercase tracking-wider">Years of Excellence</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="order-1 md:order-2">
+                    <img src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80" alt="Home Interior" class="rounded-3xl shadow-2xl object-cover h-[500px] w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-50 border-t border-slate-200 py-12">
+        <div class="max-w-7xl mx-auto px-8 text-center text-slate-500 text-sm font-medium">
+            <p>&copy; 2026 MyCoolStar Home Appliances. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

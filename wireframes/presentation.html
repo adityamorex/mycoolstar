@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cool Star - Customer Journey Presentation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; margin: 0; padding: 0; }
+        .slide-container { margin: 60px auto; max-width: 1400px; background: white; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.05); border: 1px solid #f1f5f9; overflow: hidden; page-break-inside: avoid; }
+        .slide-header { background: #0f172a; color: white; padding: 24px 40px; font-weight: bold; font-size: 1.25rem; display: flex; justify-content: space-between; align-items: center; }
+        .slide-desc { font-weight: 500; font-size: 1rem; color: #94a3b8; }
+        iframe { width: 100%; border: none; display: block; }
+        
+        /* Print Styles for PDF Generation */
+        @media print {
+            body { background: white; }
+            .slide-container { box-shadow: none; border: 1px solid #e2e8f0; margin: 20px auto; page-break-after: always; }
+            .no-print { display: none; }
+            iframe { height: 100vh !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="max-w-[1600px] mx-auto py-16 px-8">
+        
+        <div class="text-center mb-16">
+            <h1 class="text-5xl font-extrabold text-slate-900 tracking-tight mb-4">MyCoolStar Digital Experience</h1>
+            <p class="text-slate-500 text-xl font-medium">Proposed Customer Journey & B2B Integration Flow</p>
+            
+
+        </div>
+
+        <!-- Slide 1 -->
+        <div class="slide-container">
+            <div class="slide-header">
+                <div>1. The Discovery (Homepage)</div>
+                <div class="slide-desc">Premium brand introduction & B2B trust building</div>
+            </div>
+            <iframe src="frame0_homepage.html" style="height: 1200px;"></iframe>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide-container">
+            <div class="slide-header">
+                <div>2. Brand Story (About Us)</div>
+                <div class="slide-desc">Establishing manufacturing credibility</div>
+            </div>
+            <iframe src="frame5_about_us.html" style="height: 1000px;"></iframe>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide-container">
+            <div class="slide-header">
+                <div>3. Browsing (Catalogue)</div>
+                <div class="slide-desc">Real-time inventory pulled from SalesOn ERP</div>
+            </div>
+            <iframe src="frame1_catalog.html" style="height: 1400px;"></iframe>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide-container">
+            <div class="slide-header">
+                <div>4. Conversion (Cart & Checkout)</div>
+                <div class="slide-desc">B2B flow featuring 'Pay via Credit Limit' and GSTIN capture</div>
+            </div>
+            <iframe src="frame7_cart_checkout.html" style="height: 1100px;"></iframe>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide-container">
+            <div class="slide-header">
+                <div>5. Dealer Retention (Login / Portal)</div>
+                <div class="slide-desc">B2B authentication for registered dealers</div>
+            </div>
+            <iframe src="frame8_login_signup.html" style="height: 800px;"></iframe>
+        </div>
+        
+        <!-- Slide 6 -->
+        <div class="slide-container">
+            <div class="slide-header">
+                <div>6. Dealer Dashboard (Post-Login)</div>
+                <div class="slide-desc">Live outstanding balances, invoices, and dispatch tracking</div>
+            </div>
+            <iframe src="frame2_dealer_dashboard.html" style="height: 1000px;"></iframe>
+        </div>
+
+        <!-- Slide 7 -->
+        <div class="slide-container">
+            <div class="slide-header">
+                <div>7. Internal Operations (Employee Approval)</div>
+                <div class="slide-desc">Staff review before pushing Sales Order to ERP</div>
+            </div>
+            <iframe src="frame3_employee_approval.html" style="height: 900px;"></iframe>
+        </div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cool Star - Login / Register</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col relative overflow-hidden">
+    <!-- Abstract Background Elements -->
+    <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-blue-400/20 rounded-full blur-[100px]"></div>
+    <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-slate-300/30 rounded-full blur-[100px]"></div>
+
+    <!-- Sticky Reference Banner -->
+    <div class="bg-amber-500 text-white text-center py-2 px-4 text-xs font-bold uppercase tracking-wider shadow-sm sticky top-0 z-[100] flex justify-center items-center space-x-2">
+        <span>⚠️ Note: This screen is for design and flow reference purposes only.</span>
+    </div>
+
+    <!-- Minimal Header -->
+    <header class="w-full relative z-10 px-8 py-6">
+        <a href="frame0_homepage.html" class="inline-block text-2xl font-bold tracking-tight text-slate-900">MyCoolStar<span class="text-blue-600">.</span></a>
+    </header>
+
+    <div class="flex-grow flex items-center justify-center p-4 relative z-10">
+        <div class="max-w-[1000px] w-full bg-white rounded-[2rem] shadow-[0_20px_60px_rgb(0,0,0,0.05)] overflow-hidden flex flex-col md:flex-row border border-white/50 backdrop-blur-xl">
+            
+            <!-- Branding Panel -->
+            <div class="w-full md:w-5/12 bg-slate-900 text-white p-12 flex flex-col justify-center relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-blue-500/10 rounded-full blur-[50px] transform translate-x-1/2 -translate-y-1/2"></div>
+                <div class="relative z-10">
+                    <h1 class="text-4xl font-extrabold mb-4 tracking-tight">Dealer Portal.</h1>
+                    <p class="text-slate-400 font-medium leading-relaxed mb-8">Access your dedicated B2B dashboard to place bulk orders, manage your credit limits, and track dispatches in real-time.</p>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3 text-sm font-bold text-slate-300">
+                            <div class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">✓</div>
+                            Real-time Stock Updates
+                        </div>
+                        <div class="flex items-center gap-3 text-sm font-bold text-slate-300">
+                            <div class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">✓</div>
+                            Live Credit Balances
+                        </div>
+                        <div class="flex items-center gap-3 text-sm font-bold text-slate-300">
+                            <div class="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center">✓</div>
+                            Instant Invoicing
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Form -->
+            <div class="w-full md:w-7/12 p-12 bg-white">
+                <div class="flex justify-between items-center mb-10">
+                    <h2 class="text-3xl font-extrabold text-slate-900 tracking-tight">Sign In</h2>
+                    <a href="#" class="text-sm font-bold text-blue-600 hover:text-blue-700 transition">Request an account</a>
+                </div>
+
+                <form>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Email or Mobile Number</label>
+                            <input type="text" class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition" placeholder="Enter your registered details">
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider">Password</label>
+                                <a href="#" class="text-xs font-bold text-blue-600 hover:text-blue-700">Forgot password?</a>
+                            </div>
+                            <input type="password" class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition" placeholder="••••••••">
+                        </div>
+                        <div class="flex items-center pt-2">
+                            <input type="checkbox" id="remember" class="w-5 h-5 text-blue-600 border-slate-300 rounded focus:ring-blue-500">
+                            <label for="remember" class="ml-3 block text-sm font-bold text-slate-700">Keep me signed in</label>
+                        </div>
+                        
+                        <button type="button" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-xl transition shadow-lg mt-4">
+                            Access Dashboard
+                        </button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</body>
+</html>
