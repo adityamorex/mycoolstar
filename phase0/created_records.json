@@ -1,0 +1,115 @@
+[
+  {
+    "type": "party",
+    "id": 1883247,
+    "name": "ZZTEST-P0-24JUL-A",
+    "created_at": "2026-07-24T21:18:00",
+    "spike": "party_fields (opening_balacne test)",
+    "notes": "Created to test the typo-spelled opening_balacne field. Result: amount_balance stayed 0 - field was silently ignored.",
+    "deleted_at": "2026-07-24T23:25:00",
+    "delete_type": "hard - DELETE /parties/Customer/1883247, GET afterward returned 'Party doesn't exist'"
+  },
+  {
+    "type": "party",
+    "id": 1883248,
+    "name": "ZZTEST-P0-24JUL-B",
+    "created_at": "2026-07-24T21:20:00",
+    "spike": "party_fields (opening_balance test)",
+    "notes": "Created to test the correctly-spelled opening_balance field. Result: amount_balance = 500 as expected - confirmed correct field name.",
+    "deleted_at": "2026-07-24T23:26:00",
+    "delete_type": "soft - DELETE /parties/Customer/1883248 succeeded but GET afterward still returns the full record with a populated deleted_at field, since it has linked transactions (order 4272301, invoice 4272304, shipment 110418) - those still correctly reference party_id 1883248"
+  },
+  {
+    "type": "sales_order",
+    "id": 4272301,
+    "party_id": 1883248,
+    "product_id": 616725,
+    "warehouse_id": 14007,
+    "created_at": "2026-07-24T22:15:00",
+    "spike": "order_status",
+    "notes": "Test Sales Order. Required explicit warehouse_id=14007 (Earth Industries Delhi) - orders against the default/primary warehouse (14229) failed with Insufficient Stock for every product tried."
+  },
+  {
+    "type": "shipment",
+    "id": 110418,
+    "shipment_no": "SH-0001",
+    "transaction_id": 4272301,
+    "created_at": "2026-07-24T22:38:00",
+    "spike": "shipment_trip_bilty",
+    "notes": "Test shipment for the test Sales Order. No attachment field found on the shipment object - confirms no Bilty/LR field exists. No documented DELETE endpoint found for shipments - likely permanent."
+  },
+  {
+    "type": "payment",
+    "id": 1638211,
+    "party_id": 1883248,
+    "created_at": "2026-07-24T22:44:00",
+    "deleted_at": "2026-07-24T22:50:00",
+    "spike": "payments",
+    "notes": "CLEANED UP - deleted successfully via DELETE /payments/credit/1638211. Was the broken test with amount=0 (top-level amount field alone was silently ignored)."
+  },
+  {
+    "type": "payment",
+    "id": 1638215,
+    "party_id": 1883248,
+    "created_at": "2026-07-24T22:45:00",
+    "deleted_at": "2026-07-24T22:50:00",
+    "spike": "payments",
+    "notes": "CLEANED UP - deleted successfully via DELETE /payments/credit/1638215. Correct test with amount=5 + payment_details, approved via bulk-status (balance 500->495), then deleted (balance correctly reverted to 500)."
+  },
+  {
+    "type": "sales_invoice",
+    "id": 4272304,
+    "party_id": 1883248,
+    "reference_id": 4272301,
+    "created_at": "2026-07-24T23:05:00",
+    "spike": "order_to_invoice_conversion",
+    "notes": "Created via POST transactions/sales-invoice/bulk converting order 4272301. Confirmed linked via reference_id. No documented DELETE endpoint for invoices tested yet - likely permanent."
+  },
+  {
+    "type": "sales_order",
+    "id": 4272305,
+    "party_id": 1883248,
+    "warehouse_id": 14007,
+    "created_at": "2026-07-24T23:20:00",
+    "spike": "credit_limit_enforcement",
+    "notes": "Created with amount ~100000 against party credit_limit=2000 to test enforcement. Created AND confirmed successfully with no blocking - confirms SalesOn does not enforce credit limits automatically. No documented DELETE for orders/invoices tested yet - likely permanent."
+  },
+  {
+    "type": "party",
+    "id": 1883251,
+    "name": "ZZTEST-P0-24JUL-DUPLICATE",
+    "created_at": "2026-07-24T23:17:00",
+    "spike": "duplicate_party_detection",
+    "notes": "Created with the exact same mobile (9999900002) and email as party 1883248 to test dedup. Created successfully with no blocking/warning - confirms SalesOn allows duplicate parties.",
+    "deleted_at": "2026-07-24T23:24:00",
+    "delete_type": "hard - DELETE /parties/Customer/1883251, GET afterward returned 'Party doesn't exist'"
+  },
+  {
+    "type": "party",
+    "id": 1883252,
+    "name": "ZZTEST-P0-24JUL-C",
+    "created_at": "2026-07-24T23:41:00",
+    "spike": "warehouse_id_conversion_investigation",
+    "notes": "Created to cleanly re-test whether bulk-conversion respects an explicit warehouse_id. Confirmed it does not - always uses primary warehouse regardless.",
+    "deleted_at": "2026-07-24T23:50:00",
+    "delete_type": "hard - DELETE /parties/Customer/1883252, confirmed deleted"
+  },
+  {
+    "type": "sales_order",
+    "id": 4272310,
+    "party_id": 1883252,
+    "warehouse_id": 14007,
+    "created_at": "2026-07-24T23:42:00",
+    "spike": "warehouse_id_conversion_investigation",
+    "notes": "Fresh order used to test warehouse_id override on conversion. No documented DELETE for orders - permanent."
+  },
+  {
+    "type": "sales_invoice",
+    "id": 4272311,
+    "party_id": 1883252,
+    "reference_id": 4272310,
+    "created_at": "2026-07-24T23:43:00",
+    "spike": "warehouse_id_conversion_investigation",
+    "notes": "Converted from order 4272310 with warehouse_id=14007 explicitly passed - still came back as warehouse_id=14229 (primary), confirming the bulk-conversion endpoint ignores this parameter. No documented DELETE for invoices - permanent."
+  }
+]

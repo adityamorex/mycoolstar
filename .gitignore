@@ -1,0 +1,12 @@
+# Phase 0 credentials and throwaway output — never commit these
+phase0/.env.local
+phase0/logs/
+
+# Python bytecode cache
+__pycache__/
+*.pyc
+
+# Local editor/OS junk
+.DS_Store
+Thumbs.db
+~$*
