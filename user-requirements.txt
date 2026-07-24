@@ -1,0 +1,167 @@
+Subject: Requirement for SalesOn API Integration with My Cool Star WooCommerce Website
+
+We require a two-way integration between our WooCommerce website and SalesOn application.
+
+The objective is to use the My Cool Star website as the customer and employee order management portal, while SalesOn will remain the primary backend system for inventory, party accounts, credit limits, invoicing and dispatch operations.
+
+Required Business Flow
+
+1. Product & Inventory Integration
+
+Product photos, descriptions and website content will be managed on the My Cool Star website.
+
+Product stock/inventory should be fetched from SalesOn and reflected on the website.
+
+When inventory changes in SalesOn, the updated available stock should automatically sync with the website.
+
+Product mapping should preferably be done through a unique Product ID / SKU.
+
+2. Party / Customer Master Sync
+
+Existing parties/customers available in SalesOn should be fetched and mapped with website customers.
+
+Customer mapping should preferably be based on SalesOn Party ID and registered mobile number/GST number.
+
+Relevant customer details required on the website should include:
+
+Party Name
+Mobile Number
+GST Number
+Billing/Shipping Address
+Credit Limit
+Current Outstanding / Available Credit, subject to SalesOn API availability
+
+New customer creation and customer master update flow should also be defined.
+
+3. Customer Order Placement
+
+Customer will log in to the My Cool Star website and place an order.
+
+The new order will initially show on the website as:
+
+ORDER PENDING
+
+At this stage, the website order should have its own Sales Order / Order Reference Number.
+
+No tax invoice should be generated at this stage.
+
+4. Order Verification & Credit Limit Check
+
+Company employee will review the pending order on the website.
+
+The system should check the customer's credit availability from SalesOn.
+
+If sufficient credit limit/credit availability is available, the employee can confirm the order.
+
+If sufficient credit is not available, the order will remain pending until payment is received.
+
+Required website status:
+
+ORDER PENDING → ORDER CONFIRMED
+
+5. Payment In Integration
+
+When payment is received, the employee should be able to enter Payment In on the website.
+
+The same payment entry should be pushed to SalesOn and reflected against the respective party account.
+
+Alternatively, if Payment In is entered directly in SalesOn, the payment and updated outstanding/credit availability should sync back to the website.
+
+We require confirmation whether two-way Payment In sync is supported by SalesOn API.
+
+6. Confirmed Order Push to SalesOn
+
+Once an order is confirmed on the website, the confirmed sales order should be pushed to SalesOn.
+
+The SalesOn team/dispatch team will process the confirmed order in SalesOn.
+
+Order item, quantity, party and pricing details must remain mapped with the original website order.
+
+7. Dispatch & Invoice Process
+
+Dispatch team will work in SalesOn.
+
+After material verification and packing, the dispatch team will create the final tax invoice in SalesOn.
+
+The same SalesOn invoice should automatically sync back to the respective website order.
+
+The website should display:
+
+Invoice Number
+Invoice Date
+Final Invoice Amount
+Invoice PDF / Download option
+
+The same invoice should be visible to:
+
+Company Employee + Customer
+
+Website order status should automatically update to:
+
+INVOICE GENERATED
+
+and after dispatch:
+
+DISPATCHED
+
+8. Bilty / LR / Transport Document Sync
+
+After delivery/dispatch process, the Bilty/LR/Transport Document will be uploaded in SalesOn.
+
+The same Bilty/LR document should be fetched and displayed against the respective website order.
+
+The Bilty/LR should be visible to:
+
+Company Employee + Customer
+
+Required details, if available through API:
+
+Transporter Name
+Bilty/LR Number
+Bilty Date
+Document/Image/PDF
+Dispatch Details
+
+9. Final Order Status Flow
+
+Required website order workflow:
+
+ORDER PENDING → ORDER CONFIRMED → ORDER PACKED / PROCESSING → INVOICE GENERATED → DISPATCHED → DELIVERED
+
+Order status should be automatically updated wherever the corresponding SalesOn event/data is available through API.
+
+10. Integration Requirements
+
+We require API/webhook-based integration wherever supported.
+
+The integration should avoid duplicate parties, duplicate payments and duplicate orders.
+
+Every website order should store the corresponding:
+
+SalesOn Party ID
+SalesOn Order ID
+SalesOn Invoice ID
+SalesOn Payment ID, wherever applicable
+
+A sync log/error log should be maintained for failed API transactions.
+
+Manual re-sync option should be available to the admin.
+
+Please review the above requirement and confirm:
+
+A. Which SalesOn APIs are currently available?
+B. Which data can be fetched from SalesOn?
+C. Which data can be pushed to SalesOn?
+D. Whether webhooks are available for real-time updates?
+E. Whether invoice PDF and Bilty/LR attachments can be fetched through API?
+F. Whether Payment In can be pushed and fetched through API?
+G. Whether party credit limit and outstanding can be fetched in real time?
+H. Development cost and estimated timeline for the above integration.
+
+The main requirements are:
+
+Live inventory from SalesOn- Through integration
+Product details (features, specifications & warranty)- already uploaded, future any update will be on website
+Order placement through the website- already featured
+Order history- 
+SalesOn should remain the master backend for inventory, dispatch, invoicing and accounting.
