@@ -111,5 +111,46 @@
     "created_at": "2026-07-24T23:43:00",
     "spike": "warehouse_id_conversion_investigation",
     "notes": "Converted from order 4272310 with warehouse_id=14007 explicitly passed - still came back as warehouse_id=14229 (primary), confirming the bulk-conversion endpoint ignores this parameter. No documented DELETE for invoices - permanent."
+  },
+  {
+    "type": "price_list",
+    "id": 1763,
+    "name": "ZZTEST_NOID -> ZZTEST_NOID_UPDATED",
+    "created_at": "2026-07-27T20:29:00",
+    "spike": "price_list_create_update",
+    "notes": "CLEANED UP - deleted successfully via DELETE /products/price-list/1763. Confirmed the real create endpoint is POST products/price-list (no id in URL, contrary to docs which show an id) - returns a new id. Confirmed update works via POST products/price-list/{id} with _method:PATCH, changing rate 111->222 on product 130407 and name/description, verified via GET before/after. PATCH/POST-with-id against a non-existent id reliably crashes with HTTP 500 rather than a clean error - this is what makes the docs' own example (PATCHing an id that doesn't exist yet, calling it 'create') actually broken.",
+    "deleted_at": "2026-07-27T20:31:00",
+    "delete_type": "hard - DELETE /products/price-list/1763 returned 'Price list deleted successfully'"
+  },
+  {
+    "type": "product",
+    "id": 644567,
+    "name": "ZZTEST-P0-27JUL-NEWPRODUCT",
+    "created_at": "2026-07-27T15:14:53.000000Z",
+    "spike": "website_creates_new_product",
+    "notes": "CLEANED UP - deleted successfully via DELETE /products/644567 (200, empty body). Confirmed POST /products (multipart form-data, not JSON) creates a brand-new SalesOn product from scratch - fields: state, unit, name, pp_with_gst, sp_with_gst, sell_price, warehouses[] (JSON string per warehouse: warehouse_id/stock/rate). Tested with warehouse_id=14229 (the confirmed real warehouse). Confirms a website->SalesOn 'staff adds a new product' flow is technically viable, not just the price-list write-back.",
+    "deleted_at": "2026-07-27T15:16:00",
+    "delete_type": "hard - DELETE /products/644567 returned 200 with empty body"
+  },
+  {
+    "type": "price_list",
+    "id": 1764,
+    "name": "ZZTEST_REVERIFY",
+    "created_at": "2026-07-27T23:57:00",
+    "spike": "phase1_deployment_pricing_reverify",
+    "notes": "CLEANED UP. Re-verified the price-list create/update/delete mechanism directly (not via the deployed plugin UI, since no PHP runtime is available here) at the user's request, specifically to confirm the SalesOn Pricing admin screen's underlying calls work without touching any real product's price. Created (rate 321), updated (rate 654), verified via GET, deleted. Same result as the original Phase 0 spike (price_list 1763).",
+    "deleted_at": "2026-07-27T23:57:30",
+    "delete_type": "hard - DELETE /products/price-list/1764 returned 'Price list deleted successfully'"
+  },
+  {
+    "type": "product",
+    "id": 644568,
+    "woo_product_id": 24477,
+    "name": "TEST_PRODUCT",
+    "created_at": "2026-07-27T23:5x (via live plugin, not a script)",
+    "spike": "phase1_new_product_creation_live_test",
+    "notes": "Real end-to-end test of the deployed plugin's Saleson_Product_Creator: user created+published 'TEST_PRODUCT' via WooCommerce's normal Add Product screen. Confirmed the plugin correctly created it in SalesOn (id 644568, sell_price 555) AND added it to the RETAIL CUSTOMER price list (rate 555) automatically - both halves of the 1.6 new-product flow proven live, not just via direct API script. SalesOn side cleaned up via DELETE /products/644568 (200, empty body). WooCommerce side (product id 24477) NOT deleted by me - our stored WooCommerce API key is confirmed READ-ONLY (DELETE returned 401 'The API key provided does not have write permissions'), so the user needs to trash it manually via wp-admin Products list.",
+    "deleted_at": "2026-07-28 (SalesOn side only)",
+    "delete_type": "SalesOn: hard delete via API, confirmed. WooCommerce: pending manual deletion by user (read-only API key)."
   }
 ]

@@ -1,0 +1,6486 @@
+{
+  "generated_at_note": "manually regenerated on request",
+  "total_curated": 220,
+  "matched_count": 94,
+  "unmatched_count": 126,
+  "products": [
+    {
+      "saleson_id": 130407,
+      "saleson_name": "AL0752 (PREMIUM)- 6 SUT MARUTI CASTING RING 2 SEASON PACKING 12 PCS",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 215,
+        "committed_stock_warehouse_14229": 3368,
+        "price_retail": 898,
+        "price_distributors": 610,
+        "price_dealer": 640,
+        "price_supermart": 570,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130408,
+      "saleson_name": "AL1002 - 8 SUT MARUTI CASTING RING",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 999,
+        "price_distributors": 636,
+        "price_dealer": 679,
+        "price_supermart": 640,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130409,
+      "saleson_name": "AL1004 (PREMIUM)- 8 SUT MARUTI 2/3 SPEED PACKING 8 PCS",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 12,
+        "committed_stock_warehouse_14229": 279,
+        "price_retail": 999,
+        "price_distributors": 678,
+        "price_dealer": 701,
+        "price_supermart": 640,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130410,
+      "saleson_name": "AL110 (PREMIUM) 28MM CW RIGHT PACKING 8 PCS",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 349,
+        "committed_stock_warehouse_14229": 2088,
+        "price_retail": 1145,
+        "price_distributors": 742,
+        "price_dealer": 779,
+        "price_supermart": 700,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130412,
+      "saleson_name": "CO0752 6 SUT MARUTI COPPER KIT MOTOR PKG 12 PCS",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 102,
+        "price_retail": 1677,
+        "price_distributors": 1090.05,
+        "price_dealer": 1000,
+        "price_supermart": 1100,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130413,
+      "saleson_name": "CO1002 COPPER 8 SUT MARUTI SINGLE SPEED PKG 8 PCS",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1863,
+        "price_distributors": 1210.95,
+        "price_dealer": 1200,
+        "price_supermart": 1250,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130414,
+      "saleson_name": "CO1004 - 2/3 SPEED",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1863,
+        "price_distributors": 1210.95,
+        "price_dealer": 1250,
+        "price_supermart": 1250,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130415,
+      "saleson_name": "GEC COPPER MOTOR 18 INCH WITH FRAME",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 2389,
+        "price_distributors": 1552.85,
+        "price_dealer": null,
+        "price_supermart": null,
+        "present_in_tiers": [
+          "retail",
+          "distributors"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130416,
+      "saleson_name": "1\" MINI MOTOR",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 3182,
+        "price_retail": 525,
+        "price_distributors": 371,
+        "price_dealer": 390,
+        "price_supermart": 350,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22805
+      },
+      "woocommerce": {
+        "name": "MINI MOTOR",
+        "sku": "1\" MINI MOTOR",
+        "status": "draft",
+        "regular_price": "525.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130417,
+      "saleson_name": "AP MOTOR 0.75 INCH PKG 24 PC",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 524,
+        "price_retail": 424,
+        "price_distributors": 307,
+        "price_dealer": 323,
+        "price_supermart": 290,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22807
+      },
+      "woocommerce": {
+        "name": "AP MOTOR",
+        "sku": "AP MOTOR 0.75 INCH PKG 24 PC",
+        "status": "draft",
+        "regular_price": "424.00",
+        "sale_price": "423",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130418,
+      "saleson_name": "MCS 18W PUMP PACKING 92PCS",
+      "category": "PUMP",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 25630,
+        "price_retail": 115,
+        "price_distributors": 80,
+        "price_dealer": 86,
+        "price_supermart": 75,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130419,
+      "saleson_name": "40W PUMP",
+      "category": 4026,
+      "saleson": {
+        "stock_warehouse_14229": 233,
+        "committed_stock_warehouse_14229": 2896,
+        "price_retail": 292,
+        "price_distributors": 212,
+        "price_dealer": 223,
+        "price_supermart": 200,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22620
+      },
+      "woocommerce": {
+        "name": "40W Cooler Submersible Water Pump",
+        "sku": "40W PUMP",
+        "status": "publish",
+        "regular_price": "292.00",
+        "sale_price": "",
+        "stock_quantity": 233,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130420,
+      "saleson_name": "AL15125 AL EXHAUST MOTOR 15 INCH PKG 6 PCS",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1491,
+        "price_distributors": 853,
+        "price_dealer": 896,
+        "price_supermart": 805,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22809
+      },
+      "woocommerce": {
+        "name": "AL15125 EXHAUST MOTOR 15 INCH",
+        "sku": "AL15125 AL EXHAUST MOTOR 15 INCH PKG 6 PCS",
+        "status": "draft",
+        "regular_price": "1491.00",
+        "sale_price": "1202",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130421,
+      "saleson_name": "AL18125 AL EXHAUST MOTOR 18 INCH 1.25 INCH PKG 6 PC",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 12,
+        "committed_stock_warehouse_14229": 212,
+        "price_retail": 1592,
+        "price_distributors": 996,
+        "price_dealer": 1046,
+        "price_supermart": 940,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130422,
+      "saleson_name": "CO15125 EXHAUST MOTOR COPPER 15 INCH PKG 6 PCS",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 10,
+        "committed_stock_warehouse_14229": 62,
+        "price_retail": 2202,
+        "price_distributors": 1431.3,
+        "price_dealer": 1400,
+        "price_supermart": 1350,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22934
+      },
+      "woocommerce": {
+        "name": "CO15125 EXHAUST MOTOR 15 INCH",
+        "sku": "CO15125 EXHAUST MOTOR COPPER 15 INCH PKG 6 PCS",
+        "status": "draft",
+        "regular_price": "2202.00",
+        "sale_price": "",
+        "stock_quantity": 10,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130423,
+      "saleson_name": "CO18125 EXHAUST MOTOR COPPER 18 INCH 1.25 INCH PKG 6 PCS",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 2,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 2389,
+        "price_distributors": 1552.85,
+        "price_dealer": 1547,
+        "price_supermart": 1390,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22935
+      },
+      "woocommerce": {
+        "name": "CO18125 EXHAUST MOTOR 18 INCH",
+        "sku": "CO18125 EXHAUST MOTOR COPPER 18 INCH 1.25 INCH PKG 6 PCS",
+        "status": "draft",
+        "regular_price": "2389.00",
+        "sale_price": "",
+        "stock_quantity": 2,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130424,
+      "saleson_name": "CO18150 EXHAUST MOTOR COPPER 18 INCH 1.50 INCH PKG 4 PC",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 2727,
+        "price_distributors": 1772.55,
+        "price_dealer": 1700,
+        "price_supermart": 1700,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22936
+      },
+      "woocommerce": {
+        "name": "CO18150 EXHAUST MOTOR 18 INCH",
+        "sku": "CO18150 EXHAUST MOTOR COPPER 18 INCH 1.50 INCH PKG 4 PC",
+        "status": "draft",
+        "regular_price": "2727.00",
+        "sale_price": "2533",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130425,
+      "saleson_name": "18 INCH EXHAUST FRAME SET",
+      "category": "EXHAUST FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 678,
+        "price_distributors": 424,
+        "price_dealer": 466,
+        "price_supermart": 400,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130426,
+      "saleson_name": "15 INCH EXHAUST FRAME SET",
+      "category": "EXHAUST FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 593,
+        "price_distributors": 382,
+        "price_dealer": 420,
+        "price_supermart": 360,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130427,
+      "saleson_name": "FRESH AIR 9 INCH  PVC",
+      "category": "EXHAUST FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 847,
+        "price_distributors": 550.55,
+        "price_dealer": 618,
+        "price_supermart": 530,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130428,
+      "saleson_name": "9\" FRESH AIR FAN METAL",
+      "category": 4028,
+      "saleson": {
+        "stock_warehouse_14229": 43,
+        "committed_stock_warehouse_14229": 769,
+        "price_retail": 847,
+        "price_distributors": 562,
+        "price_dealer": 618,
+        "price_supermart": 530,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22752
+      },
+      "woocommerce": {
+        "name": "MCS 9\" Fresh Air Fan",
+        "sku": "9\" FRESH AIR FAN METAL",
+        "status": "draft",
+        "regular_price": "847.00",
+        "sale_price": "",
+        "stock_quantity": 43,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130429,
+      "saleson_name": "12\" FRESH AIR FAN METAL",
+      "category": 4028,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 405,
+        "price_retail": 932,
+        "price_distributors": 604,
+        "price_dealer": 665,
+        "price_supermart": 570,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23016
+      },
+      "woocommerce": {
+        "name": "MCS 12\" Fresh Air Fan",
+        "sku": "12\" FRESH AIR FAN METAL",
+        "status": "publish",
+        "regular_price": "932.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130430,
+      "saleson_name": "MCS 24 INCH AL PLAIN CEILING FAN SMOKE BROWN",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 506,
+        "price_retail": 966,
+        "price_distributors": 636,
+        "price_dealer": 668,
+        "price_supermart": 600,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130431,
+      "saleson_name": "48\" AL PLAIN IVORY CEILING FAN",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 108,
+        "price_retail": 1143,
+        "price_distributors": 763,
+        "price_dealer": 801,
+        "price_supermart": 720,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23560
+      },
+      "woocommerce": {
+        "name": "48\" AL PLAIN IVORY CEILING FAN",
+        "sku": "48\" AL PLAIN IVORY CEILING FAN",
+        "status": "publish",
+        "regular_price": "1143.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130432,
+      "saleson_name": "48\" AL O MODEL IVORY CEILING FAN",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 20,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1203,
+        "price_distributors": 806,
+        "price_dealer": 846,
+        "price_supermart": 760,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23547
+      },
+      "woocommerce": {
+        "name": "variation 23547 of 22987",
+        "sku": "",
+        "status": "publish",
+        "regular_price": "1203.00",
+        "sale_price": "1029",
+        "stock_quantity": null,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130433,
+      "saleson_name": "48\" COPPER PLAIN CEILING FAN SMOKE BROWN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 252,
+        "price_retail": 1525,
+        "price_distributors": 1007,
+        "price_dealer": 1057,
+        "price_supermart": 950,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130434,
+      "saleson_name": "48\" COPPER FIESTA SMOKE BROWN CEILING FAN",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 6,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1592,
+        "price_distributors": 1049,
+        "price_dealer": 1090,
+        "price_supermart": 990,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23344
+      },
+      "woocommerce": {
+        "name": "variation 23344 of 22997",
+        "sku": "",
+        "status": "publish",
+        "regular_price": "1592.00",
+        "sale_price": "1339",
+        "stock_quantity": null,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130435,
+      "saleson_name": "AP FAN BLACK PKG (PIANO)",
+      "category": 6355,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 2034,
+        "price_retail": 762,
+        "price_distributors": 551,
+        "price_dealer": 579,
+        "price_supermart": 520,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22937
+      },
+      "woocommerce": {
+        "name": "AP FAN BLACK",
+        "sku": "AP FAN BLACK PKG (PIANO)",
+        "status": "draft",
+        "regular_price": "762.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130437,
+      "saleson_name": "AP FAN ROTARY PREMIUM (WHITE)",
+      "category": "AP AND TABLE FAN",
+      "saleson": {
+        "stock_warehouse_14229": 110,
+        "committed_stock_warehouse_14229": 1173,
+        "price_retail": 847,
+        "price_distributors": 572,
+        "price_dealer": 623,
+        "price_supermart": 540,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130438,
+      "saleson_name": "TABLE FAN PVC 9\"",
+      "category": 6355,
+      "saleson": {
+        "stock_warehouse_14229": 49,
+        "committed_stock_warehouse_14229": 392,
+        "price_retail": 966,
+        "price_distributors": 615,
+        "price_dealer": 676,
+        "price_supermart": 580,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22638
+      },
+      "woocommerce": {
+        "name": "MCS 9\" Table Fan",
+        "sku": "TABLE FAN PVC 9\"",
+        "status": "draft",
+        "regular_price": "966.00",
+        "sale_price": "",
+        "stock_quantity": 49,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130439,
+      "saleson_name": "TABLE FAN PVC 12\" MOVING",
+      "category": 6355,
+      "saleson": {
+        "stock_warehouse_14229": 2,
+        "committed_stock_warehouse_14229": 306,
+        "price_retail": 1338,
+        "price_distributors": 848,
+        "price_dealer": 933,
+        "price_supermart": 800,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22640
+      },
+      "woocommerce": {
+        "name": "MCS 12\" Moving Table Fan",
+        "sku": "TABLE FAN PVC 12\" MOVING",
+        "status": "publish",
+        "regular_price": "1338.00",
+        "sale_price": "",
+        "stock_quantity": 2,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130441,
+      "saleson_name": "BULLET FAN 4 BLADE",
+      "category": "PADESTRAL FAN",
+      "saleson": {
+        "stock_warehouse_14229": 52,
+        "committed_stock_warehouse_14229": 2050,
+        "price_retail": 1355,
+        "price_distributors": 933,
+        "price_dealer": 1026,
+        "price_supermart": 880,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130442,
+      "saleson_name": "BULLET FAN 5 BLADE MOVING",
+      "category": 6356,
+      "saleson": {
+        "stock_warehouse_14229": 50,
+        "committed_stock_warehouse_14229": 187,
+        "price_retail": 1525,
+        "price_distributors": 1007,
+        "price_dealer": 1108,
+        "price_supermart": 950,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22817
+      },
+      "woocommerce": {
+        "name": "5 Blade Moving 16 Inch 4 Feet Padestal Fan",
+        "sku": "BULLET FAN 5 BLADE MOVING",
+        "status": "publish",
+        "regular_price": "1525.00",
+        "sale_price": "",
+        "stock_quantity": 50,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130444,
+      "saleson_name": "20\" PADESTAL FAN 3 PAR 4 FEET",
+      "category": "PADESTRAL FAN",
+      "saleson": {
+        "stock_warehouse_14229": 22,
+        "committed_stock_warehouse_14229": 205,
+        "price_retail": 2287,
+        "price_distributors": 1325,
+        "price_dealer": 1458,
+        "price_supermart": 1250,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130445,
+      "saleson_name": "BULLET FAN 3 BLADE 4 FEET",
+      "category": "PADESTRAL FAN",
+      "saleson": {
+        "stock_warehouse_14229": 62,
+        "committed_stock_warehouse_14229": 3229,
+        "price_retail": 1271,
+        "price_distributors": 869,
+        "price_dealer": 956,
+        "price_supermart": 820,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130446,
+      "saleson_name": "VENTO 6\" 150MM",
+      "category": "EXHAUST FAN",
+      "saleson": {
+        "stock_warehouse_14229": 19,
+        "committed_stock_warehouse_14229": 296,
+        "price_retail": 864,
+        "price_distributors": 583,
+        "price_dealer": 641,
+        "price_supermart": 550,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130447,
+      "saleson_name": "VENTO 8\" 200MM",
+      "category": "EXHAUST FAN",
+      "saleson": {
+        "stock_warehouse_14229": 34,
+        "committed_stock_warehouse_14229": 416,
+        "price_retail": 915,
+        "price_distributors": 604,
+        "price_dealer": 665,
+        "price_supermart": 570,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130451,
+      "saleson_name": "MADHANA AL BIG (STEEL/THALI BASE)",
+      "category": "MADHANI",
+      "saleson": {
+        "stock_warehouse_14229": 1,
+        "committed_stock_warehouse_14229": 86,
+        "price_retail": 1311,
+        "price_distributors": 869,
+        "price_dealer": 956,
+        "price_supermart": 790,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130452,
+      "saleson_name": "MADHANI COPPER MCS (STEEL BASE)",
+      "category": "MADHANI",
+      "saleson": {
+        "stock_warehouse_14229": -6,
+        "committed_stock_warehouse_14229": 78,
+        "price_retail": 1574,
+        "price_distributors": 1078,
+        "price_dealer": 1186,
+        "price_supermart": 980,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130453,
+      "saleson_name": "MADHANA COPPER BIG MCS(STEEL BASE)",
+      "category": "MADHANI",
+      "saleson": {
+        "stock_warehouse_14229": 60,
+        "committed_stock_warehouse_14229": 7,
+        "price_retail": 1830,
+        "price_distributors": 1265,
+        "price_dealer": 1392,
+        "price_supermart": 1120,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130455,
+      "saleson_name": "MADHANA AL BIG (BOARD/CHAKLA BASE)",
+      "category": 4035,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 36,
+        "price_retail": 1338,
+        "price_distributors": 886,
+        "price_dealer": 974,
+        "price_supermart": 805,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23089
+      },
+      "woocommerce": {
+        "name": "MCS Al Board Madhana",
+        "sku": "MADHANA AL BIG (BOARD/CHAKLA BASE)",
+        "status": "publish",
+        "regular_price": "1338.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130456,
+      "saleson_name": "MADHANI COPPER MCS (BOARD BASE)",
+      "category": 4035,
+      "saleson": {
+        "stock_warehouse_14229": 10,
+        "committed_stock_warehouse_14229": 162,
+        "price_retail": 1601,
+        "price_distributors": 1094,
+        "price_dealer": 1204,
+        "price_supermart": 995,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23084
+      },
+      "woocommerce": {
+        "name": "MCS Copper Board Madhani",
+        "sku": "MADHANI COPPER MCS (BOARD BASE)",
+        "status": "publish",
+        "regular_price": "1601.00",
+        "sale_price": "",
+        "stock_quantity": 10,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130457,
+      "saleson_name": "MADHANA COPPER BIG MCS(BOARD  BASE)",
+      "category": 4035,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 32,
+        "price_retail": 1855,
+        "price_distributors": 1281,
+        "price_dealer": 1410,
+        "price_supermart": 1135,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23090
+      },
+      "woocommerce": {
+        "name": "MCS Copper Board Madhana",
+        "sku": "MADHANA COPPER BIG MCS(BOARD  BASE)",
+        "status": "publish",
+        "regular_price": "1855.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 130458,
+      "saleson_name": "MADHANI AL (STEEL/THALI BASE) MCS",
+      "category": "MADHANI",
+      "saleson": {
+        "stock_warehouse_14229": 36,
+        "committed_stock_warehouse_14229": 560,
+        "price_retail": 1119,
+        "price_distributors": 760,
+        "price_dealer": 836,
+        "price_supermart": 710,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130459,
+      "saleson_name": "MADHANA AL BIG (WOOD BASE)",
+      "category": "MADHANI",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1370,
+        "price_distributors": 910,
+        "price_dealer": 1020,
+        "price_supermart": 825,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130460,
+      "saleson_name": "MADHANI COPPER MCS (WOOD BASE)",
+      "category": "MADHANI",
+      "saleson": {
+        "stock_warehouse_14229": 28,
+        "committed_stock_warehouse_14229": 46,
+        "price_retail": 1677,
+        "price_distributors": 1138,
+        "price_dealer": 1252,
+        "price_supermart": 1035,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 130461,
+      "saleson_name": "MADHANA COPPER BIG MCS(WOOD BASE)",
+      "category": "MADHANI",
+      "saleson": {
+        "stock_warehouse_14229": 21,
+        "committed_stock_warehouse_14229": 4,
+        "price_retail": 931,
+        "price_distributors": 1314,
+        "price_dealer": 1446,
+        "price_supermart": 1175,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 131328,
+      "saleson_name": "IMMERSION ROD 1500W NORMAL",
+      "category": 4087,
+      "saleson": {
+        "stock_warehouse_14229": 798,
+        "committed_stock_warehouse_14229": 14,
+        "price_retail": 225,
+        "price_distributors": 160,
+        "price_dealer": 175,
+        "price_supermart": 145,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23380
+      },
+      "woocommerce": {
+        "name": "MCS 1500W IMMERSION ROD NORMAL",
+        "sku": "IMMERSION ROD 1500W NORMAL",
+        "status": "draft",
+        "regular_price": "225.00",
+        "sale_price": "216",
+        "stock_quantity": 798,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131329,
+      "saleson_name": "IMMERSION ROD 2000W NORMAL",
+      "category": 4087,
+      "saleson": {
+        "stock_warehouse_14229": 610,
+        "committed_stock_warehouse_14229": 13,
+        "price_retail": 234,
+        "price_distributors": 167,
+        "price_dealer": 184,
+        "price_supermart": 152,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23381
+      },
+      "woocommerce": {
+        "name": "MCS 2000W IMMERSION ROD NORMAL",
+        "sku": "IMMERSION ROD 2000W NORMAL",
+        "status": "draft",
+        "regular_price": "234.00",
+        "sale_price": "",
+        "stock_quantity": 610,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131330,
+      "saleson_name": "IMMERSION ROD 1500W WATER PROOF",
+      "category": 4087,
+      "saleson": {
+        "stock_warehouse_14229": 411,
+        "committed_stock_warehouse_14229": 367,
+        "price_retail": 241,
+        "price_distributors": 176,
+        "price_dealer": 194,
+        "price_supermart": 160,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23382
+      },
+      "woocommerce": {
+        "name": "MCS 1500W IMMERSION ROD WATER PROOF",
+        "sku": "IMMERSION ROD 1500W WATER PROOF",
+        "status": "draft",
+        "regular_price": "241.00",
+        "sale_price": "",
+        "stock_quantity": 411,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131331,
+      "saleson_name": "IMMERSION ROD 2000W WATER PROOF",
+      "category": 4087,
+      "saleson": {
+        "stock_warehouse_14229": 267,
+        "committed_stock_warehouse_14229": 294,
+        "price_retail": 251,
+        "price_distributors": 184,
+        "price_dealer": 202,
+        "price_supermart": 167,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23386
+      },
+      "woocommerce": {
+        "name": "MCS 2000W IMMERSION ROD WATER PROOF",
+        "sku": "IMMERSION ROD 2000W WATER PROOF",
+        "status": "draft",
+        "regular_price": "251.00",
+        "sale_price": "",
+        "stock_quantity": 267,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131333,
+      "saleson_name": "GEYSER 3 LTR SS 3KW",
+      "category": 4087,
+      "saleson": {
+        "stock_warehouse_14229": 2,
+        "committed_stock_warehouse_14229": 20,
+        "price_retail": 2267,
+        "price_distributors": 1728,
+        "price_dealer": 1866,
+        "price_supermart": 1600,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22646
+      },
+      "woocommerce": {
+        "name": "MCS Geyser 3 LTR",
+        "sku": "GEYSER 3 LTR SS 3KW",
+        "status": "publish",
+        "regular_price": "2267.00",
+        "sale_price": "",
+        "stock_quantity": 2,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131334,
+      "saleson_name": "GEYSER 6 LTR SS",
+      "category": 4087,
+      "saleson": {
+        "stock_warehouse_14229": 1,
+        "committed_stock_warehouse_14229": 8,
+        "price_retail": 2929,
+        "price_distributors": 2160,
+        "price_dealer": 2333,
+        "price_supermart": 2000,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22648
+      },
+      "woocommerce": {
+        "name": "MCS Geyser 6 LTR",
+        "sku": "GEYSER 6 LTR SS",
+        "status": "publish",
+        "regular_price": "2929.00",
+        "sale_price": "",
+        "stock_quantity": 1,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131335,
+      "saleson_name": "GEYSER 15 LTR SS",
+      "category": 4087,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 14,
+        "price_retail": 3718,
+        "price_distributors": 2700,
+        "price_dealer": 2916,
+        "price_supermart": 2500,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23374
+      },
+      "woocommerce": {
+        "name": "MCS Geyser 15 LTR",
+        "sku": "GEYSER 15 LTR SS",
+        "status": "draft",
+        "regular_price": "3718.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131336,
+      "saleson_name": "GEYSER 10 LTR SS",
+      "category": 4087,
+      "saleson": {
+        "stock_warehouse_14229": 14,
+        "committed_stock_warehouse_14229": 34,
+        "price_retail": 3186,
+        "price_distributors": 2376,
+        "price_dealer": 2566,
+        "price_supermart": 2200,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22650
+      },
+      "woocommerce": {
+        "name": "MCS Geyser 10 LTR",
+        "sku": "GEYSER 10 LTR SS",
+        "status": "draft",
+        "regular_price": "3186.00",
+        "sale_price": "",
+        "stock_quantity": 14,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131337,
+      "saleson_name": "GEYSER 25 LTR SS",
+      "category": 4087,
+      "saleson": {
+        "stock_warehouse_14229": 5,
+        "committed_stock_warehouse_14229": 5,
+        "price_retail": 3983,
+        "price_distributors": 2916,
+        "price_dealer": 3149,
+        "price_supermart": 2700,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23375
+      },
+      "woocommerce": {
+        "name": "MCS Geyser 25 LTR",
+        "sku": "GEYSER 25 LTR SS",
+        "status": "draft",
+        "regular_price": "3983.00",
+        "sale_price": "",
+        "stock_quantity": 5,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131339,
+      "saleson_name": "QUARTZ HEATER 2 ROD",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 208,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 593,
+        "price_distributors": 385,
+        "price_dealer": 424,
+        "price_supermart": 350,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22827
+      },
+      "woocommerce": {
+        "name": "MCS QUARTZ Heater 2 Rod",
+        "sku": "QUARTZ HEATER 2 ROD",
+        "status": "publish",
+        "regular_price": "593.00",
+        "sale_price": "",
+        "stock_quantity": 208,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131340,
+      "saleson_name": "HALOGEN HEATER 2 ROD",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 168,
+        "committed_stock_warehouse_14229": 4,
+        "price_retail": 762,
+        "price_distributors": 495,
+        "price_dealer": 545,
+        "price_supermart": 450,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23450
+      },
+      "woocommerce": {
+        "name": "MCS HALOGEN 2 Rod Heater",
+        "sku": "HALOGEN HEATER 2 ROD",
+        "status": "draft",
+        "regular_price": "762.00",
+        "sale_price": "",
+        "stock_quantity": 168,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131341,
+      "saleson_name": "MAC3 HEATER MOVING",
+      "category": "HEATER",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1000,
+        "price_distributors": 650,
+        "price_dealer": 720,
+        "price_supermart": 700,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 131342,
+      "saleson_name": "HALOGEN HEATER 3 ROD MOVING",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 195,
+        "committed_stock_warehouse_14229": 1,
+        "price_retail": 1228,
+        "price_distributors": 798,
+        "price_dealer": 877,
+        "price_supermart": 725,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22829
+      },
+      "woocommerce": {
+        "name": "Halogen Heater 3 Rod Moving",
+        "sku": "HALOGEN HEATER 3 ROD MOVING",
+        "status": "publish",
+        "regular_price": "1228.00",
+        "sale_price": "",
+        "stock_quantity": 195,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131343,
+      "saleson_name": "PVC FAN HEATER",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 269,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 720,
+        "price_distributors": 468,
+        "price_dealer": 514,
+        "price_supermart": 425,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22821
+      },
+      "woocommerce": {
+        "name": "PVC Fan Heater",
+        "sku": "PVC FAN HEATER",
+        "status": "draft",
+        "regular_price": "720.00",
+        "sale_price": "",
+        "stock_quantity": 269,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131344,
+      "saleson_name": "PVC FAN HEATER MOVING",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1000,
+        "price_distributors": 650,
+        "price_dealer": 720,
+        "price_supermart": 700,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 131345,
+      "saleson_name": "BT MODEL METAL BLOWER HEATER",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": -33,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1067,
+        "price_distributors": 694,
+        "price_dealer": 764,
+        "price_supermart": 631,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23902
+      },
+      "woocommerce": {
+        "name": "BT Model Metal Blower Heater",
+        "sku": "BT MODEL METAL BLOWER HEATER",
+        "status": "draft",
+        "regular_price": "1067.00",
+        "sale_price": "",
+        "stock_quantity": -33,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131346,
+      "saleson_name": "HT PVC BLOWER HEATER",
+      "category": "HEATER",
+      "saleson": {
+        "stock_warehouse_14229": 132,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 805,
+        "price_distributors": 523,
+        "price_dealer": 575,
+        "price_supermart": 475,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 131347,
+      "saleson_name": "OT PVC BLOWER HEATER",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 32,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 667,
+        "price_distributors": 433,
+        "price_dealer": 477,
+        "price_supermart": 394,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22837
+      },
+      "woocommerce": {
+        "name": "MCS OT PVC Blower",
+        "sku": "OT PVC BLOWER HEATER",
+        "status": "publish",
+        "regular_price": "667.00",
+        "sale_price": "",
+        "stock_quantity": 32,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131348,
+      "saleson_name": "UT MODEL HEATER",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 116,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 778,
+        "price_distributors": 505,
+        "price_dealer": 555,
+        "price_supermart": 459,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22831
+      },
+      "woocommerce": {
+        "name": "MCS UT MODEL Heater",
+        "sku": "UT MODEL HEATER",
+        "status": "publish",
+        "regular_price": "778.00",
+        "sale_price": "",
+        "stock_quantity": 116,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131349,
+      "saleson_name": "BOBBY MODEL ROOM HEATER 2 ROD",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 93,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 476,
+        "price_distributors": 309,
+        "price_dealer": 340,
+        "price_supermart": 281,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23449
+      },
+      "woocommerce": {
+        "name": "MCS Bobby 2 Rod Heater",
+        "sku": "BOBBY MODEL ROOM HEATER 2 ROD",
+        "status": "publish",
+        "regular_price": "476.00",
+        "sale_price": "",
+        "stock_quantity": 93,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 131350,
+      "saleson_name": "PRIYA ROOM HEATER 2 ROD",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 98,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 444,
+        "price_distributors": 288,
+        "price_dealer": 317,
+        "price_supermart": 262,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23438
+      },
+      "woocommerce": {
+        "name": "MCS Priya 2 Rod Heater",
+        "sku": "PRIYA ROOM HEATER 2 ROD",
+        "status": "publish",
+        "regular_price": "444.00",
+        "sale_price": "",
+        "stock_quantity": 98,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 132152,
+      "saleson_name": "MCS MINI CHILLER COOLER",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 5,
+        "committed_stock_warehouse_14229": 52,
+        "price_retail": 3219,
+        "price_distributors": 2310,
+        "price_dealer": 2541,
+        "price_supermart": 2100,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 132153,
+      "saleson_name": "MCS JUNIOR JUMBO COOLER",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 4066,
+        "price_distributors": 2365,
+        "price_dealer": 2602,
+        "price_supermart": 2500,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22768
+      },
+      "woocommerce": {
+        "name": "MCS 12\" Junior Jumbo Cooler",
+        "sku": "MCS JUNIOR JUMBO COOLER",
+        "status": "publish",
+        "regular_price": "4066.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 132154,
+      "saleson_name": "MCS JUMBO SWING COOLER",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 5760,
+        "price_distributors": 3630,
+        "price_dealer": 4356,
+        "price_supermart": 3600,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 132155,
+      "saleson_name": "MCS SHINE SWING COOLER",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 4,
+        "committed_stock_warehouse_14229": 14,
+        "price_retail": 5421,
+        "price_distributors": 3630,
+        "price_dealer": 3993,
+        "price_supermart": 3300,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 132156,
+      "saleson_name": "MCS LOTUS SWING COOLER",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 1,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 5760,
+        "price_distributors": 3960,
+        "price_dealer": 4356,
+        "price_supermart": 3600,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 132157,
+      "saleson_name": "MCS COLUMBUS COMMERCIAL COOLER",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 11011,
+        "price_distributors": 6160,
+        "price_dealer": 6776,
+        "price_supermart": 5600,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 132630,
+      "saleson_name": "AL0751 MOTOR 6 SUT 1 SEASON PACKING 12 PCS",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 2017,
+        "price_retail": 618,
+        "price_distributors": 445,
+        "price_dealer": 467,
+        "price_supermart": 420,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 132631,
+      "saleson_name": "AL1001 MOTOR 8 SUT 1 SEASON PACKING 12 PCS",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 918,
+        "price_retail": 762,
+        "price_distributors": 551,
+        "price_dealer": 579,
+        "price_supermart": 520,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 132632,
+      "saleson_name": "POWER SURE (KOHINOOR) AL CEILING FAN 48\" WHITE/IVORY",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 210,
+        "price_retail": null,
+        "price_distributors": 689,
+        "price_dealer": 723,
+        "price_supermart": 650,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 132872,
+      "saleson_name": "22\" Padestal Fan 4 FEET METAL BLADE (PREMIUM)",
+      "category": 6356,
+      "saleson": {
+        "stock_warehouse_14229": 30,
+        "committed_stock_warehouse_14229": 205,
+        "price_retail": 2837,
+        "price_distributors": 1643,
+        "price_dealer": 1807,
+        "price_supermart": 1750,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22969
+      },
+      "woocommerce": {
+        "name": "22 Inch 4 FT METAL BLADE Padestal Fan",
+        "sku": "22\" Padestal Fan 4 FEET",
+        "status": "publish",
+        "regular_price": "2837.00",
+        "sale_price": "",
+        "stock_quantity": 30,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 133736,
+      "saleson_name": "9 inch Blade 5 Par",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 149,
+        "committed_stock_warehouse_14229": 240,
+        "price_retail": 28,
+        "price_distributors": 18.2,
+        "price_dealer": 20.16,
+        "price_supermart": 17.36,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 133738,
+      "saleson_name": "12 inch Blade 5 par PKG 50",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 171,
+        "price_retail": 30.8,
+        "price_distributors": 20.02,
+        "price_dealer": 22.176,
+        "price_supermart": 19.096,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 133739,
+      "saleson_name": "16 inch blade 5 par light PKG50",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": -50,
+        "committed_stock_warehouse_14229": 300,
+        "price_retail": 54.6,
+        "price_distributors": 35.49,
+        "price_dealer": 39.312,
+        "price_supermart": 33.852,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 133741,
+      "saleson_name": "18 inch blade 5 par HEAVY PKG24",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 77,
+        "committed_stock_warehouse_14229": 310,
+        "price_retail": 86.8,
+        "price_distributors": 56.42,
+        "price_dealer": 62.496,
+        "price_supermart": 53.816,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 133743,
+      "saleson_name": "Bullet Blade  3 Par PKG 60 PCS",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 80,
+        "price_retail": 46.2,
+        "price_distributors": 30.03,
+        "price_dealer": 33.264,
+        "price_supermart": 28.644,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 133744,
+      "saleson_name": "4G 18 INCH LEFT Exhaust Blade anti clock wise",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 5,
+        "committed_stock_warehouse_14229": 40,
+        "price_retail": 88.2,
+        "price_distributors": 57.33,
+        "price_dealer": 63.504,
+        "price_supermart": 54.684,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 133746,
+      "saleson_name": "Kauva Blade ACW LEFT",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 52,
+        "price_retail": 91,
+        "price_distributors": 59.15,
+        "price_dealer": 65.52,
+        "price_supermart": 56.42,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 137942,
+      "saleson_name": "Mini Madhani (Small) AL MCS",
+      "category": 4035,
+      "saleson": {
+        "stock_warehouse_14229": 42,
+        "committed_stock_warehouse_14229": 219,
+        "price_retail": 767,
+        "price_distributors": 517,
+        "price_dealer": 569,
+        "price_supermart": 470,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23085
+      },
+      "woocommerce": {
+        "name": "MCS Small Madhani",
+        "sku": "Mini Madhani (Small) AL MCS",
+        "status": "publish",
+        "regular_price": "767.00",
+        "sale_price": "",
+        "stock_quantity": 42,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 137943,
+      "saleson_name": "MCS 12 INCH TOWER RELAX Cooler",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 184,
+        "price_retail": 3642,
+        "price_distributors": 2640,
+        "price_dealer": 2904,
+        "price_supermart": 2400,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23973
+      },
+      "woocommerce": {
+        "name": "MCS 12\" TOWER RELAX COOLER",
+        "sku": "MCS 12 INCH TOWER RELAX Cooler",
+        "status": "publish",
+        "regular_price": "3642.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 138415,
+      "saleson_name": "Bullet Fan 2.5 feet blade 12 inch",
+      "category": 6356,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 8,
+        "price_retail": 1152,
+        "price_distributors": 721,
+        "price_dealer": 793,
+        "price_supermart": 680,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22961
+      },
+      "woocommerce": {
+        "name": "PADESTAL FAN 12\" & 2.5 FEET",
+        "sku": "Bullet Fan 2.5 feet blade 12 inch",
+        "status": "publish",
+        "regular_price": "1152.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 150113,
+      "saleson_name": "Accessories",
+      "category": "ACCESSORY",
+      "saleson": {
+        "stock_warehouse_14229": 2392,
+        "committed_stock_warehouse_14229": 438,
+        "price_retail": null,
+        "price_distributors": 1950,
+        "price_dealer": 2160,
+        "price_supermart": 1860,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 150655,
+      "saleson_name": "MCS ROTOMAC (Cabin Fan)",
+      "category": "AP AND TABLE FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 4,
+        "price_retail": 900,
+        "price_distributors": 700,
+        "price_dealer": 700,
+        "price_supermart": 558,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 160751,
+      "saleson_name": "IRIS MIXER GRINDER",
+      "category": 4138,
+      "saleson": {
+        "stock_warehouse_14229": -2,
+        "committed_stock_warehouse_14229": 76,
+        "price_retail": 1586,
+        "price_distributors": 1078,
+        "price_dealer": 1186,
+        "price_supermart": 980,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23189
+      },
+      "woocommerce": {
+        "name": "IRIS 3 JAR 650W Mixer Grinder",
+        "sku": "IRIS MIXER GRINDER",
+        "status": "publish",
+        "regular_price": "1586.00",
+        "sale_price": "",
+        "stock_quantity": -2,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 160752,
+      "saleson_name": "IRIS PLUS MIXER GRINDER",
+      "category": 4138,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 38,
+        "price_retail": 1586,
+        "price_distributors": 1078,
+        "price_dealer": 1186,
+        "price_supermart": 980,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 160753,
+      "saleson_name": "AMEO MIXER GRINDER",
+      "category": 4138,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1406,
+        "price_distributors": 968,
+        "price_dealer": 1065,
+        "price_supermart": 880,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22791
+      },
+      "woocommerce": {
+        "name": "Ameo 2 Jar 500W Mixer Grinder",
+        "sku": "AMEO MIXER GRINDER",
+        "status": "publish",
+        "regular_price": "1406.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 160754,
+      "saleson_name": "STARPACE MIXER GRINDER",
+      "category": 4138,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 117,
+        "price_retail": 1586,
+        "price_distributors": 1078,
+        "price_dealer": 1133,
+        "price_supermart": 980,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22793
+      },
+      "woocommerce": {
+        "name": "STARPACE 3 JAR 600W Mixer Grinder",
+        "sku": "STARPACE MIXER GRINDER",
+        "status": "publish",
+        "regular_price": "1586.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 160755,
+      "saleson_name": "ODACIO JUICER MIXER GRINDER",
+      "category": 4136,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 2202,
+        "price_distributors": 1485,
+        "price_dealer": 1573,
+        "price_supermart": 1350,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22797
+      },
+      "woocommerce": {
+        "name": "Odacio Juicer Mixer Grinder",
+        "sku": "ODACIO JUICER MIXER GRINDER",
+        "status": "publish",
+        "regular_price": "2202.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 160757,
+      "saleson_name": "REGULAR ELECTRIC IRON",
+      "category": 4135,
+      "saleson": {
+        "stock_warehouse_14229": 47,
+        "committed_stock_warehouse_14229": 258,
+        "price_retail": 410,
+        "price_distributors": 266,
+        "price_dealer": 293,
+        "price_supermart": 242,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22666
+      },
+      "woocommerce": {
+        "name": "Regular Electric Iron",
+        "sku": "REGULAR ELECTRIC IRON",
+        "status": "publish",
+        "regular_price": "410.00",
+        "sale_price": "",
+        "stock_quantity": 47,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 160758,
+      "saleson_name": "MAGIC ELECTRIC IRON",
+      "category": 4135,
+      "saleson": {
+        "stock_warehouse_14229": 58,
+        "committed_stock_warehouse_14229": 96,
+        "price_retail": 470,
+        "price_distributors": 305,
+        "price_dealer": 336,
+        "price_supermart": 277,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22670
+      },
+      "woocommerce": {
+        "name": "Magic Electric Iron",
+        "sku": "MAGIC ELECTRIC IRON",
+        "status": "draft",
+        "regular_price": "470.00",
+        "sale_price": "",
+        "stock_quantity": 58,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 160759,
+      "saleson_name": "AUDI ELECTRIC IRON",
+      "category": 4135,
+      "saleson": {
+        "stock_warehouse_14229": 12,
+        "committed_stock_warehouse_14229": 67,
+        "price_retail": 530,
+        "price_distributors": 344,
+        "price_dealer": 378,
+        "price_supermart": 313,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22672
+      },
+      "woocommerce": {
+        "name": "Audi Electric Iron",
+        "sku": "AUDI ELECTRIC IRON",
+        "status": "draft",
+        "regular_price": "530.00",
+        "sale_price": "",
+        "stock_quantity": 12,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 160760,
+      "saleson_name": "DUSTER ELECTRIC IRON",
+      "category": 4135,
+      "saleson": {
+        "stock_warehouse_14229": 59,
+        "committed_stock_warehouse_14229": 31,
+        "price_retail": 470,
+        "price_distributors": 305,
+        "price_dealer": 336,
+        "price_supermart": 277,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23139
+      },
+      "woocommerce": {
+        "name": "DUSTER Electric Iron",
+        "sku": "DUSTER ELECTRIC IRON",
+        "status": "publish",
+        "regular_price": "470.00",
+        "sale_price": "",
+        "stock_quantity": 59,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 160761,
+      "saleson_name": "PLANCHA ELECTRIC IRON",
+      "category": 4135,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 327,
+        "price_retail": 760,
+        "price_distributors": 493,
+        "price_dealer": 543,
+        "price_supermart": 448,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22676
+      },
+      "woocommerce": {
+        "name": "Plancha Heavy Duty Electric Iron",
+        "sku": "PLANCHA ELECTRIC IRON",
+        "status": "publish",
+        "regular_price": "760.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 160762,
+      "saleson_name": "SUMO ELECTRIC IRON",
+      "category": 4135,
+      "saleson": {
+        "stock_warehouse_14229": 24,
+        "committed_stock_warehouse_14229": 299,
+        "price_retail": 760,
+        "price_distributors": 493,
+        "price_dealer": 543,
+        "price_supermart": 448,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22674
+      },
+      "woocommerce": {
+        "name": "Sumo Heavy Duty Electric Iron",
+        "sku": "SUMO ELECTRIC IRON",
+        "status": "publish",
+        "regular_price": "760.00",
+        "sale_price": "",
+        "stock_quantity": 24,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 161001,
+      "saleson_name": "VICTORIA ELECTRIC IRON",
+      "category": 4135,
+      "saleson": {
+        "stock_warehouse_14229": 55,
+        "committed_stock_warehouse_14229": 51,
+        "price_retail": 410,
+        "price_distributors": 266,
+        "price_dealer": 293,
+        "price_supermart": 242,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22668
+      },
+      "woocommerce": {
+        "name": "Victoria Electric Iron",
+        "sku": "VICTORIA ELECTRIC IRON",
+        "status": "draft",
+        "regular_price": "410.00",
+        "sale_price": "",
+        "stock_quantity": 55,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 161971,
+      "saleson_name": "JUICOMATIC JMG",
+      "category": "JMG",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 3,
+        "price_retail": 2287,
+        "price_distributors": 1540,
+        "price_dealer": 1634,
+        "price_supermart": 1400,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 165926,
+      "saleson_name": "MCS IRIS PLUS 750W MIXER GRINDER",
+      "category": 4138,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 4,
+        "price_retail": 1821,
+        "price_distributors": 1199,
+        "price_dealer": 1301,
+        "price_supermart": 1075,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23183
+      },
+      "woocommerce": {
+        "name": "IRIS PLUS 3 JAR 750W Mixer Grinder",
+        "sku": "MCS IRIS PLUS 750W MIXER GRINDER",
+        "status": "publish",
+        "regular_price": "1821.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 171938,
+      "saleson_name": "AL110 (PREMIUM) 28MM ACW  LEFT PACKING 8 PCS",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 167,
+        "committed_stock_warehouse_14229": 2174,
+        "price_retail": 1145,
+        "price_distributors": 742,
+        "price_dealer": 779,
+        "price_supermart": 700,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 176456,
+      "saleson_name": "48\" AL O MODEL BROWN CEILING FAN DESINGNER",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 6,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1203,
+        "price_distributors": 806,
+        "price_dealer": 846,
+        "price_supermart": 760,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23546
+      },
+      "woocommerce": {
+        "name": "variation 23546 of 22987",
+        "sku": "",
+        "status": "publish",
+        "regular_price": "1203.00",
+        "sale_price": "1029",
+        "stock_quantity": null,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 176457,
+      "saleson_name": "48\" AL O MODEL SMOKE BROWN CEILING FAN",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 16,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1203,
+        "price_distributors": 806,
+        "price_dealer": 846,
+        "price_supermart": 760,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23548
+      },
+      "woocommerce": {
+        "name": "variation 23548 of 22987",
+        "sku": "",
+        "status": "publish",
+        "regular_price": "1203.00",
+        "sale_price": "1029",
+        "stock_quantity": null,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 176461,
+      "saleson_name": "48\" AL PLAIN BROWN CEILING FAN",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 918,
+        "price_retail": 1143,
+        "price_distributors": 763,
+        "price_dealer": 801,
+        "price_supermart": 720,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23559
+      },
+      "woocommerce": {
+        "name": "48\" AL PLAIN BROWN CEILING FAN",
+        "sku": "48\" AL PLAIN BROWN CEILING FAN",
+        "status": "publish",
+        "regular_price": "1143.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 176630,
+      "saleson_name": "BOBBY MODEL ROOM HEATER 1 ROD",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 23,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 435,
+        "price_distributors": 282,
+        "price_dealer": 311,
+        "price_supermart": 257,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22823
+      },
+      "woocommerce": {
+        "name": "MCS Bobby 1 Rod Heater",
+        "sku": "BOBBY MODEL ROOM HEATER 1 ROD",
+        "status": "publish",
+        "regular_price": "435.00",
+        "sale_price": "",
+        "stock_quantity": 23,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 176746,
+      "saleson_name": "POWER SURE (KOHINOOR) AL CEILING FAN 48\" BROWN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 1146,
+        "price_retail": null,
+        "price_distributors": 689,
+        "price_dealer": 723,
+        "price_supermart": 650,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 176747,
+      "saleson_name": "POWER SURE (KOHINOOR) AL CEILING FAN 48\" MAT BLACK",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 634,
+        "price_retail": null,
+        "price_distributors": 689,
+        "price_dealer": 723,
+        "price_supermart": 650,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 180543,
+      "saleson_name": "AP BLADE 12 INCH pkg 45 pcs",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 345,
+        "committed_stock_warehouse_14229": 238,
+        "price_retail": 46.2,
+        "price_distributors": 30.03,
+        "price_dealer": 33.264,
+        "price_supermart": 28.644,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 180544,
+      "saleson_name": "TALWAR BLADE PKG55",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 28,
+        "price_distributors": 18.2,
+        "price_dealer": 20.16,
+        "price_supermart": 17.36,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 180545,
+      "saleson_name": "4G 16 INCH RIGHT Exhaust Blade clock wise",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 10,
+        "committed_stock_warehouse_14229": 40,
+        "price_retail": 72.8,
+        "price_distributors": 47.32,
+        "price_dealer": 52.416,
+        "price_supermart": 45.136,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 180546,
+      "saleson_name": "KAUVA BLADE CW RIGHT",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 91,
+        "price_distributors": 59.15,
+        "price_dealer": 65.52,
+        "price_supermart": 56.42,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 180547,
+      "saleson_name": "TOWER BLADE 16 inch RIGHT CW PKG20",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 91,
+        "price_distributors": 59.15,
+        "price_dealer": 65.52,
+        "price_supermart": 56.42,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 180548,
+      "saleson_name": "TOWER BLADE 16 inch LEFT ACW PKG20",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 268,
+        "price_retail": 91,
+        "price_distributors": 59.15,
+        "price_dealer": 65.52,
+        "price_supermart": 56.42,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 180549,
+      "saleson_name": "16 inch blade 5 par HEAVY",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 37,
+        "committed_stock_warehouse_14229": 351,
+        "price_retail": 75.6,
+        "price_distributors": 49.14,
+        "price_dealer": 54.432,
+        "price_supermart": 46.872,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 180550,
+      "saleson_name": "18 inch blade 5 par LIGHT PKG50",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 609,
+        "committed_stock_warehouse_14229": 88,
+        "price_retail": 63,
+        "price_distributors": 40.95,
+        "price_dealer": 45.36,
+        "price_supermart": 39.06,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 180551,
+      "saleson_name": "BLADE WALL FAN  16 INCH",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 484,
+        "committed_stock_warehouse_14229": 100,
+        "price_retail": 64.4,
+        "price_distributors": 41.86,
+        "price_dealer": 46.368,
+        "price_supermart": 39.928,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 180894,
+      "saleson_name": "GLORY MIXER GRINDER",
+      "category": 4138,
+      "saleson": {
+        "stock_warehouse_14229": 4,
+        "committed_stock_warehouse_14229": 190,
+        "price_retail": 1674,
+        "price_distributors": 1122,
+        "price_dealer": 1234,
+        "price_supermart": 1020,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22795
+      },
+      "woocommerce": {
+        "name": "Glory 600W Mixer Grinder",
+        "sku": "GLORY MIXER GRINDER",
+        "status": "publish",
+        "regular_price": "1674.00",
+        "sale_price": "",
+        "stock_quantity": 4,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 180895,
+      "saleson_name": "MCS CLASSIC MIXER GRINDER",
+      "category": 4138,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1821,
+        "price_distributors": 1122,
+        "price_dealer": 1234,
+        "price_supermart": 1020,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23197
+      },
+      "woocommerce": {
+        "name": "Classic 600W Mixer Grinder",
+        "sku": "MCS CLASSIC MIXER GRINDER",
+        "status": "publish",
+        "regular_price": "1821.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 181278,
+      "saleson_name": "AL18150 AL 18 INCH EXHAUST MOTOR 1.5 INCH PKG 4 PC",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 89,
+        "committed_stock_warehouse_14229": 560,
+        "price_retail": 1762,
+        "price_distributors": 1124,
+        "price_dealer": 1180,
+        "price_supermart": 1060,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22933
+      },
+      "woocommerce": {
+        "name": "AL18150 EXHAUST MOTOR 18 INCH",
+        "sku": "AL18150 AL 18 INCH EXHAUST MOTOR 1.5 INCH PKG 4 PC",
+        "status": "draft",
+        "regular_price": "1762.00",
+        "sale_price": "",
+        "stock_quantity": 89,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 181526,
+      "saleson_name": "4G MOTOR PREMIUM",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 242,
+        "committed_stock_warehouse_14229": 668,
+        "price_retail": 1130,
+        "price_distributors": 837,
+        "price_dealer": 879,
+        "price_supermart": 790,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 181527,
+      "saleson_name": "AL110 (PREMIUM) 32MM ACW LEFT PACKING 8 PCS",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 606,
+        "price_retail": 1220,
+        "price_distributors": 784,
+        "price_dealer": 824,
+        "price_supermart": 740,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 181528,
+      "saleson_name": "AL110 (PREMIUM) 32MM CW RIGHT PACKING 8 PCS",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": -12,
+        "committed_stock_warehouse_14229": 476,
+        "price_retail": 1220,
+        "price_distributors": 784,
+        "price_dealer": 824,
+        "price_supermart": 740,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 181529,
+      "saleson_name": "1\" Bullet Motor RING PACKING 20 PCS",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 258,
+        "committed_stock_warehouse_14229": 2238,
+        "price_retail": 508,
+        "price_distributors": 371,
+        "price_dealer": 390,
+        "price_supermart": 350,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 181570,
+      "saleson_name": "48\" AL PLAIN SMOKE BROWN CEILING FAN",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 56,
+        "committed_stock_warehouse_14229": 560,
+        "price_retail": 1143,
+        "price_distributors": 763,
+        "price_dealer": 801,
+        "price_supermart": 720,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23561
+      },
+      "woocommerce": {
+        "name": "48\" AL PLAIN SMOKE BROWN CEILING FAN",
+        "sku": "48\" AL PLAIN SMOKE BROWN CEILING FAN",
+        "status": "publish",
+        "regular_price": "1143.00",
+        "sale_price": "",
+        "stock_quantity": 56,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 181996,
+      "saleson_name": "1\" BULLET MOTOR HANGER PACKING 20 PCS",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 289,
+        "price_retail": 508,
+        "price_distributors": 371,
+        "price_dealer": 390,
+        "price_supermart": 350,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 182112,
+      "saleson_name": "48\" COPPER PLAIN CEILING FAN BROWN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 75,
+        "price_retail": 1525,
+        "price_distributors": 1007,
+        "price_dealer": 1057,
+        "price_supermart": 950,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 182113,
+      "saleson_name": "48\" COPPER PLAIN CEILING FAN ivory/white",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 120,
+        "price_retail": 1525,
+        "price_distributors": 1007,
+        "price_dealer": 1057,
+        "price_supermart": 950,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 183625,
+      "saleson_name": "AP FAN ROTARY REGULAR (BLACK)",
+      "category": 6355,
+      "saleson": {
+        "stock_warehouse_14229": 4,
+        "committed_stock_warehouse_14229": 1899,
+        "price_retail": 813,
+        "price_distributors": 594,
+        "price_dealer": 601,
+        "price_supermart": 560,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 183637,
+      "saleson_name": "48\" COPPER K10 SMOKE BROWN CEILING FAN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1592,
+        "price_distributors": 1049,
+        "price_dealer": 1090,
+        "price_supermart": 990,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 183639,
+      "saleson_name": "48\" AL O2 IVORY CEILING FAN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1203,
+        "price_distributors": 806,
+        "price_dealer": 846,
+        "price_supermart": 760,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 183644,
+      "saleson_name": "MADHANI AL (BOARD /CHAKLA BASE) MCS",
+      "category": 4035,
+      "saleson": {
+        "stock_warehouse_14229": 21,
+        "committed_stock_warehouse_14229": 308,
+        "price_retail": 1142,
+        "price_distributors": 798,
+        "price_dealer": 877,
+        "price_supermart": 725,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23082
+      },
+      "woocommerce": {
+        "name": "MCS Al Board Madhani",
+        "sku": "MADHANI AL (BOARD /CHAKLA BASE) MCS",
+        "status": "draft",
+        "regular_price": "1142.00",
+        "sale_price": "",
+        "stock_quantity": 21,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 184657,
+      "saleson_name": "MCS TIGER COOLER",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 6776,
+        "price_distributors": 4500,
+        "price_dealer": 4598,
+        "price_supermart": 4100,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 187018,
+      "saleson_name": "MCS 24 INCH AL PLAIN CEILING FAN IVORY",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 966,
+        "price_distributors": 636,
+        "price_dealer": 668,
+        "price_supermart": 600,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 187020,
+      "saleson_name": "48\" COPPER SANORITA BLUE CEILING FAN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1779,
+        "price_distributors": 1156,
+        "price_dealer": 1280,
+        "price_supermart": 1100,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 187021,
+      "saleson_name": "48\" COPPER K10 IVORY CEILING FAN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1592,
+        "price_distributors": 1049,
+        "price_dealer": 1090,
+        "price_supermart": 990,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 188805,
+      "saleson_name": "MCS 24 INCH AL PLAIN CEILING FAN BROWN",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 704,
+        "price_retail": 966,
+        "price_distributors": 636,
+        "price_dealer": 668,
+        "price_supermart": 600,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 190102,
+      "saleson_name": "48\" AL K10 MODEL IVORY CEILING FAN",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 133,
+        "price_retail": 1203,
+        "price_distributors": 806,
+        "price_dealer": 846,
+        "price_supermart": 760,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23544
+      },
+      "woocommerce": {
+        "name": "48\" AL K10 MODEL IVORY CEILING FAN",
+        "sku": "48\" AL K10 MODEL IVORY CEILING FAN",
+        "status": "publish",
+        "regular_price": "1203.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 190103,
+      "saleson_name": "48\" AL K10 (H10) MODEL SMOKE BROWN CEILING FAN",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 552,
+        "price_retail": 1203,
+        "price_distributors": 806,
+        "price_dealer": 846,
+        "price_supermart": 760,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23545
+      },
+      "woocommerce": {
+        "name": "48\" AL K10 (H10) MODEL SMOKE BROWN CEILING FAN",
+        "sku": "48\" AL K10 (H10) MODEL SMOKE BROWN CEILING FAN",
+        "status": "publish",
+        "regular_price": "1203.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 190104,
+      "saleson_name": "48\" AL K10 MODEL BROWN CEILING FAN",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1203,
+        "price_distributors": 806,
+        "price_dealer": 846,
+        "price_supermart": 760,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23543
+      },
+      "woocommerce": {
+        "name": "48\" AL K10 MODEL BROWN CEILING FAN",
+        "sku": "48\" AL K10 MODEL BROWN CEILING FAN",
+        "status": "publish",
+        "regular_price": "1203.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 190105,
+      "saleson_name": "48\" AL O2 MODEL SMOKE BROWN CEILING FAN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1203,
+        "price_distributors": 806,
+        "price_dealer": 846,
+        "price_supermart": 760,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 190106,
+      "saleson_name": "48\" AL O2 MODEL BROWN CEILING FAN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": -20,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1203,
+        "price_distributors": 806,
+        "price_dealer": 846,
+        "price_supermart": 760,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 191033,
+      "saleson_name": "MCS PUMP 12W",
+      "category": "PUMP",
+      "saleson": {
+        "stock_warehouse_14229": -27,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 115,
+        "price_distributors": 80,
+        "price_dealer": 86,
+        "price_supermart": 75,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 191052,
+      "saleson_name": "MINI MOTOR CRC",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 591,
+        "price_distributors": 400,
+        "price_dealer": 430,
+        "price_supermart": 390,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 191053,
+      "saleson_name": "BLADE YOYO",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 67.2,
+        "price_distributors": 43.68,
+        "price_dealer": 48.384,
+        "price_supermart": 41.664,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 191144,
+      "saleson_name": "48\" COPPER SANORITA IVORY CEILING FAN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 12,
+        "price_retail": 1779,
+        "price_distributors": 1156,
+        "price_dealer": 1280,
+        "price_supermart": 1100,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 191145,
+      "saleson_name": "48\" COPPER SANORITA SMOKE BROWN CEILING FAN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1779,
+        "price_distributors": 1156,
+        "price_dealer": 1280,
+        "price_supermart": 1100,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 191548,
+      "saleson_name": "MCS TIGER PLUS COOLER",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 20,
+        "price_retail": 6945,
+        "price_distributors": 4620,
+        "price_dealer": 5082,
+        "price_supermart": 4200,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22781
+      },
+      "woocommerce": {
+        "name": "MCS 18\" Tiger Plus Air Cooler",
+        "sku": "MCS TIGER PLUS COOLER",
+        "status": "publish",
+        "regular_price": "6945.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 192103,
+      "saleson_name": "48\" COPPER o2 IVORY CEILING FAN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1592,
+        "price_distributors": 1049,
+        "price_dealer": 1090,
+        "price_supermart": 990,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 195060,
+      "saleson_name": "MCS INDUCTION PUSH BUTTON 2000W",
+      "category": "INDUCTION",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 48,
+        "price_retail": 1304,
+        "price_distributors": 847,
+        "price_dealer": 932,
+        "price_supermart": 770,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 195061,
+      "saleson_name": "MCS INDUCTION ULTRA SMOOTH TOUCH 2000W",
+      "category": "INDUCTION",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 43,
+        "price_retail": 1389,
+        "price_distributors": 902,
+        "price_dealer": 992,
+        "price_supermart": 820,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 195062,
+      "saleson_name": "MCS INDUCTION INFRARED 2000W",
+      "category": "INDUCTION",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 2287,
+        "price_distributors": 1485,
+        "price_dealer": 1634,
+        "price_supermart": 1350,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 195738,
+      "saleson_name": "SILENCER 18 INCH",
+      "category": "Blade",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 72.8,
+        "price_distributors": 47.32,
+        "price_dealer": 52.416,
+        "price_supermart": 45.136,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 195971,
+      "saleson_name": "VENTO 10\" 250MM",
+      "category": "EXHAUST FAN",
+      "saleson": {
+        "stock_warehouse_14229": 32,
+        "committed_stock_warehouse_14229": 218,
+        "price_retail": 969,
+        "price_distributors": 636,
+        "price_dealer": 700,
+        "price_supermart": 600,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 199277,
+      "saleson_name": "MCS 24 INCH AL CEILING FAN (H-10) FLORA SMOKE BROWN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 308,
+        "price_retail": 1016,
+        "price_distributors": 668,
+        "price_dealer": 701,
+        "price_supermart": 630,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 199278,
+      "saleson_name": "MCS 24 INCH AL CEILING FAN (H-10) FLORA IVORY",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 337,
+        "price_retail": 1016,
+        "price_distributors": 668,
+        "price_dealer": 701,
+        "price_supermart": 630,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 199279,
+      "saleson_name": "MCS 24 INCH AL CEILING FAN H-10 (FLORA) BROWN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1016,
+        "price_distributors": 668,
+        "price_dealer": 701,
+        "price_supermart": 630,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 204113,
+      "saleson_name": "MCS PRINCE COOLER",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 15,
+        "price_retail": 5082,
+        "price_distributors": 3630,
+        "price_dealer": 3993,
+        "price_supermart": 3300,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22770
+      },
+      "woocommerce": {
+        "name": "MCS 16\" Prince Cooler",
+        "sku": "MCS PRINCE COOLER",
+        "status": "publish",
+        "regular_price": "5082.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 204115,
+      "saleson_name": "MCS AIRMAX COOLER",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 4,
+        "price_retail": 5760,
+        "price_distributors": 3960,
+        "price_dealer": 4356,
+        "price_supermart": 3600,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22775
+      },
+      "woocommerce": {
+        "name": "MCS 16\" Airmax Cooler",
+        "sku": "MCS AIRMAX COOLER",
+        "status": "publish",
+        "regular_price": "5760.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 206868,
+      "saleson_name": "BULLET FAN 5 BLADE REGULAR",
+      "category": 6356,
+      "saleson": {
+        "stock_warehouse_14229": 32,
+        "committed_stock_warehouse_14229": 836,
+        "price_retail": 1287,
+        "price_distributors": 890,
+        "price_dealer": 979,
+        "price_supermart": 840,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22966
+      },
+      "woocommerce": {
+        "name": "5 BLADE REGULAR PADESTAL FAN",
+        "sku": "BULLET FAN 5 BLADE REGULAR",
+        "status": "publish",
+        "regular_price": "1287.00",
+        "sale_price": "",
+        "stock_quantity": 32,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 245345,
+      "saleson_name": "TABLE FAN 16 INCH MOVING",
+      "category": 6355,
+      "saleson": {
+        "stock_warehouse_14229": 3,
+        "committed_stock_warehouse_14229": 169,
+        "price_retail": 1652,
+        "price_distributors": 1060,
+        "price_dealer": 1166,
+        "price_supermart": 1000,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22642
+      },
+      "woocommerce": {
+        "name": "MCS 16\" Table Fan Moving",
+        "sku": "TABLE FAN 16 INCH MOVING",
+        "status": "draft",
+        "regular_price": "1652.00",
+        "sale_price": "",
+        "stock_quantity": 3,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 248581,
+      "saleson_name": "WALL FAN 16 INCH MOVING",
+      "category": 6355,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1694,
+        "price_distributors": 1081,
+        "price_dealer": 1189,
+        "price_supermart": 1020,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23027
+      },
+      "woocommerce": {
+        "name": "MCS 16\" Wall Fan Moving",
+        "sku": "WALL FAN 16 INCH MOVING",
+        "status": "draft",
+        "regular_price": "1694.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 249845,
+      "saleson_name": "ELECTRIC KETTLE JOLLY 1.8 LTR STEEL",
+      "category": 4137,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 12,
+        "price_retail": 508,
+        "price_distributors": 330,
+        "price_dealer": 363,
+        "price_supermart": 300,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22654
+      },
+      "woocommerce": {
+        "name": "Kettle Jolly MCS",
+        "sku": "ELECTRIC KETTLE JOLLY 1.8 LTR STEEL",
+        "status": "publish",
+        "regular_price": "508.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 249846,
+      "saleson_name": "ELECTRIC KETTLE BUTTERFLY 1.8 LTR",
+      "category": 4137,
+      "saleson": {
+        "stock_warehouse_14229": 54,
+        "committed_stock_warehouse_14229": 40,
+        "price_retail": 864,
+        "price_distributors": 561,
+        "price_dealer": 617,
+        "price_supermart": 510,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22656
+      },
+      "woocommerce": {
+        "name": "Kettle Butterfly MCS",
+        "sku": "ELECTRIC KETTLE BUTTERFLY 1.8 LTR",
+        "status": "publish",
+        "regular_price": "864.00",
+        "sale_price": "",
+        "stock_quantity": 54,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 249847,
+      "saleson_name": "ELECTRIC KETTLE GLASS LIGHT 1.8 LTR",
+      "category": 4137,
+      "saleson": {
+        "stock_warehouse_14229": 29,
+        "committed_stock_warehouse_14229": 4,
+        "price_retail": 1254,
+        "price_distributors": 814,
+        "price_dealer": 895,
+        "price_supermart": 740,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22658
+      },
+      "woocommerce": {
+        "name": "Kettle Glass MCS",
+        "sku": "ELECTRIC KETTLE GLASS LIGHT 1.8 LTR",
+        "status": "draft",
+        "regular_price": "1254.00",
+        "sale_price": "",
+        "stock_quantity": 29,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 249848,
+      "saleson_name": "MCS BRAVO 750W MIXER GRINDER",
+      "category": 4138,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 102,
+        "price_retail": 1821,
+        "price_distributors": 1188,
+        "price_dealer": 1301,
+        "price_supermart": 1090,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23200
+      },
+      "woocommerce": {
+        "name": "Bravo 750W Mixer Grinder",
+        "sku": "MCS BRAVO 750W MIXER GRINDER",
+        "status": "draft",
+        "regular_price": "1821.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 264719,
+      "saleson_name": "SUN HEATER 12 INCH",
+      "category": "HEATER",
+      "saleson": {
+        "stock_warehouse_14229": 6,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1123,
+        "price_distributors": 729.95,
+        "price_dealer": 808.56,
+        "price_supermart": 663,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 264720,
+      "saleson_name": "SUN HEATER 14 INCH",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 90,
+        "committed_stock_warehouse_14229": 2,
+        "price_retail": 1123,
+        "price_distributors": 729,
+        "price_dealer": 802,
+        "price_supermart": 663,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22833
+      },
+      "woocommerce": {
+        "name": "MCS Sun Heater 14 Inch",
+        "sku": "SUN HEATER 14 INCH",
+        "status": "publish",
+        "regular_price": "1123.00",
+        "sale_price": "",
+        "stock_quantity": 90,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 265390,
+      "saleson_name": "HOT PLATE PAINT",
+      "category": 4134,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 104,
+        "price_retail": 1089,
+        "price_distributors": 707,
+        "price_dealer": 778,
+        "price_supermart": 643,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23114
+      },
+      "woocommerce": {
+        "name": "MCS HOT PLATE POWDER COATED PAINT",
+        "sku": "HOT PLATE PAINT",
+        "status": "draft",
+        "regular_price": "1089.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 265391,
+      "saleson_name": "HOT PLATE CROME",
+      "category": "INDUCTION",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 43,
+        "price_retail": 1153,
+        "price_distributors": 748,
+        "price_dealer": 823,
+        "price_supermart": 680,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 279904,
+      "saleson_name": "GEYSER 35 LTR SS",
+      "category": 4087,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 30,
+        "price_retail": 5697,
+        "price_distributors": 3996,
+        "price_dealer": 4316,
+        "price_supermart": 3700,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23377
+      },
+      "woocommerce": {
+        "name": "MCS Geyser 35 LTR",
+        "sku": "GEYSER 35 LTR SS",
+        "status": "publish",
+        "regular_price": "5697.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 279905,
+      "saleson_name": "GEYSER 50 LTR SS",
+      "category": 4087,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 120,
+        "price_retail": 5997,
+        "price_distributors": 4320,
+        "price_dealer": 4666,
+        "price_supermart": 4000,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23378
+      },
+      "woocommerce": {
+        "name": "MCS Geyser 50 LTR",
+        "sku": "GEYSER 50 LTR SS",
+        "status": "draft",
+        "regular_price": "5997.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 283976,
+      "saleson_name": "MILITARY MIXER GRINDER 550W 2 JAR",
+      "category": 4138,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 13,
+        "price_retail": 1271,
+        "price_distributors": 880,
+        "price_dealer": 908,
+        "price_supermart": 800,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22787
+      },
+      "woocommerce": {
+        "name": "Military 2 JAR Mixer Grinder",
+        "sku": "MILITARY MIXER GRINDER 550W 2 JAR",
+        "status": "publish",
+        "regular_price": "1271.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 283977,
+      "saleson_name": "MILITARY MIXER GRINDER 550W 3 JAR",
+      "category": 4138,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 12,
+        "price_retail": 1406,
+        "price_distributors": 946,
+        "price_dealer": 1041,
+        "price_supermart": 860,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22789
+      },
+      "woocommerce": {
+        "name": "Military 3 JAR Mixer Grinder",
+        "sku": "MILITARY MIXER GRINDER 550W 3 JAR",
+        "status": "publish",
+        "regular_price": "1406.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 283978,
+      "saleson_name": "PRIYA ROOM HEATER 1 ROD",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 11,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 390,
+        "price_distributors": 253,
+        "price_dealer": 278,
+        "price_supermart": 230,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22819
+      },
+      "woocommerce": {
+        "name": "MCS Priya 1 Rod Heater",
+        "sku": "PRIYA ROOM HEATER 1 ROD",
+        "status": "publish",
+        "regular_price": "390.00",
+        "sale_price": "",
+        "stock_quantity": 11,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 301560,
+      "saleson_name": "D10 QUARTZ HEATER 2 ROD",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 900,
+        "price_distributors": 585,
+        "price_dealer": 648,
+        "price_supermart": 558,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 337973,
+      "saleson_name": "MCS 22\" THAR COMMERCIAL COOLER",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 15,
+        "price_retail": 11011,
+        "price_distributors": 6930,
+        "price_dealer": 7623,
+        "price_supermart": 6300,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 340872,
+      "saleson_name": "48\" AL AURA MODEL SMOKE BROWN CEILING FAN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1203,
+        "price_distributors": 800,
+        "price_dealer": 846,
+        "price_supermart": 760,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 341177,
+      "saleson_name": "AL0752 (REGULAR) - 6 SUT MARUTI PATTI RING 2 SEASON PACKING",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 5,
+        "committed_stock_warehouse_14229": 5930,
+        "price_retail": 847,
+        "price_distributors": 562,
+        "price_dealer": 590,
+        "price_supermart": 530,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 341178,
+      "saleson_name": "AL1004 (REGULAR)- 8 SUT MARUTI 2/3 SPEED PACKING 12 PCS",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 89,
+        "committed_stock_warehouse_14229": 983,
+        "price_retail": 949,
+        "price_distributors": 647,
+        "price_dealer": 679,
+        "price_supermart": 610,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 343437,
+      "saleson_name": "MCS 18 INCH RAMBO",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 7,
+        "price_retail": 7115,
+        "price_distributors": 4730,
+        "price_dealer": 5203,
+        "price_supermart": 4300,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 343438,
+      "saleson_name": "MCS 18 INCH RAMBO PLUS",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 31,
+        "price_retail": 7284,
+        "price_distributors": 4840,
+        "price_dealer": 5324,
+        "price_supermart": 4400,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23067
+      },
+      "woocommerce": {
+        "name": "MCS 18\" RAMBO PLUS Cooler",
+        "sku": "MCS 18 INCH RAMBO PLUS",
+        "status": "publish",
+        "regular_price": "7284.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 343439,
+      "saleson_name": "MCS RIO COMMERCIAL",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 30,
+        "committed_stock_warehouse_14229": 112,
+        "price_retail": 3219,
+        "price_distributors": 2200,
+        "price_dealer": 2420,
+        "price_supermart": 1800,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 343440,
+      "saleson_name": "MCS RIO PLUS COMMERCIAL",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 6,
+        "committed_stock_warehouse_14229": 184,
+        "price_retail": 3219,
+        "price_distributors": 2310,
+        "price_dealer": 2541,
+        "price_supermart": 1900,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 353481,
+      "saleson_name": "MCS CHAMPION PRO COOLER",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 26,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 6098,
+        "price_distributors": 2365,
+        "price_dealer": 4390.56,
+        "price_supermart": 2150,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 353812,
+      "saleson_name": "MCS SEVEN STAR COMMERCIAL BODY 12 INCH COOLER",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 6,
+        "committed_stock_warehouse_14229": 51,
+        "price_retail": 3219,
+        "price_distributors": 2310,
+        "price_dealer": 2420,
+        "price_supermart": 2000,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 353991,
+      "saleson_name": "MCS 12 INCH DHRUV TOWER",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 1,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 4066,
+        "price_distributors": 2365,
+        "price_dealer": 2602,
+        "price_supermart": 2400,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 353994,
+      "saleson_name": "MCS 22 INCH LEGENDER AUTO SWING COMMERCIAL COOLER",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 14,
+        "price_retail": 11011,
+        "price_distributors": 7150,
+        "price_dealer": 7865,
+        "price_supermart": 6500,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 354751,
+      "saleson_name": "AL18125 MODEL 996 EXHAUST MOTOR 18 INCH 1.25 INCH",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 42,
+        "committed_stock_warehouse_14229": 1400,
+        "price_retail": 1592,
+        "price_distributors": 996,
+        "price_dealer": 1046,
+        "price_supermart": 940,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22931
+      },
+      "woocommerce": {
+        "name": "AL18125 EXHAUST MOTOR 18 INCH",
+        "sku": "AL18125 MODEL 996 EXHAUST MOTOR 18 INCH 1.25 INCH",
+        "status": "draft",
+        "regular_price": "1592.00",
+        "sale_price": "",
+        "stock_quantity": 42,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 357100,
+      "saleson_name": "BULLET FAN 3 BLADE PVC",
+      "category": "PADESTRAL FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 12,
+        "price_retail": 1271,
+        "price_distributors": 869,
+        "price_dealer": 956,
+        "price_supermart": 820,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 383908,
+      "saleson_name": "MCS Two Slice Pop Up Toaster pkg 6 pcs",
+      "category": 4140,
+      "saleson": {
+        "stock_warehouse_14229": 131,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1140,
+        "price_distributors": 743,
+        "price_dealer": 817,
+        "price_supermart": 675,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23800
+      },
+      "woocommerce": {
+        "name": "MCS Two Slice Pop-up Toaster",
+        "sku": "MCS Two Slice Pop Up Toaster pkg 6 pcs",
+        "status": "publish",
+        "regular_price": "1140.00",
+        "sale_price": "1109",
+        "stock_quantity": 131,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 384222,
+      "saleson_name": "48\" AL AURA MODEL IVORY CEILING FAN",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 6,
+        "committed_stock_warehouse_14229": 123,
+        "price_retail": 1203,
+        "price_distributors": 800,
+        "price_dealer": 846,
+        "price_supermart": 760,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 386031,
+      "saleson_name": "40W PUMPk",
+      "category": "PUMP",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 60,
+        "price_retail": 292,
+        "price_distributors": 212,
+        "price_dealer": 223,
+        "price_supermart": 200,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 403099,
+      "saleson_name": "16 INCH 4 FT PREMIUM BULLET FAN",
+      "category": 6356,
+      "saleson": {
+        "stock_warehouse_14229": -4,
+        "committed_stock_warehouse_14229": 30,
+        "price_retail": 1440,
+        "price_distributors": 933,
+        "price_dealer": 1014,
+        "price_supermart": 880,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23836
+      },
+      "woocommerce": {
+        "name": "PREMIUM 3 Blade 16 Inch 4 FT Fan",
+        "sku": "16 INCH 4 FT PREMIUM BULLET FAN",
+        "status": "publish",
+        "regular_price": "1440.00",
+        "sale_price": "",
+        "stock_quantity": -4,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 412910,
+      "saleson_name": "20 INCH 5 PAR PUNJABI FARATA",
+      "category": "PADESTRAL FAN",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 335,
+        "price_retail": 1736,
+        "price_distributors": 1219,
+        "price_dealer": 1341,
+        "price_supermart": 1150,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 472347,
+      "saleson_name": "GEYSER 5 LTR ABS BODY",
+      "category": "GEYSER",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 12,
+        "price_retail": 3191,
+        "price_distributors": 2077,
+        "price_dealer": 2285,
+        "price_supermart": 1978.42,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 482701,
+      "saleson_name": "48\" AL K10 (H10) MODEL BLUE CEILING FAN",
+      "category": 4130,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 1203,
+        "price_distributors": 806,
+        "price_dealer": 846,
+        "price_supermart": 760,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 483132,
+      "saleson_name": "MCS VICTORIS ELECTRIC IRON",
+      "category": "IRON",
+      "saleson": {
+        "stock_warehouse_14229": 18,
+        "committed_stock_warehouse_14229": 88,
+        "price_retail": 539,
+        "price_distributors": 350.35,
+        "price_dealer": 293,
+        "price_supermart": 242,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 24479
+      },
+      "woocommerce": {
+        "name": "MCS VICTORIS ELECTRIC IRON",
+        "sku": "",
+        "status": "draft",
+        "regular_price": "539.00",
+        "sale_price": "",
+        "stock_quantity": 18,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 483676,
+      "saleson_name": "PORTABLE GEYSER",
+      "category": 4087,
+      "saleson": {
+        "stock_warehouse_14229": 356,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": 960,
+        "price_distributors": 624,
+        "price_dealer": 686,
+        "price_supermart": 567,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22644
+      },
+      "woocommerce": {
+        "name": "MCS Portable Geyser",
+        "sku": "PORTABLE GEYSER",
+        "status": "draft",
+        "regular_price": "960.00",
+        "sale_price": "",
+        "stock_quantity": 356,
+        "stock_status": "instock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 488363,
+      "saleson_name": "BT MODEL PVC BLOWER HEATER",
+      "category": 4088,
+      "saleson": {
+        "stock_warehouse_14229": 64,
+        "committed_stock_warehouse_14229": 1,
+        "price_retail": null,
+        "price_distributors": null,
+        "price_dealer": 764,
+        "price_supermart": 631,
+        "present_in_tiers": [
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 507153,
+      "saleson_name": "MCS 12 INCH ANVI LONG TOWER",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 29,
+        "price_retail": 3642,
+        "price_distributors": 2640,
+        "price_dealer": 2904,
+        "price_supermart": 2400,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 514543,
+      "saleson_name": "16 INCH WINDSOR",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 2,
+        "committed_stock_warehouse_14229": 81,
+        "price_retail": null,
+        "price_distributors": 3960,
+        "price_dealer": 4356,
+        "price_supermart": 3600,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23968
+      },
+      "woocommerce": {
+        "name": "MCS 16\" Windsor Cooler",
+        "sku": "16 INCH WINDSOR",
+        "status": "publish",
+        "regular_price": "",
+        "sale_price": "",
+        "stock_quantity": 2,
+        "stock_status": "instock"
+      },
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 514544,
+      "saleson_name": "16 INCH SMARTY BEAST",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 58,
+        "price_retail": null,
+        "price_distributors": 3960,
+        "price_dealer": 4356,
+        "price_supermart": 3600,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23986
+      },
+      "woocommerce": {
+        "name": "MCS 16\" Smarty Beast Cooler",
+        "sku": "16 INCH SMARTY BEAST",
+        "status": "draft",
+        "regular_price": "",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 514545,
+      "saleson_name": "16 INCH ORA",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 63,
+        "price_retail": null,
+        "price_distributors": 3795,
+        "price_dealer": 4598,
+        "price_supermart": 3800,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 514546,
+      "saleson_name": "16 INCH COMMERCIAL BODY",
+      "category": "COOLER",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 37,
+        "price_retail": null,
+        "price_distributors": 4180,
+        "price_dealer": 4598,
+        "price_supermart": 3800,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 514547,
+      "saleson_name": "16 INCH ORA TOWER",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 81,
+        "price_retail": null,
+        "price_distributors": 4510,
+        "price_dealer": 4961,
+        "price_supermart": 4100,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23982
+      },
+      "woocommerce": {
+        "name": "MCS 16\" ORA Tower Cooler",
+        "sku": "16 INCH ORA TOWER",
+        "status": "publish",
+        "regular_price": "",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 514548,
+      "saleson_name": "16 INCH TURBO TOWER",
+      "category": 4102,
+      "saleson": {
+        "stock_warehouse_14229": 1,
+        "committed_stock_warehouse_14229": 95,
+        "price_retail": null,
+        "price_distributors": 4510,
+        "price_dealer": 4961,
+        "price_supermart": 4100,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 23980
+      },
+      "woocommerce": {
+        "name": "MCS 16\" Turbo Tower Cooler",
+        "sku": "16 INCH TURBO TOWER",
+        "status": "publish",
+        "regular_price": "",
+        "sale_price": "",
+        "stock_quantity": 1,
+        "stock_status": "instock"
+      },
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 526657,
+      "saleson_name": "PREMIUM MINI MOTOR",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 392,
+        "price_retail": 514,
+        "price_distributors": 371,
+        "price_dealer": 410,
+        "price_supermart": 360,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 526658,
+      "saleson_name": "PREMIUM BULLET MOTOR RING",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 189,
+        "price_retail": 514,
+        "price_distributors": 371,
+        "price_dealer": 410,
+        "price_supermart": 370,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "matched",
+        "is_curated": true,
+        "woo_product_id": 22919
+      },
+      "woocommerce": {
+        "name": "BULLET MOTOR",
+        "sku": "PREMIUM BULLET MOTOR RING",
+        "status": "draft",
+        "regular_price": "514.00",
+        "sale_price": "",
+        "stock_quantity": 0,
+        "stock_status": "outofstock"
+      },
+      "issues": []
+    },
+    {
+      "saleson_id": 526660,
+      "saleson_name": "PREMIUM BULLET MOTOR HANGER",
+      "category": 4025,
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 375,
+        "price_retail": 514,
+        "price_distributors": 371,
+        "price_dealer": 410,
+        "price_supermart": 370,
+        "present_in_tiers": [
+          "retail",
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": []
+    },
+    {
+      "saleson_id": 530926,
+      "saleson_name": "4G MOTOR REGULAR",
+      "category": "MOTOR",
+      "saleson": {
+        "stock_warehouse_14229": 0,
+        "committed_stock_warehouse_14229": 656,
+        "price_retail": null,
+        "price_distributors": 742,
+        "price_dealer": 779,
+        "price_supermart": 650,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 537802,
+      "saleson_name": "EXCEL 6 INCH ROUND",
+      "category": "EXHAUST FAN",
+      "saleson": {
+        "stock_warehouse_14229": 9,
+        "committed_stock_warehouse_14229": 399,
+        "price_retail": null,
+        "price_distributors": 403,
+        "price_dealer": 425,
+        "price_supermart": 380,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 543940,
+      "saleson_name": "EXCEL 4 INCH ROUND",
+      "category": "EXHAUST FAN",
+      "saleson": {
+        "stock_warehouse_14229": 64,
+        "committed_stock_warehouse_14229": 43,
+        "price_retail": null,
+        "price_distributors": null,
+        "price_dealer": null,
+        "price_supermart": null,
+        "present_in_tiers": []
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "no price in any of the 4 tiers - real gap"
+      ]
+    },
+    {
+      "saleson_id": 543957,
+      "saleson_name": "EXCEL 8 INCH ROUND",
+      "category": "EXHAUST FAN",
+      "saleson": {
+        "stock_warehouse_14229": 10,
+        "committed_stock_warehouse_14229": 173,
+        "price_retail": null,
+        "price_distributors": null,
+        "price_dealer": null,
+        "price_supermart": null,
+        "present_in_tiers": []
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "no price in any of the 4 tiers - real gap"
+      ]
+    },
+    {
+      "saleson_id": 546234,
+      "saleson_name": "BLDC WALL FAN 16 INCH 3 LEAF",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 18,
+        "committed_stock_warehouse_14229": 24,
+        "price_retail": null,
+        "price_distributors": 2014,
+        "price_dealer": 2215,
+        "price_supermart": 1900,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 546235,
+      "saleson_name": "BLDC WALL FAN 16 INCH 5 LEAF",
+      "category": "FAN",
+      "saleson": {
+        "stock_warehouse_14229": 20,
+        "committed_stock_warehouse_14229": 17,
+        "price_retail": null,
+        "price_distributors": 2120,
+        "price_dealer": 2332,
+        "price_supermart": 2000,
+        "present_in_tiers": [
+          "distributors",
+          "dealer",
+          "supermart"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    },
+    {
+      "saleson_id": 622232,
+      "saleson_name": "22\" Padestal Fan 4 FEET 4G BLADE (REGULAR)",
+      "category": 6356,
+      "saleson": {
+        "stock_warehouse_14229": 48,
+        "committed_stock_warehouse_14229": 0,
+        "price_retail": null,
+        "price_distributors": 1537,
+        "price_dealer": 1691,
+        "price_supermart": null,
+        "present_in_tiers": [
+          "distributors",
+          "dealer"
+        ]
+      },
+      "mapping": {
+        "status": "unmatched",
+        "is_curated": true,
+        "woo_product_id": null
+      },
+      "woocommerce": null,
+      "issues": [
+        "wholesale-only - no RETAIL price by design"
+      ]
+    }
+  ]
+}

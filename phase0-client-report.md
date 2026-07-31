@@ -30,7 +30,7 @@ We pulled your **entire real product catalog from both systems** — all 898 ite
 
 ### 4a. Urgent, separate issue found on the website itself
 
-**196 of your 344 website products (57%) are blank placeholder listings** — literally named `"Product"`, with no price, no description, no photo. They were all created in a single batch on 2026-06-30, and all of them are currently **live and shown as in-stock** to anyone browsing the "Electric Geyser" category. This has nothing to do with the SalesOn integration — it's a data-quality issue on the website as it stands today, and we'd recommend addressing it (deleting or unpublishing those 196 entries) regardless of when the SalesOn project proceeds, since it's affecting real visitors right now.
+**196 of your 344 website products (57%) are blank placeholder listings** — literally named `"Product"`, with no price, no description, no photo. They were all created in a single batch on 2026-06-30, and all of them are currently **live and shown as in-stock** to anyone browsing the "Electric Geyser" category. This has nothing to do with the SalesOn integration — it's a data-quality issue on the website as it stands today. Per your direction, we haven't touched or deleted anything — these are documented in the product-mapping spreadsheet (Blank Placeholder Products tab) for you to review and decide on in your own time.
 
 ### 4b. The reassuring finding: your catalogs likely match up far better than they first appeared to
 
@@ -46,7 +46,7 @@ The website consistently adds your `MCS` brand name and a descriptive word (Cool
 
 **What this means practically:** as planned from the start, matching each SalesOn item to its correct website product will need a short one-time human review (we'll build a simple side-by-side screen for this), rather than something that can be done invisibly by a computer. This was already the plan — this exercise just gave us solid, concrete proof of *why* that's the right call, instead of just assuming it.
 
-**One more useful thing we learned:** your SalesOn catalog is organized into ~42 categories, and it turns out you sell a much wider range of appliances through SalesOn than just fans/coolers/heaters/geysers — items like irons, kettles, mixers, induction cooktops, washing machines, and more all show up. We'll want your input on which of these categories should actually be offered for sale on the website (versus categories that are purely internal, like spare parts and raw materials) before we build the sync.
+**One more useful thing we learned:** your SalesOn catalog is organized into ~42 categories, and it turns out you sell a much wider range of appliances through SalesOn than just fans/coolers/heaters/geysers — items like irons, kettles, mixers, induction cooktops, washing machines, and more all show up. **Resolved**: we checked whether spare-parts-sounding categories should be excluded and found no real evidence to justify holding any of them back — some (like motors) are already genuinely sold on your site today. Per your direction: we're syncing your entire SalesOn catalog, all ~898 items, with no categories excluded.
 
 ### 4c. Final numbers, after teaching the matching to see through the naming difference
 
@@ -56,15 +56,11 @@ Once we accounted for the brand-prefix/wording pattern above, the real match cou
 - A meaningful chunk of SalesOn's fan/cooler/heater/AC items still don't have an obvious website match even with the improved comparison — this will get a closer manual look during the one-time matching step in the next phase, rather than us guessing now.
 - One honest caveat: the improved matching isn't perfect either — about 7% of its matches come from very short SalesOn names (like just `"KETTLE"` or `"CEILING FAN"`) that could, in principle, match the wrong specific model. This is exactly why we're building a human-confirmed matching screen rather than trusting any algorithm to do this silently — this exercise gave us solid proof that's the right call, not just a cautious assumption.
 
-## 5. Important finding: stock numbers and warehouses need your input
+## 5. Warehouse question — resolved
 
-While testing order creation, we found something that needs your team's operational knowledge to resolve — this isn't something we can figure out from the system alone.
+Your SalesOn account has 5 active warehouses. Our first round of testing (using a few spare-part items) made it look like the "primary" warehouse, HB Akeda Dungar, had no real stock at all — but that turned out to be because those specific test items happen to be manufacturing components kept at the Delhi warehouse, not because of any problem with HB Akeda Dungar itself. **Confirmed with you directly: HB Akeda Dungar is the single warehouse used for all sales orders, and it holds all your real, sellable stock** — if something's out of stock there, it's out of stock everywhere. We re-tested with a real finished product to confirm this, and it worked correctly. No further action needed here.
 
-Your SalesOn account has **5 active warehouses**: Seth Ji Ware House, Earth Industries (Delhi), HB Akeda Dungar (marked as your "primary" warehouse), JKM Enterprises, and Earth Industries (Jaipur). When we tried creating a test order without specifying which warehouse to draw stock from, it failed with "Insufficient Stock" — even for products that show plenty of stock in the general product list. Digging in, we found the warehouse marked "primary" doesn't actually hold real, ready-to-dispatch stock for what we tested — specifying the **Earth Industries (Delhi)** warehouse instead worked immediately.
-
-**What we need from you:** which of these 5 warehouses actually hold stock that should be available for online orders? If it's more than one, we'll need to know how stock is split between them, since the website will need to show accurate availability and every order needs to pull from the right place. This also means the general "stock" numbers shown in some parts of SalesOn may not be fully reliable indicators of what's truly available to sell — worth keeping in mind for any internal reporting too, not just this project.
-
-**One more related issue worth flagging directly to SalesOn support**: when an order is converted into a final tax invoice, the invoice always gets assigned to your "primary" warehouse (the one with no real stock), even when we explicitly told it to use a different, correct warehouse. This looks like a bug or limitation in SalesOn itself, not something we can work around from our side — worth asking them about directly, since it could also be quietly affecting their own stock records, not just our integration.
+**One related issue worth flagging directly to SalesOn support**: when an order is converted into a final tax invoice, the invoice always gets assigned to the "primary" warehouse regardless of what we tell it to use. Since the primary warehouse is the correct one anyway, this doesn't cause a practical problem for us — but it's still a real bug in SalesOn's system (ignoring an explicit instruction), worth mentioning to their support team.
 
 ## 6. Order status flow — confirmed, and better than we first thought
 

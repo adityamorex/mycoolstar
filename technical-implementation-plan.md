@@ -48,13 +48,56 @@ Run each of these from a standalone PHP/Postman script — never inside WordPres
 
 ---
 
-## Phase 1 — Foundational Plugin + Inventory Pull Sync (4–5 days)
+## Phase 1 — Foundational Plugin + Inventory & Pricing Pull Sync (revised estimate: 8–9 days, up from the original 4–5 — see timeline note at the end)
 
-- Build out the existing empty `wp-content/plugins/saleson-woo-sync/` scaffold: `saleson-woo-sync.php` bootstrap, `includes/class-saleson-api.php` (Bearer + company_id, retry/backoff per 0.5's finding), `includes/class-saleson-logger.php`, `admin/class-saleson-settings-page.php` (token, company_id, environment, cron interval, category whitelist). No changes to theme/frontend pages in this phase.
-- New table `wp_saleson_stock_cache` (saleson_product_id PK, name, product_code, category, brand, price, stock, last_synced_at), populated by a WP-Cron job pulling `rate-list` + `low-stock-summary` and joining on Saleson `Id`.
-- **Mapping key decision:** use Saleson's numeric `Id` as `_saleson_product_id` product meta on existing Woo products (always present); keep `Product Code` as a display-only `_saleson_product_code` field. Since there is no reliable auto-match against the ~300 existing live Woo products, build a one-time **Product Matcher admin screen** — unmapped Woo products vs. unmapped Saleson catalog rows, fuzzy-name-suggested, human-confirmed by click. Require this mapping picker on new-product creation going forward so the gap doesn't recur.
-- **Catalog curation:** category whitelist stored in plugin settings (auto-populated from cache, finished-goods categories pre-checked, spare-part/raw-material categories unchecked by default), applied at cache→Woo sync time, with a per-product override checkbox for exceptions — needed because Saleson's catalog mixes sellable finished goods with internal spare parts/raw materials.
-- Exit gate: existing live catalog's stock/price visibly track Saleson on a real cron cadence in staging, with every run logged to `wp_saleson_sync_logs`.
+### 1.0 Plugin scaffold & connection settings (Day 1)
+- Build out `wp-content/plugins/saleson-woo-sync/`: `saleson-woo-sync.php` bootstrap, activation hook running `dbDelta()` to create all Phase 1 tables (below) at once, `includes/class-saleson-api.php` (Bearer + company_id, retry/backoff on 5xx per 0.5's finding — and per the price-list spike, must never PATCH an id it isn't sure exists, since that crashes with a 500 rather than a clean error), `includes/class-saleson-logger.php`.
+- `admin/class-saleson-settings-page.php`: token, company_id (default 5249), cron interval (default 15 min), a **"Test Connection" button** (`GET reports/rate-list?page_size=1`, pass/fail), and a **read-only display of the confirmed warehouse** (HB Akeda Dungar, id 14229) — not an editable dropdown, since there's only one real warehouse. No category-whitelist field — removed from settings entirely, not just hidden, per the no-whitelist decision below.
+- No theme/frontend changes in this phase — admin-only surface area.
+
+### 1.1 Database tables (Day 1)
+- **`wp_saleson_stock_cache`** — saleson_product_id (PK), name, product_code, category/group_name, brand, stock, last_synced_at. Populated from `reports/low-stock-summary` + `reports/rate-list`, joined on Saleson `Id`.
+- **`wp_saleson_price_tiers`** — saleson_product_id, price_list_id, group_id, group_name, rate, last_synced_at (composite key on product + price_list). New versus the original plan — added because Phase 0 confirmed real per-product tiered pricing already exists in SalesOn (Groups + Price Lists) and the client wants it as the pricing source of truth, replacing the website's old hardcoded discount snippet. Populated by pulling all 4 real price lists (`GET products/price-list/1470` DISTRIBUTORS, `1471` RETAIL CUSTOMER, `1479` DEALER, `1480` SUPERMART). RETAIL CUSTOMER doubles as the base/public price for logged-out visitors; the other three are cached now purely so Phase 2 can do a lookup by the logged-in party's group with no extra live API call.
+- **`wp_saleson_product_map`** — saleson_product_id, woo_product_id (nullable), mapping_status (matched / unmatched / orphan / ignored), confidence, source, mapped_at. **Seeded directly from `phase0/SalesOn-WooCommerce-Product-Mapping-Review.xlsx`** — the 183 confirmed matches, 715 unmatched Saleson items, and 54 real Woo-only orphans import as starting rows rather than being re-discovered by the plugin. The 196 blank placeholder products import as `ignored`, per the decision to leave them alone.
+- **`wp_saleson_sync_logs`** — run_started_at, run_finished_at, endpoint, items_processed, error_count, status. Every cron run and manual re-sync writes here.
+
+### 1.2 Stock + price pull sync (Day 2–3)
+- WP-Cron job (15 min default) pulls `reports/low-stock-summary` + `reports/rate-list`, joins on Saleson `Id`, upserts `wp_saleson_stock_cache`; a separate pull upserts all 4 price lists into `wp_saleson_price_tiers`.
+- Stock is always read against the single confirmed warehouse (14229) — no per-warehouse branching needed anywhere in the sync logic.
+- Already-matched Woo products (the 183) get stock/price updated directly from the cache on every run.
+- A failed run logs the error to `wp_saleson_sync_logs` and surfaces on the settings page ("last sync: failed") rather than retrying silently forever or failing invisibly.
+
+### 1.3 Product Matcher admin screen (Day 3–4)
+Because `wp_saleson_product_map` is pre-seeded from the spreadsheet, this screen's job is narrower than matching from scratch:
+- **183 matched rows** — a quick human confirm/reject pass, one click each (a handful are known low-confidence, e.g. the generic "BULLET MOTOR" pairing already flagged) — not a re-match.
+- **715 unmatched Saleson items — DECIDED: Option B, on-demand only.** All 715 are fully synced in `wp_saleson_product_map`/`wp_saleson_stock_cache` (pricing/stock data present per the "no exclusions" decision), but **no WooCommerce product is created automatically for any of them.** The Matcher screen gets a per-row (and per-category-batch) **"Create as product"** action — only when staff deliberately click it does a real Draft WooCommerce product get created, pre-filled from the SalesOn data. This avoids force-listing spare parts/raw materials (windings, fittings, packing components) that were never meant to be individual storefront products, while keeping every one of the 898 fully priced/tracked internally either way.
+- **Image requirement on publish — soft reminder, not a hard block.** When staff try to Publish a product created this way (or any product without a featured image), show a clear warning, but allow override — per instruction, not enforced as a hard gate.
+- **54 Woo-only orphans** — left exactly as-is, no Saleson link forced onto them, matching the earlier decision to leave them for later.
+- New-product creation going forward requires picking (or explicitly skipping) a Saleson mapping, so this gap can't quietly reopen.
+
+### 1.4 Price write-back — staff-editable pricing pushed to SalesOn (Day 5)
+- Per the confirmed two-way pricing spike: a simple admin screen where staff edit a product's price for a given group/tier, calling the now-confirmed `POST products/price-list/{id}` with `_method: PATCH` to push the change into the correct real SalesOn price list (never a nonexistent id — the plugin always knows create vs. update explicitly, per the 500-on-nonexistent-id gotcha).
+- Genuinely new capability — nothing like it exists on the site today — but explicitly requested ("pricing should eventually be decided on the website, reflected in SalesOn too") and low-risk to build now since Phase 0 already proved the write path end-to-end (create → update → delete, tested and cleaned up).
+
+### 1.6 Brand-new product creation — website → SalesOn (Day 6)
+- Confirmed working live (created, verified, deleted): `POST products` (multipart form-data, unlike the rest of this API) creates a genuinely new SalesOn product — fields `state`, `unit`, `name`, `pp_with_gst`, `sp_with_gst`, `sell_price`, `warehouses[]` (JSON per entry: `warehouse_id`/`stock`/`rate`, always `warehouse_id: 14229`).
+- Staff use the normal WooCommerce "Add Product" screen (name, description, photo, base price) exactly as they do today — no new UI needed here, just a hook on save. On publish/save, the plugin (a) creates the product in SalesOn via the above call, storing the returned `saleson_product_id` as product meta, then (b) adds it into the relevant price list(s) via the same write-back mechanism from 1.4, since product creation alone only sets one base warehouse-level price, not tiered pricing.
+- Images are a WooCommerce-only concern — SalesOn has no image field, confirmed in Phase 0, so nothing is ever sent there.
+- This is the third and final write direction confirmed this phase (alongside price write-back): **website can now create products in SalesOn, not just receive them.**
+
+### 1.7 Testing & rollout (Day 7, spilling into Day 8–9 if needed)
+- No staging environment exists on this hosting tier — tested directly on production, per the earlier decision, with guardrails: fresh manual backup before the cron job is turned on for the first time; settings/matcher/price-editor/new-product screens are admin-only (nothing customer-facing changes yet); first few sync runs triggered manually and checked before the cron runs unattended.
+- **Exit gate**: the 183 known-matched products visibly track Saleson's real stock/price on a real cron cadence; all 4 price tiers are cached and correct for at least one spot-checked product; the Matcher screen's on-demand "create as product" action works end-to-end for at least one of the 715; a brand-new product created on the website shows up correctly in SalesOn (base price + at least one price-list tier); every run is visible in the sync log — verified directly on the live site, since there's no staging copy to check against instead.
+
+**Timeline note, said plainly rather than left unchallenged:** the original 4–5 day estimate for this phase predates Phase 0 surfacing the price-tier sync requirement, the price write-back screen, and website-side new-product creation. With all three folded in, **8–9 days** is the more honest number for this phase now — by the end of it, the website's backend will genuinely be able to create/price/track products against SalesOn, not just display synced data.
+
+## Scope boundary — which SalesOn modules move to the website (decided 2026-07-27)
+
+Client wants "every operation done in SalesOn" eventually doable from the website, with role-based staff access. Mapped SalesOn's full API surface (see full endpoint list captured during the Code Snippets/pricing audit) against what's practical:
+- **In scope, core to Phases 1–4**: Products/pricing (incl. Groups + Price Lists — create/update/delete all confirmed working), Parties/Customers, Orders→Invoices, Payments, Warehouses, Shipments/Trips.
+- **In scope, added**: **Users & Roles** (`roles`, `users`, `users/permissions`) — this is the real role-based permission system the client wants staff to use on the website. Agreed as scope, but **design deferred until a dedicated client discussion** — do not design this ahead of that conversation.
+- **Deferred, not this build**: Expenses, Targets, Regions/Routes/Cities.
+- **Out of scope**: Attendance, Production/BOM, Van Sales, low-churn reference data (Brands/Units/Taxes/Cess) — internal ERP/manufacturing/field-ops functions, not a fit for a sales website.
 
 ## Phase 2 — Customer/Party Sync + Dealer Auth (4 days)
 

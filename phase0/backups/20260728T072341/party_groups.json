@@ -1,0 +1,30 @@
+{
+  "status": "Success",
+  "groups": [
+    {
+      "name": "SUPERMART",
+      "id": 8445,
+      "price_list_id": null
+    },
+    {
+      "name": "DISTRIBUTORS",
+      "id": 8446,
+      "price_list_id": null
+    },
+    {
+      "name": "CUSTOMERS",
+      "id": 8448,
+      "price_list_id": null
+    },
+    {
+      "name": "DEALER",
+      "id": 8455,
+      "price_list_id": null
+    },
+    {
+      "name": "TEST",
+      "id": 11263,
+      "price_list_id": null
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+<?php
+/**
+ * Plugin Name: SalesOn WooCommerce Sync
+ * Description: Two-way sync between SalesOn ERP and this WooCommerce store - stock, pricing tiers, product mapping, and product creation.
+ * Version: 0.1.0
+ */
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+define( 'SALESON_WOO_SYNC_DIR', plugin_dir_path( __FILE__ ) );
+
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-api.php';
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-logger.php';
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-db.php';
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-stock-sync.php';
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-price-sync-pull.php';
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-map-importer.php';
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-price-writeback.php';
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-stock-writeback.php';
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-product-creator.php';
+require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-settings-page.php';
+require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-matcher-page.php';
+
+register_activation_hook( __FILE__, array( 'Saleson_DB', 'install' ) );
+
+register_deactivation_hook( __FILE__, function () {
+	wp_clear_scheduled_hook( 'saleson_woo_sync_cron' );
+} );
+
+add_action( 'plugins_loaded', function () {
+	Saleson_Settings_Page::init();
+	Saleson_Matcher_Page::init();
+	Saleson_Stock_Sync::init();
+	Saleson_Product_Creator::init();
+} );

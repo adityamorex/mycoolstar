@@ -49,7 +49,7 @@ Rather than promise a full feature set and discover partway through the build th
 
 **Key challenge:** SalesOn's product records mostly don't have a usable product code — only about 1 in 4 items in the sample export had one filled in. We'll instead map products using SalesOn's internal ID number, which every item does have. This does mean a one-time manual step: someone (from our side, with your input) needs to match each of your ~300 website products to the correct SalesOn item once. After that, new products get matched as they're added — it's a one-time setup cost, not an ongoing one.
 
-**Another challenge:** SalesOn's product list includes both finished goods (fans, coolers, heaters, geysers) and internal spare parts/raw materials (motors, windings, fittings). We'll build a simple settings screen so you can control which categories are allowed to show up on the website, so spare parts don't accidentally appear for sale.
+**Update:** we looked into whether spare-parts-sounding categories (motors, windings, fittings, etc.) should be held back from the website, and found no real evidence they should be — some, like motors, are already genuinely sold on your site today. Per your direction, we're syncing your full SalesOn catalog with no categories held back.
 
 **What changes for you:** nothing changes in how you use SalesOn day to day. The website will start showing real, current stock and prices instead of static content.
 
