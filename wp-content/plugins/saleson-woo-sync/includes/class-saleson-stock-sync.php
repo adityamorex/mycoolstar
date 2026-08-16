@@ -165,8 +165,28 @@ class Saleson_Stock_Sync {
 				$processed++;
 			}
 
+			// Real bug found 2026-08-05: SalesOn products with state = "DRAFT"
+			// (18 of the 220 curated items, confirmed) are silently absent from
+			// both reports/rate-list and reports/low-stock-summary, so the loop
+			// above never gives them a wp_saleson_stock_cache row at all - not a
+			// timing lag, a permanent gap, since push_to_matched_woo_products()
+			// below only pushes stock for rows that already have a cache entry
+			// (INNER JOIN). Pricing is unaffected (products/price-list/{id}
+			// doesn't filter by state), only stock. Close the gap by giving
+			// every curated product a cache row directly from the id catalog's
+			// own `stock` field (which DOES include DRAFT-state items), for any
+			// curated SalesOn id the rate-list loop above didn't already cover.
+			self::backfill_stock_cache_for_curated( $name_to_product, $cache_table, $now );
+
 			// Same cadence: price tiers, logged as its own run.
 			Saleson_Price_Sync_Pull::pull_all_tiers();
+
+			// Same cadence: party credit/balance refresh, logged as its own run.
+			Saleson_Party_Balance_Sync::run();
+
+			// Same cadence: mirror each submitted order's real SalesOn status
+			// onto its WooCommerce order, logged as its own run.
+			Saleson_Order_Status_Sync::run();
 
 			// Push the freshly-cached stock/price onto Woo products that are
 			// already matched, so the storefront reflects this run immediately.
@@ -287,6 +307,71 @@ class Saleson_Stock_Sync {
 	}
 
 	/**
+	 * Closes the DRAFT-state gap documented above: gives every curated
+	 * SalesOn product a wp_saleson_stock_cache row, even ones the main
+	 * rate-list loop never saw. Only touches curated ids missing from the
+	 * cache entirely - never overwrites a row the main loop just wrote this
+	 * run (that data is fresher/more complete, e.g. product_code from the
+	 * rate-list row itself).
+	 *
+	 * @param array  $name_to_product normalized-name => product array, from fetch_id_catalog()
+	 * @param string $cache_table     wp_saleson_stock_cache table name
+	 * @param string $now             current_time( 'mysql' ), shared with the main loop
+	 */
+	private static function backfill_stock_cache_for_curated( $name_to_product, $cache_table, $now ) {
+		global $wpdb;
+		$map_table = $wpdb->prefix . 'saleson_product_map';
+
+		$curated_ids = $wpdb->get_col( "SELECT DISTINCT saleson_product_id FROM {$map_table} WHERE is_curated = 1" );
+		if ( empty( $curated_ids ) ) {
+			return;
+		}
+
+		$id_to_product = array();
+		foreach ( $name_to_product as $product ) {
+			if ( ! empty( $product['id'] ) ) {
+				$id_to_product[ (int) $product['id'] ] = $product;
+			}
+		}
+
+		foreach ( $curated_ids as $saleson_id ) {
+			$saleson_id = (int) $saleson_id;
+
+			$already_cached = $wpdb->get_var(
+				$wpdb->prepare( "SELECT saleson_product_id FROM {$cache_table} WHERE saleson_product_id = %d AND last_synced_at = %s", $saleson_id, $now )
+			);
+			if ( $already_cached ) {
+				continue; // main loop already gave this one a fresh row this run
+			}
+
+			$product = isset( $id_to_product[ $saleson_id ] ) ? $id_to_product[ $saleson_id ] : null;
+			if ( ! $product ) {
+				continue; // not in SalesOn's catalog at all - nothing to backfill
+			}
+
+			$stock      = isset( $product['stock'] ) ? (int) round( (float) $product['stock'] ) : 0;
+			$group_name = isset( $product['group_id'] ) && $product['group_id'] !== '' ? (string) $product['group_id'] : null;
+			$brand      = isset( $product['brand_id'] ) && $product['brand_id'] !== '' ? (string) $product['brand_id'] : null;
+			$sell_price = isset( $product['sell_price'] ) && $product['sell_price'] !== '' ? (float) $product['sell_price'] : null;
+
+			$wpdb->replace(
+				$cache_table,
+				array(
+					'saleson_product_id' => $saleson_id,
+					'name'               => sanitize_text_field( isset( $product['name'] ) ? $product['name'] : '' ),
+					'product_code'       => ! empty( $product['product_code'] ) ? sanitize_text_field( $product['product_code'] ) : null,
+					'group_name'         => $group_name ? sanitize_text_field( $group_name ) : null,
+					'brand'              => $brand ? sanitize_text_field( $brand ) : null,
+					'stock'              => $stock,
+					'sell_price'         => $sell_price,
+					'last_synced_at'     => $now,
+				),
+				array( '%d', '%s', '%s', '%s', '%s', '%d', '%f', '%s' )
+			);
+		}
+	}
+
+	/**
 	 * For every already-matched product_map row, push the cached stock and
 	 * the RETAIL CUSTOMER (price list 1471) rate onto the linked WooCommerce
 	 * product. Never fatals if WooCommerce isn't active or a product 404s.
@@ -338,6 +423,20 @@ class Saleson_Stock_Sync {
 			$product = wc_get_product( $woo_id );
 			if ( ! $product ) {
 				continue;
+			}
+
+			// Real bug found 2026-08-05: wc_update_product_stock() only updates
+			// the _stock quantity - it does NOT turn stock management on for a
+			// product that never had it enabled (confirmed live: several
+			// bulk-created products, whose stock was unknown at creation time
+			// because of the DRAFT-state cache gap above, ended up with
+			// manage_stock=false forever, showing a generic "In Stock" label
+			// with no real quantity and no cart-quantity enforcement, even
+			// after this push ran). Explicitly enable it first.
+			if ( ! $product->get_manage_stock() ) {
+				$product->set_manage_stock( true );
+				$product->save();
+				$product = wc_get_product( $woo_id ); // reload after the save
 			}
 
 			wc_update_product_stock( $product, (int) $row['stock'], 'set' );

@@ -57,6 +57,38 @@ class Saleson_DB {
 			KEY is_curated (is_curated)
 		) {$charset_collate};";
 
+		// Phase 2: mirrors saleson_product_map's shape for parties (SalesOn's term
+		// for customers/dealers) - same reconciliation pattern (matched/unmatched/
+		// excluded), same "review before creating anything" discipline that saved
+		// us from a lot of duplicate-creation risk on the product side.
+		$sql[] = "CREATE TABLE {$p}saleson_party_map (
+			saleson_party_id BIGINT UNSIGNED NOT NULL,
+			saleson_name VARCHAR(255) DEFAULT NULL,
+			mobile VARCHAR(20) DEFAULT NULL,
+			saleson_email VARCHAR(255) DEFAULT NULL,
+			gstin VARCHAR(30) DEFAULT NULL,
+			billing_address TEXT DEFAULT NULL,
+			party_type VARCHAR(30) DEFAULT NULL,
+			group_name VARCHAR(50) DEFAULT NULL,
+			customer_type VARCHAR(50) DEFAULT NULL,
+			credit_limit DECIMAL(12,2) DEFAULT NULL,
+			credit_period INT DEFAULT NULL,
+			amount_balance DECIMAL(12,2) DEFAULT NULL,
+			woo_user_id BIGINT UNSIGNED DEFAULT NULL,
+			woo_login_email VARCHAR(255) DEFAULT NULL,
+			is_placeholder_email TINYINT(1) NOT NULL DEFAULT 0,
+			generated_password VARCHAR(50) DEFAULT NULL,
+			mapping_status VARCHAR(20) NOT NULL DEFAULT 'unmatched',
+			exclude_reason VARCHAR(100) DEFAULT NULL,
+			source VARCHAR(50) DEFAULT NULL,
+			mapped_at DATETIME DEFAULT NULL,
+			last_synced_at DATETIME DEFAULT NULL,
+			PRIMARY KEY (saleson_party_id),
+			KEY woo_user_id (woo_user_id),
+			KEY mapping_status (mapping_status),
+			KEY group_name (group_name)
+		) {$charset_collate};";
+
 		$sql[] = "CREATE TABLE {$p}saleson_sync_logs (
 			id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 			run_started_at DATETIME NOT NULL,

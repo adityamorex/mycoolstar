@@ -28,6 +28,8 @@ class Saleson_Matcher_Page {
 		add_action( 'admin_post_saleson_matcher_confirm', array( __CLASS__, 'handle_confirm' ) );
 		add_action( 'admin_post_saleson_matcher_reject', array( __CLASS__, 'handle_reject' ) );
 		add_action( 'admin_post_saleson_matcher_create_product', array( __CLASS__, 'handle_create_product' ) );
+		add_action( 'admin_post_saleson_matcher_bulk_create_products', array( __CLASS__, 'handle_bulk_create_products' ) );
+		add_action( 'admin_post_saleson_finalize_publish_remaining', array( __CLASS__, 'handle_finalize_publish_remaining' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'render_admin_notices' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'render_curated_notices' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'render_new_product_reminder' ) );
@@ -553,6 +555,232 @@ class Saleson_Matcher_Page {
 	}
 
 	/**
+	 * Bulk version of handle_create_product() - creates a draft product for
+	 * EVERY currently curated+unmatched row in one pass, rather than one at a
+	 * time. Safe to run in bulk specifically because create_product_for()
+	 * already checks for an existing linked WooCommerce product before
+	 * creating anything (see the duplicate-creation guard below) - so this
+	 * can't accidentally create a second copy of something that already has a
+	 * home. Intended for the case where every remaining row genuinely has no
+	 * WooCommerce presence at all and the only real bottleneck left is adding
+	 * photos, not reviewing each row individually.
+	 */
+	public static function handle_bulk_create_products() {
+		check_admin_referer( 'saleson_bulk_create_products' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to do this.', 'saleson-woo-sync' ) );
+		}
+
+		global $wpdb;
+		$table = $wpdb->prefix . 'saleson_product_map';
+		$ids   = $wpdb->get_col( "SELECT saleson_product_id FROM {$table} WHERE mapping_status = 'unmatched' AND is_curated = 1" );
+
+		$created = array();
+		$failed  = 0;
+		foreach ( $ids as $saleson_id ) {
+			$new_id = self::create_product_for( (int) $saleson_id );
+			if ( $new_id ) {
+				$created[] = $new_id;
+			} else {
+				$failed++;
+			}
+		}
+
+		set_transient( 'saleson_bulk_create_notice_' . get_current_user_id(), array(
+			'created' => count( $created ),
+			'failed'  => $failed,
+			'ids'     => $created,
+		), 60 );
+
+		self::redirect_back( array( 'tab' => 'unmatched' ) );
+	}
+
+	/**
+	 * Client decision 2026-08-05: publish all 220 curated products now rather
+	 * than waiting for photos/descriptions - those get added later. This
+	 * covers the 104 that were still Draft: 62 relinked to pre-existing blank
+	 * placeholder posts (still carrying a generic "Product" title and a stale
+	 * "ELECTRIC GEYSER" category left over from years ago) and 42 created by
+	 * the bulk-create tool (already had a real name, but ~18 of them inherited
+	 * a wrong category from stale spreadsheet data). Fixes name + category
+	 * where confidently known, then publishes. Two items (SILENCER 18 INCH,
+	 * Accessories) have no confident category match and are left as-is on
+	 * that front - still published, just not category-corrected.
+	 *
+	 * @return int[] array of woo_product_ids actually published, for the notice.
+	 */
+	private static function finalize_and_publish_ids() {
+		$names = array(
+			24341 => 'VENTO 10" 250MM',
+			24342 => 'TOWER BLADE 16 inch RIGHT CW PKG20',
+			24343 => 'TOWER BLADE 16 inch LEFT ACW PKG20',
+			24344 => 'SUN HEATER 12 INCH',
+			24345 => 'SILENCER 18 INCH',
+			24346 => 'PVC FAN HEATER MOVING',
+			24347 => 'PREMIUM MINI MOTOR',
+			24348 => 'PREMIUM BULLET MOTOR HANGER',
+			24349 => 'POWER SURE (KOHINOOR) AL CEILING FAN 48" WHITE/IVORY',
+			24350 => 'POWER SURE (KOHINOOR) AL CEILING FAN 48" MAT BLACK',
+			24351 => 'POWER SURE (KOHINOOR) AL CEILING FAN 48" BROWN',
+			24352 => 'MINI MOTOR CRC',
+			24353 => 'MCS PUMP 12W',
+			24354 => 'MCS JUMBO SWING COOLER',
+			24355 => 'MCS INDUCTION INFRARED 2000W',
+			24356 => 'MCS CHAMPION PRO COOLER',
+			24357 => 'MCS 22" THAR COMMERCIAL COOLER',
+			24358 => 'MCS 12 INCH DHRUV TOWER',
+			24359 => 'MAC3 HEATER MOVING',
+			24360 => 'Kauva Blade ACW LEFT',
+			24361 => 'KAUVA BLADE CW RIGHT',
+			24362 => 'JUICOMATIC JMG',
+			24363 => 'IRIS PLUS MIXER GRINDER',
+			24364 => 'GEYSER 5 LTR ABS BODY',
+			24365 => 'GEC COPPER MOTOR 18 INCH WITH FRAME',
+			24366 => 'FRESH AIR 9 INCH  PVC',
+			24367 => 'EXCEL 8 INCH ROUND',
+			24368 => 'EXCEL 6 INCH ROUND',
+			24369 => 'EXCEL 4 INCH ROUND',
+			24370 => 'D10 QUARTZ HEATER 2 ROD',
+			24371 => 'CO1004 - 2/3 SPEED',
+			24372 => 'Bullet Blade  3 Par PKG 60 PCS',
+			24373 => 'BULLET FAN 3 BLADE PVC',
+			24374 => 'BT MODEL PVC BLOWER HEATER',
+			24375 => 'BLDC WALL FAN 16 INCH 5 LEAF',
+			24376 => 'BLDC WALL FAN 16 INCH 3 LEAF',
+			24377 => 'BLADE YOYO',
+			24378 => 'BLADE WALL FAN  16 INCH',
+			24379 => 'Accessories',
+			24380 => 'AP BLADE 12 INCH pkg 45 pcs',
+			24381 => 'AL18125 AL EXHAUST MOTOR 18 INCH 1.25 INCH PKG 6 PC',
+			24382 => 'AL1001 MOTOR 8 SUT 1 SEASON PACKING 12 PCS',
+			24383 => 'AL0751 MOTOR 6 SUT 1 SEASON PACKING 12 PCS',
+			24384 => '9 inch Blade 5 Par',
+			24385 => '4G MOTOR REGULAR',
+			24386 => '4G 18 INCH LEFT Exhaust Blade anti clock wise',
+			24387 => '4G 16 INCH RIGHT Exhaust Blade clock wise',
+			24388 => '48" COPPER o2 IVORY CEILING FAN',
+			24389 => '48" AL O2 MODEL SMOKE BROWN CEILING FAN',
+			24390 => '48" AL O2 MODEL BROWN CEILING FAN',
+			24391 => '48" AL O2 IVORY CEILING FAN',
+			24393 => '22" Padestal Fan 4 FEET 4G BLADE (REGULAR)',
+			24394 => '20" PADESTAL FAN 3 PAR 4 FEET',
+			24395 => '20 INCH 5 PAR PUNJABI FARATA',
+			24396 => '18 inch blade 5 par LIGHT PKG50',
+			24397 => '18 inch blade 5 par HEAVY PKG24',
+			24398 => '16 inch blade 5 par HEAVY',
+			24399 => '15 INCH EXHAUST FRAME SET',
+			24400 => '12 inch Blade 5 par PKG 50',
+			24401 => '1" Bullet Motor RING PACKING 20 PCS',
+			24402 => '1" BULLET MOTOR HANGER PACKING 20 PCS',
+			24482 => 'MCS MINI CHILLER COOLER',
+		);
+
+		// term_id per real WooCommerce category (fetched live 2026-08-05 - see
+		// phase0/phase1-key-findings-and-decisions.md for the category audit).
+		$categories = array(
+			24344 => 196, 24346 => 196, 24347 => 195, 24348 => 197, 24349 => 198,
+			24350 => 198, 24351 => 198, 24352 => 195, 24353 => 194, 24354 => 201,
+			24355 => 203, 24356 => 201, 24357 => 201, 24359 => 196, 24362 => 205,
+			24363 => 205, 24364 => 131, 24365 => 195, 24366 => 199, 24370 => 196,
+			24372 => 197, 24373 => 197, 24374 => 196, 24375 => 200, 24376 => 200,
+			24378 => 200, 24380 => 219, 24381 => 459, 24382 => 195, 24383 => 195,
+			24385 => 195, 24386 => 459, 24387 => 459, 24388 => 198, 24389 => 198,
+			24390 => 198, 24391 => 198, 24393 => 197, 24394 => 197, 24399 => 459,
+			24401 => 197, 24402 => 197, 24482 => 201, 24341 => 199, 24342 => 463,
+			24343 => 463, 24358 => 201, 24360 => 463, 24361 => 463, 24367 => 463,
+			24368 => 463, 24369 => 463, 24371 => 195, 24377 => 463, 24384 => 463,
+			24395 => 463, 24396 => 463, 24397 => 463, 24398 => 463, 24400 => 463,
+			24513 => 201, 24514 => 201, 24520 => 201, 24527 => 201, 24494 => 197,
+			24495 => 197, 24498 => 202, 24499 => 202, 24500 => 202, 24501 => 202,
+			24502 => 202, 24503 => 202, 24504 => 202, 24493 => 219, 24510 => 219,
+			24515 => 203, 24516 => 203, 24517 => 226,
+		);
+
+		global $wpdb;
+		$table = $wpdb->prefix . 'saleson_product_map';
+		$curated_matched_ids = $wpdb->get_col( "SELECT woo_product_id FROM {$table} WHERE is_curated = 1 AND mapping_status = 'matched' AND woo_product_id IS NOT NULL" );
+
+		$published = array();
+		foreach ( $curated_matched_ids as $woo_id ) {
+			$woo_id  = (int) $woo_id;
+			$product = wc_get_product( $woo_id );
+			if ( ! $product || $product->is_type( 'variation' ) ) {
+				continue; // variations publish via their parent, never directly
+			}
+			if ( 'publish' === $product->get_status() ) {
+				continue; // already live, nothing to do
+			}
+
+			if ( isset( $names[ $woo_id ] ) ) {
+				$product->set_name( $names[ $woo_id ] );
+			}
+			if ( isset( $categories[ $woo_id ] ) ) {
+				wp_set_object_terms( $woo_id, array( $categories[ $woo_id ] ), 'product_cat', false );
+			}
+			$product->set_status( 'publish' );
+			$product->save();
+			$published[] = $woo_id;
+		}
+
+		return $published;
+	}
+
+	public static function handle_finalize_publish_remaining() {
+		check_admin_referer( 'saleson_finalize_publish_remaining' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to do this.', 'saleson-woo-sync' ) );
+		}
+
+		$published = self::finalize_and_publish_ids();
+
+		set_transient( 'saleson_finalize_publish_notice_' . get_current_user_id(), array(
+			'count' => count( $published ),
+		), 60 );
+
+		self::redirect_back( array( 'tab' => 'matched' ) );
+	}
+
+	private static function render_finalize_publish_tool() {
+		global $wpdb;
+		$table = $wpdb->prefix . 'saleson_product_map';
+
+		$still_draft = 0;
+		$curated_matched_ids = $wpdb->get_col( "SELECT woo_product_id FROM {$table} WHERE is_curated = 1 AND mapping_status = 'matched' AND woo_product_id IS NOT NULL" );
+		foreach ( $curated_matched_ids as $woo_id ) {
+			$product = wc_get_product( (int) $woo_id );
+			if ( $product && ! $product->is_type( 'variation' ) && 'publish' !== $product->get_status() ) {
+				$still_draft++;
+			}
+		}
+
+		$notice = get_transient( 'saleson_finalize_publish_notice_' . get_current_user_id() );
+		if ( $notice ) {
+			delete_transient( 'saleson_finalize_publish_notice_' . get_current_user_id() );
+			printf(
+				'<div class="notice notice-success"><p>%s</p></div>',
+				esc_html( sprintf(
+					/* translators: %d: count published */
+					__( 'Published %d products (names and categories corrected where known). Photos and descriptions still need to be added by the client.', 'saleson-woo-sync' ),
+					$notice['count']
+				) )
+			);
+		}
+
+		if ( 0 === $still_draft ) {
+			return;
+		}
+		?>
+		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin: 1em 0;"
+			onsubmit="return confirm('<?php echo esc_js( sprintf( __( 'This publishes all %d remaining curated products now. Names and categories are corrected where known first; a couple of items with no confident category match will publish with their existing category unchanged. Photos and descriptions are NOT added by this - the client will add those later. Continue?', 'saleson-woo-sync' ), $still_draft ) ); ?>');">
+			<?php wp_nonce_field( 'saleson_finalize_publish_remaining' ); ?>
+			<input type="hidden" name="action" value="saleson_finalize_publish_remaining" />
+			<?php submit_button( sprintf( __( 'Publish all %d remaining curated products now (photos/descriptions added later)', 'saleson-woo-sync' ), $still_draft ), 'primary', 'submit', false ); ?>
+			<p class="description"><?php esc_html_e( 'Fixes product name (for the still-blank "Product" listings) and category (where confidently known) before publishing. Does not add photos or descriptions.', 'saleson-woo-sync' ); ?></p>
+		</form>
+		<?php
+	}
+
+	/**
 	 * Creates a single draft WooCommerce product for one 'unmatched' mapping row.
 	 * On-demand only - called for exactly the one row the reviewer clicked, never
 	 * in bulk or automatically. Returns the new Woo product id, or null on failure.
@@ -857,6 +1085,7 @@ class Saleson_Matcher_Page {
 				<p class="description"><?php esc_html_e( 'Safe to re-run whenever the client sends an updated curated file - it always reflects the file exactly (unlike the spreadsheet import, this one resets is_curated on every run).', 'saleson-woo-sync' ); ?></p>
 			</form>
 			<?php self::render_non_curated_matched_tool(); ?>
+			<?php self::render_finalize_publish_tool(); ?>
 
 			<h2 class="nav-tab-wrapper">
 				<?php foreach ( $tabs as $slug => $label ) : ?>
@@ -1027,7 +1256,29 @@ class Saleson_Matcher_Page {
 		$rows_sql    = "SELECT * FROM {$table} WHERE {$where} ORDER BY category ASC, saleson_name ASC LIMIT %d OFFSET %d";
 		$rows_params = array_merge( $params, array( self::PER_PAGE, $offset ) );
 		$rows        = $wpdb->get_results( $wpdb->prepare( $rows_sql, $rows_params ) );
+
+		$bulk_notice = get_transient( 'saleson_bulk_create_notice_' . get_current_user_id() );
+		if ( $bulk_notice ) {
+			delete_transient( 'saleson_bulk_create_notice_' . get_current_user_id() );
+			printf(
+				'<div class="notice notice-success"><p>%s</p></div>',
+				esc_html( sprintf(
+					/* translators: 1: created count, 2: failed count */
+					__( 'Bulk create finished: %1$d draft products created, %2$d failed. Each still needs a photo added and publishing.', 'saleson-woo-sync' ),
+					$bulk_notice['created'], $bulk_notice['failed']
+				) )
+			);
+		}
 		?>
+		<?php if ( $total > 0 ) : ?>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin: 1em 0;"
+				onsubmit="return confirm('<?php echo esc_js( sprintf( __( 'This creates %d new draft WooCommerce products at once, one per remaining curated item that has no website presence at all. Safe to run - it will never touch a row that already has an existing product. Each new draft still needs a photo added before publishing. Continue?', 'saleson-woo-sync' ), $total ) ); ?>');">
+				<?php wp_nonce_field( 'saleson_bulk_create_products' ); ?>
+				<input type="hidden" name="action" value="saleson_matcher_bulk_create_products" />
+				<?php submit_button( sprintf( __( 'Bulk create all %d remaining as draft products', 'saleson-woo-sync' ), $total ), 'primary', 'submit', false ); ?>
+				<p class="description"><?php esc_html_e( 'Creates every remaining row as a draft product in one pass (only rows with no existing WooCommerce product get created - anything already linked is skipped automatically). You still need to add a photo and publish each one afterward.', 'saleson-woo-sync' ); ?></p>
+			</form>
+		<?php endif; ?>
 		<form method="get" style="margin:1em 0;">
 			<input type="hidden" name="page" value="<?php echo esc_attr( self::PAGE_SLUG ); ?>" />
 			<input type="hidden" name="tab" value="unmatched" />
