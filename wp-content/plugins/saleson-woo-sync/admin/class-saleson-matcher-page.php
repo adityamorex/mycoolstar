@@ -36,25 +36,14 @@ class Saleson_Matcher_Page {
 	}
 
 	public static function register_menu() {
-		if ( class_exists( 'WooCommerce' ) ) {
-			add_submenu_page(
-				'woocommerce',
-				__( 'SalesOn Matcher', 'saleson-woo-sync' ),
-				__( 'SalesOn Matcher', 'saleson-woo-sync' ),
-				'manage_options',
-				self::PAGE_SLUG,
-				array( __CLASS__, 'render_page' )
-			);
-		} else {
-			add_menu_page(
-				__( 'SalesOn Matcher', 'saleson-woo-sync' ),
-				__( 'SalesOn Matcher', 'saleson-woo-sync' ),
-				'manage_options',
-				self::PAGE_SLUG,
-				array( __CLASS__, 'render_page' ),
-				'dashicons-randomize'
-			);
-		}
+		add_submenu_page(
+			Saleson_Admin_Menu::PARENT_SLUG,
+			__( 'Matcher (advanced)', 'saleson-woo-sync' ),
+			__( 'Matcher (advanced)', 'saleson-woo-sync' ),
+			'manage_options',
+			self::PAGE_SLUG,
+			array( __CLASS__, 'render_page' )
+		);
 	}
 
 	// --- Action handlers --------------------------------------------------------

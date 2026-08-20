@@ -30,8 +30,10 @@ class Saleson_Products_Page {
 	}
 
 	public static function register_menu() {
+		// Same slug as the parent menu, which renames the auto-created first
+		// entry rather than adding a duplicate "SalesOn > SalesOn" row.
 		add_submenu_page(
-			'woocommerce',
+			Saleson_Admin_Menu::PARENT_SLUG,
 			__( 'Products', 'saleson-woo-sync' ),
 			__( 'Products', 'saleson-woo-sync' ),
 			'manage_woocommerce',

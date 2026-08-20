@@ -29,25 +29,14 @@ class Saleson_Settings_Page {
 	 * page is still reachable on setups where WooCommerce hasn't loaded yet.
 	 */
 	public static function register_menu() {
-		if ( class_exists( 'WooCommerce' ) ) {
-			add_submenu_page(
-				'woocommerce',
-				__( 'SalesOn Sync', 'saleson-woo-sync' ),
-				__( 'SalesOn Sync', 'saleson-woo-sync' ),
-				'manage_options',
-				self::PAGE_SLUG,
-				array( __CLASS__, 'render_page' )
-			);
-		} else {
-			add_menu_page(
-				__( 'SalesOn Sync', 'saleson-woo-sync' ),
-				__( 'SalesOn Sync', 'saleson-woo-sync' ),
-				'manage_options',
-				self::PAGE_SLUG,
-				array( __CLASS__, 'render_page' ),
-				'dashicons-update'
-			);
-		}
+		add_submenu_page(
+			Saleson_Admin_Menu::PARENT_SLUG,
+			__( 'Sync Status', 'saleson-woo-sync' ),
+			__( 'Sync Status', 'saleson-woo-sync' ),
+			'manage_options',
+			self::PAGE_SLUG,
+			array( __CLASS__, 'render_page' )
+		);
 	}
 
 	public static function register_settings() {

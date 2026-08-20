@@ -123,25 +123,14 @@ class Saleson_Stock_Writeback {
 	// --- Admin screen: "SalesOn Stock" ----------------------------------------
 
 	public static function register_menu() {
-		if ( class_exists( 'WooCommerce' ) ) {
-			add_submenu_page(
-				'woocommerce',
-				__( 'SalesOn Stock', 'saleson-woo-sync' ),
-				__( 'SalesOn Stock', 'saleson-woo-sync' ),
-				'manage_woocommerce',
-				self::PAGE_SLUG,
-				array( __CLASS__, 'render_page' )
-			);
-		} else {
-			add_menu_page(
-				__( 'SalesOn Stock', 'saleson-woo-sync' ),
-				__( 'SalesOn Stock', 'saleson-woo-sync' ),
-				'manage_woocommerce',
-				self::PAGE_SLUG,
-				array( __CLASS__, 'render_page' ),
-				'dashicons-archive'
-			);
-		}
+		add_submenu_page(
+			Saleson_Admin_Menu::PARENT_SLUG,
+			__( 'Stock', 'saleson-woo-sync' ),
+			__( 'Stock', 'saleson-woo-sync' ),
+			'manage_woocommerce',
+			self::PAGE_SLUG,
+			array( __CLASS__, 'render_page' )
+		);
 	}
 
 	public static function handle_form_submit() {

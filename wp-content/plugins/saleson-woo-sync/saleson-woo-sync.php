@@ -23,6 +23,8 @@ require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-party-balance-sync.p
 require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-order-submitter.php';
 require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-order-status-sync.php';
 require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-product-importer.php';
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-party-creator.php';
+require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-admin-menu.php';
 require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-settings-page.php';
 require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-matcher-page.php';
 require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-party-matcher-page.php';
@@ -35,10 +37,13 @@ register_deactivation_hook( __FILE__, function () {
 } );
 
 add_action( 'plugins_loaded', function () {
-	Saleson_Settings_Page::init();
+	// Parent menu first (registers at admin_menu priority 9) so every screen
+	// below has something to attach to.
+	Saleson_Admin_Menu::init();
 	Saleson_Products_Page::init();
-	Saleson_Matcher_Page::init();
 	Saleson_Party_Matcher_Page::init();
+	Saleson_Settings_Page::init();
+	Saleson_Matcher_Page::init();
 	Saleson_Stock_Sync::init();
 	Saleson_Product_Creator::init();
 	Saleson_Order_Submitter::init();

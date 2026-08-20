@@ -36,9 +36,25 @@ class Saleson_Order_Submitter {
 		}
 
 		$party_id = self::resolve_party_id( $order );
+
+		// No SalesOn party yet (a new website signup, or a guest checkout) -
+		// create one, so every order reaches SalesOn rather than being skipped.
 		if ( ! $party_id ) {
-			$order->add_order_note( __( 'Not synced to SalesOn: no matching SalesOn party found for this customer yet. Party auto-creation is not built yet - link this customer manually in SalesOn, or wait for that feature, then resubmit.', 'saleson-woo-sync' ) );
-			return;
+			$created = Saleson_Party_Creator::create_from_order( $order );
+			if ( empty( $created['ok'] ) ) {
+				$order->add_order_note( sprintf(
+					/* translators: %s: error detail */
+					__( 'Not synced to SalesOn: could not create a customer record for this order (%s). Add the customer in SalesOn manually, then resubmit.', 'saleson-woo-sync' ),
+					$created['error']
+				) );
+				return;
+			}
+			$party_id = $created['saleson_party_id'];
+			$order->add_order_note( sprintf(
+				/* translators: %d: SalesOn party id */
+				__( 'Created a new customer record in SalesOn (party #%d) for this order.', 'saleson-woo-sync' ),
+				$party_id
+			) );
 		}
 
 		$products = self::build_line_items( $order );

@@ -20,9 +20,9 @@ class Saleson_Party_Matcher_Page {
 
 	public static function register_menu() {
 		add_submenu_page(
-			'woocommerce',
-			__( 'SalesOn Parties', 'saleson-woo-sync' ),
-			__( 'SalesOn Parties', 'saleson-woo-sync' ),
+			Saleson_Admin_Menu::PARENT_SLUG,
+			__( 'Customers', 'saleson-woo-sync' ),
+			__( 'Customers', 'saleson-woo-sync' ),
 			'manage_options',
 			self::PAGE_SLUG,
 			array( __CLASS__, 'render_page' )
