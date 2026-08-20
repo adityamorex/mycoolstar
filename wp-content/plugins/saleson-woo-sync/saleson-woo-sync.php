@@ -22,9 +22,11 @@ require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-party-account-creato
 require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-party-balance-sync.php';
 require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-order-submitter.php';
 require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-order-status-sync.php';
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-product-importer.php';
 require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-settings-page.php';
 require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-matcher-page.php';
 require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-party-matcher-page.php';
+require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-products-page.php';
 
 register_activation_hook( __FILE__, array( 'Saleson_DB', 'install' ) );
 
@@ -34,6 +36,7 @@ register_deactivation_hook( __FILE__, function () {
 
 add_action( 'plugins_loaded', function () {
 	Saleson_Settings_Page::init();
+	Saleson_Products_Page::init();
 	Saleson_Matcher_Page::init();
 	Saleson_Party_Matcher_Page::init();
 	Saleson_Stock_Sync::init();

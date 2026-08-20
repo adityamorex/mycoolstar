@@ -99,13 +99,16 @@ class Saleson_Stock_Writeback {
 			array( '%d' )
 		);
 
-		// Mirror onto the linked WooCommerce product too, if matched and
-		// curated, so the change is visible on the storefront immediately
-		// rather than waiting for the next 15-minute cron tick.
+		// Mirror onto the linked WooCommerce product too, so the change is
+		// visible on the storefront immediately rather than waiting for the
+		// next cron tick. Gate widened 2026-08-20 from `is_curated = 1` to
+		// simply "linked" - staff pushing stock from this screen expect it to
+		// land on the website regardless of whether the product happened to be
+		// in the original Phase 1 curated list.
 		$map_table = $wpdb->prefix . 'saleson_product_map';
 		$row       = $wpdb->get_row(
 			$wpdb->prepare(
-				"SELECT woo_product_id FROM {$map_table} WHERE saleson_product_id = %d AND mapping_status = 'matched' AND is_curated = 1 AND woo_product_id IS NOT NULL",
+				"SELECT woo_product_id FROM {$map_table} WHERE saleson_product_id = %d AND mapping_status = 'matched' AND woo_product_id IS NOT NULL",
 				$saleson_product_id
 			)
 		);

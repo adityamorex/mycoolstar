@@ -176,7 +176,7 @@ class Saleson_Stock_Sync {
 			// every curated product a cache row directly from the id catalog's
 			// own `stock` field (which DOES include DRAFT-state items), for any
 			// curated SalesOn id the rate-list loop above didn't already cover.
-			self::backfill_stock_cache_for_curated( $name_to_product, $cache_table, $now );
+			self::backfill_stock_cache_for_linked( $name_to_product, $cache_table, $now );
 
 			// Same cadence: price tiers, logged as its own run.
 			Saleson_Price_Sync_Pull::pull_all_tiers();
@@ -187,6 +187,12 @@ class Saleson_Stock_Sync {
 			// Same cadence: mirror each submitted order's real SalesOn status
 			// onto its WooCommerce order, logged as its own run.
 			Saleson_Order_Status_Sync::run();
+
+			// Same cadence: give genuinely new SalesOn products a draft listing
+			// on the website, so staff only have to add a photo and publish.
+			// Runs AFTER the stock/price pull above so a newly imported product
+			// already has its cache row to read stock and price from.
+			Saleson_Product_Importer::auto_import_new();
 
 			// Push the freshly-cached stock/price onto Woo products that are
 			// already matched, so the storefront reflects this run immediately.
@@ -279,6 +285,12 @@ class Saleson_Stock_Sync {
 	/**
 	 * Insert-if-missing only. Never touches mapping_status/woo_product_id
 	 * on a row that already exists - the Matcher screen owns that data once set.
+	 *
+	 * `first_seen_at` is stamped on insert and never updated afterwards - it's
+	 * what makes "this product is new in SalesOn" answerable on the Products
+	 * console, and what Saleson_Product_Importer uses to decide which products
+	 * to auto-create a website listing for (genuinely new ones) versus leave
+	 * for staff to opt in (the pre-existing non-curated backlog).
 	 */
 	private static function ensure_product_map_row( $saleson_id ) {
 		global $wpdb;
@@ -301,28 +313,40 @@ class Saleson_Stock_Sync {
 				'confidence'         => null,
 				'source'             => 'stock_sync',
 				'mapped_at'          => null,
+				'listing_status'     => 'not_listed',
+				'first_seen_at'      => current_time( 'mysql' ),
 			),
-			array( '%d', '%d', '%s', '%s', '%s', '%s' )
+			array( '%d', '%d', '%s', '%s', '%s', '%s', '%s', '%s' )
 		);
 	}
 
 	/**
-	 * Closes the DRAFT-state gap documented above: gives every curated
-	 * SalesOn product a wp_saleson_stock_cache row, even ones the main
-	 * rate-list loop never saw. Only touches curated ids missing from the
-	 * cache entirely - never overwrites a row the main loop just wrote this
-	 * run (that data is fresher/more complete, e.g. product_code from the
-	 * rate-list row itself).
+	 * Closes the DRAFT-state gap documented above: gives every LINKED SalesOn
+	 * product a wp_saleson_stock_cache row, even ones the main rate-list loop
+	 * never saw (SalesOn omits DRAFT-state products from reports/rate-list
+	 * entirely). Only touches ids missing from the cache - never overwrites a
+	 * row the main loop just wrote this run (that data is fresher/more
+	 * complete, e.g. product_code from the rate-list row itself).
+	 *
+	 * Scope widened 2026-08-20 from `is_curated = 1` to "linked to a website
+	 * product", to match the push query's gate. These two MUST stay in sync:
+	 * push_to_matched_woo_products() INNER JOINs the cache table, so a linked
+	 * product with no cache row is silently skipped and never receives stock
+	 * or price - which is exactly the bug that made website-created products
+	 * un-orderable before this change.
 	 *
 	 * @param array  $name_to_product normalized-name => product array, from fetch_id_catalog()
 	 * @param string $cache_table     wp_saleson_stock_cache table name
 	 * @param string $now             current_time( 'mysql' ), shared with the main loop
 	 */
-	private static function backfill_stock_cache_for_curated( $name_to_product, $cache_table, $now ) {
+	private static function backfill_stock_cache_for_linked( $name_to_product, $cache_table, $now ) {
 		global $wpdb;
 		$map_table = $wpdb->prefix . 'saleson_product_map';
 
-		$curated_ids = $wpdb->get_col( "SELECT DISTINCT saleson_product_id FROM {$map_table} WHERE is_curated = 1" );
+		$curated_ids = $wpdb->get_col(
+			"SELECT DISTINCT saleson_product_id FROM {$map_table}
+			 WHERE mapping_status = 'matched' AND woo_product_id IS NOT NULL"
+		);
 		if ( empty( $curated_ids ) ) {
 			return;
 		}
@@ -397,11 +421,18 @@ class Saleson_Stock_Sync {
 
 		$rows = $wpdb->get_results(
 			$wpdb->prepare(
+				// Gate is "is it linked to a website product", NOT is_curated.
+				// Until 2026-08-20 this required is_curated = 1, which meant any
+				// product added after the original Phase 1 catalog silently never
+				// received stock or price - see Saleson_DB::migrate_listing_status()
+				// for the full story. Deliberately NOT filtered by listing_status
+				// either: a delisted product should keep syncing so it's already
+				// correct the moment staff relist it.
 				"SELECT m.woo_product_id, c.stock, t.rate AS retail_rate
 				 FROM {$map_table} m
 				 INNER JOIN {$cache_table} c ON c.saleson_product_id = m.saleson_product_id
 				 LEFT JOIN {$tiers_table} t ON t.saleson_product_id = m.saleson_product_id AND t.price_list_id = %d
-				 WHERE m.mapping_status = 'matched' AND m.woo_product_id IS NOT NULL AND m.is_curated = 1",
+				 WHERE m.mapping_status = 'matched' AND m.woo_product_id IS NOT NULL",
 				Saleson_API::PRICE_LIST_RETAIL
 			),
 			ARRAY_A
