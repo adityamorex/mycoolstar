@@ -93,10 +93,18 @@ Fix uploaded, both junk test orders cleaned up in SalesOn, fresh test order (#24
 
 Related gap surfaced during this test, tracked separately for later (not a Phase 3 blocker): products created fresh via the website (`is_curated = 0`) don't get automatic stock/price mirror-back from either the 15-minute cron or the manual SalesOn Stock/Pricing admin tools - both are scoped to `is_curated = 1` (the original curated 220). Had to manually set the test product's WooCommerce stock by hand to get past an "Insufficient Stock" rejection during testing. Noted in memory for when "new product creation, sync properly everywhere" is picked up as its own piece of work.
 
-## Next: verify the status-sync direction
-1. In SalesOn, manually advance `HBIPL-17136`'s status (e.g. Pending -> Confirmed).
-2. Wait for the next 15-minute cycle, or trigger "Run Sync Now".
-3. Confirm WooCommerce order #24618 updates to the matching `saleson-*` status.
+## Verified live 2026-08-16: status sync-back works end-to-end
+Advanced `HBIPL-17136` to "Onhold" in SalesOn. WooCommerce order #24618 correctly updated to `saleson-onhold`, with order note "Status synced from SalesOn. Order status changed from On hold to Onhold." timestamped exactly to the sync run. **Both halves of Phase 3's core loop (submit-on-placement, status sync-back) are now confirmed working end-to-end on the live site.**
+
+One real bug hit and fixed along the way: `class-saleson-stock-sync.php` (which wires `Saleson_Order_Status_Sync::run()` into the cron cycle) had been edited locally but never actually re-uploaded after an earlier request - the sync log never showing an `order_status_sync` entry was the tell. Re-uploaded, confirmed fixed.
+
+### Sync cadence: reduced from 15 minutes to 1 minute (2026-08-16)
+Client requested faster-than-15-minute sync (ideally real-time). Investigated SalesOn's webhook support: `GET settings/webhooks` API returns a real (empty) response, suggesting the feature exists on SalesOn's backend, but no webhook configuration UI exists in this account's Settings -> Integrations screen (only Tally/Busy accounting toggles shown) - so registering one isn't currently possible from our side. Recommended against a literal 5-second interval (real risk: overlapping runs exhausting the 20-PHP-worker limit on this Hostinger shared plan, and hammering SalesOn's API) in favor of a safer, still-meaningful improvement:
+- `saleson_cron_interval_minutes` setting changed from 15 to 1 (existing Settings field, no code change needed - just needed a plugin deactivate/reactivate to apply, since WP-Cron locks in an interval at schedule-time).
+- A **real system cron job** set up on Hostinger (`hPanel -> Advanced -> Cron Jobs`, hitting `wp-cron.php` every minute) - this was an outstanding Phase 0 action item (site previously relied entirely on unreliable visit-triggered pseudo-cron) and is now done.
+- Existing overlap-lock in `Saleson_Stock_Sync::run()` (built earlier, unrelated to this change) already protects against overlapping runs at the faster cadence - confirmed working live (one skipped run observed, logged cleanly, no data corruption).
+- Not yet done: `DISABLE_WP_CRON` in `wp-config.php` (optional cleanup, to stop the old pseudo-cron trigger from redundantly firing alongside the new real cron).
+- Worth revisiting later: ask SalesOn support directly whether webhooks can be enabled for this account - would allow near-zero-latency sync instead of 1-minute polling.
 
 ## Files/artifacts for this phase
 - `phase0/phase3-orders-plan.md` - this file
