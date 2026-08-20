@@ -80,6 +80,13 @@ class Saleson_Order_Status_Sync {
 					$order->save();
 				}
 
+				// Phase 4: once SalesOn has generated an invoice for this order,
+				// pull it in. Reuses the order-detail response already fetched
+				// above (association is included there) rather than a separate
+				// pass - only makes the ONE extra call per order that actually
+				// needs it (most orders have no invoice yet).
+				self::maybe_sync_invoice( $order, $result['data']['invoice'], $api );
+
 				$processed++;
 			}
 
@@ -89,5 +96,59 @@ class Saleson_Order_Status_Sync {
 		}
 
 		return $processed;
+	}
+
+	const META_INVOICE_ID     = '_saleson_invoice_id';
+	const META_INVOICE_NO     = '_saleson_invoice_no';
+	const META_INVOICE_AMOUNT = '_saleson_invoice_amount';
+	const META_INVOICE_PAID   = '_saleson_invoice_paid';
+	const META_INVOICE_DUE    = '_saleson_invoice_due';
+	const META_INVOICE_URL    = '_saleson_invoice_url';
+
+	/**
+	 * Phase 4: a Sales Order's `association` field links to its Sales Invoice
+	 * once SalesOn has generated one (confirmed live 2026-08-20 on a real
+	 * order: association -> {"Sales Invoice": [{id, transaction_no}]}). Pulls
+	 * the invoice's amount/paid/due and its public_url (a real print-ready
+	 * invoice page - confirmed live it's HTML with proper @media print
+	 * styling, not a downloadable file, so linking it directly is the honest
+	 * plan rather than building server-side PDF generation).
+	 *
+	 * Only fetches the invoice detail once - re-checks are cheap (just
+	 * reading the association field already in hand) but the invoice itself,
+	 * once generated, doesn't need refetching every cycle.
+	 */
+	private static function maybe_sync_invoice( $order, $saleson_order, $api ) {
+		if ( get_post_meta( $order->get_id(), self::META_INVOICE_ID, true ) ) {
+			return; // already synced
+		}
+
+		$invoices = isset( $saleson_order['association']['Sales Invoice'] )
+			? $saleson_order['association']['Sales Invoice']
+			: array();
+		if ( empty( $invoices[0]['id'] ) ) {
+			return; // no invoice generated yet
+		}
+
+		$invoice_id = (int) $invoices[0]['id'];
+		$detail     = $api->get( 'transactions/sales-invoice/' . $invoice_id );
+		if ( empty( $detail['ok'] ) || empty( $detail['data']['invoice'] ) ) {
+			return; // will retry next cycle - no meta written yet, so not "already synced"
+		}
+
+		$invoice = $detail['data']['invoice'];
+
+		update_post_meta( $order->get_id(), self::META_INVOICE_ID, $invoice_id );
+		update_post_meta( $order->get_id(), self::META_INVOICE_NO, sanitize_text_field( $invoice['transaction_no'] ?? '' ) );
+		update_post_meta( $order->get_id(), self::META_INVOICE_AMOUNT, isset( $invoice['amount'] ) ? (float) $invoice['amount'] : 0 );
+		update_post_meta( $order->get_id(), self::META_INVOICE_PAID, isset( $invoice['paid'] ) ? (float) $invoice['paid'] : 0 );
+		update_post_meta( $order->get_id(), self::META_INVOICE_DUE, isset( $invoice['amount_due'] ) ? (float) $invoice['amount_due'] : 0 );
+		update_post_meta( $order->get_id(), self::META_INVOICE_URL, isset( $invoice['public_url'] ) ? esc_url_raw( $invoice['public_url'] ) : '' );
+
+		$order->add_order_note( sprintf(
+			/* translators: %s: SalesOn invoice number */
+			__( 'Invoice generated in SalesOn: %s', 'saleson-woo-sync' ),
+			$invoice['transaction_no'] ?? $invoice_id
+		) );
 	}
 }
