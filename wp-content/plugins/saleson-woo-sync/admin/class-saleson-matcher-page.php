@@ -28,10 +28,12 @@ class Saleson_Matcher_Page {
 		add_action( 'admin_post_saleson_matcher_confirm', array( __CLASS__, 'handle_confirm' ) );
 		add_action( 'admin_post_saleson_matcher_reject', array( __CLASS__, 'handle_reject' ) );
 		add_action( 'admin_post_saleson_matcher_create_product', array( __CLASS__, 'handle_create_product' ) );
+		add_action( 'admin_post_saleson_matcher_relink', array( __CLASS__, 'handle_relink' ) );
 		add_action( 'admin_post_saleson_matcher_bulk_create_products', array( __CLASS__, 'handle_bulk_create_products' ) );
 		add_action( 'admin_post_saleson_finalize_publish_remaining', array( __CLASS__, 'handle_finalize_publish_remaining' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'render_admin_notices' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'render_curated_notices' ) );
+		add_action( 'admin_notices', array( __CLASS__, 'render_relink_notice' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'render_new_product_reminder' ) );
 	}
 
@@ -532,6 +534,64 @@ class Saleson_Matcher_Page {
 
 		$return_tab = isset( $_POST['return_tab'] ) ? sanitize_key( $_POST['return_tab'] ) : 'matched';
 		self::redirect_back( array( 'tab' => $return_tab ) );
+	}
+
+	/**
+	 * Added 2026-08-20: links an unmatched SalesOn id to an ALREADY-EXISTING
+	 * WooCommerce product, without creating anything new. Exists specifically
+	 * for undoing an accidental Reject on the Collisions tab (Reject only ever
+	 * clears the mapping row - it never touches the WooCommerce post itself,
+	 * so the correct product is still there, just unlinked) - "Create as
+	 * product" is the wrong tool for that, since it can't safely tell whether
+	 * a matching post already exists for every curated row (that guard only
+	 * checks `_saleson_product_id` postmeta, which isn't guaranteed to be set
+	 * on rows matched via the original spreadsheet import rather than created
+	 * by this plugin), so using it here risks a genuine duplicate product.
+	 *
+	 * Deliberately narrow: requires manage_options (same as every other action
+	 * on this screen), and refuses silently rather than guessing if either id
+	 * doesn't check out.
+	 */
+	public static function handle_relink() {
+		check_admin_referer( 'saleson_matcher_row' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to do this.', 'saleson-woo-sync' ) );
+		}
+
+		$saleson_id = isset( $_POST['saleson_product_id'] ) ? absint( $_POST['saleson_product_id'] ) : 0;
+		$woo_id     = isset( $_POST['relink_woo_id'] ) ? absint( $_POST['relink_woo_id'] ) : 0;
+
+		$is_real_product = $woo_id && 'product' === get_post_type( $woo_id );
+
+		if ( $saleson_id && $is_real_product ) {
+			global $wpdb;
+			$wpdb->update(
+				$wpdb->prefix . 'saleson_product_map',
+				array(
+					'mapping_status' => 'matched',
+					'woo_product_id' => $woo_id,
+					'confidence'     => 'manual',
+					'source'         => 'manual_relink',
+					'mapped_at'      => current_time( 'mysql' ),
+				),
+				array( 'saleson_product_id' => $saleson_id )
+			);
+			set_transient( 'saleson_relink_notice_' . get_current_user_id(), array(
+				'type'    => 'success',
+				'message' => sprintf(
+					/* translators: 1: SalesOn id, 2: Woo product id */
+					__( 'SalesOn #%1$d linked to WooCommerce product #%2$d.', 'saleson-woo-sync' ),
+					$saleson_id, $woo_id
+				),
+			), 60 );
+		} else {
+			set_transient( 'saleson_relink_notice_' . get_current_user_id(), array(
+				'type'    => 'error',
+				'message' => __( 'Could not relink - check the WooCommerce product ID is correct and is actually a product.', 'saleson-woo-sync' ),
+			), 60 );
+		}
+
+		self::redirect_back( array( 'tab' => 'unmatched' ) );
 	}
 
 	public static function handle_create_product() {
@@ -1035,6 +1095,26 @@ class Saleson_Matcher_Page {
 		}
 	}
 
+	public static function render_relink_notice() {
+		$screen = get_current_screen();
+		if ( ! $screen || false === strpos( $screen->id, self::PAGE_SLUG ) ) {
+			return;
+		}
+
+		$key    = 'saleson_relink_notice_' . get_current_user_id();
+		$notice = get_transient( $key );
+		if ( ! $notice ) {
+			return;
+		}
+		delete_transient( $key );
+
+		printf(
+			'<div class="notice notice-%s is-dismissible"><p>%s</p></div>',
+			esc_attr( $notice['type'] ),
+			esc_html( $notice['message'] )
+		);
+	}
+
 	// --- Rendering --------------------------------------------------------------
 
 	public static function render_page() {
@@ -1330,6 +1410,13 @@ class Saleson_Matcher_Page {
 							<input type="hidden" name="action" value="saleson_matcher_create_product" />
 							<input type="hidden" name="saleson_product_id" value="<?php echo esc_attr( $row->saleson_product_id ); ?>" />
 							<?php submit_button( __( 'Create as product', 'saleson-woo-sync' ), 'primary small', 'submit', false ); ?>
+						</form>
+						<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin-top:4px;" onsubmit="return confirm('<?php echo esc_js( __( 'Link this to that WooCommerce product ID? Only do this if you are sure it is the correct, already-existing product for this item (e.g. undoing an accidental Reject on the Collisions tab).', 'saleson-woo-sync' ) ); ?>');">
+							<?php wp_nonce_field( 'saleson_matcher_row' ); ?>
+							<input type="hidden" name="action" value="saleson_matcher_relink" />
+							<input type="hidden" name="saleson_product_id" value="<?php echo esc_attr( $row->saleson_product_id ); ?>" />
+							<input type="number" name="relink_woo_id" placeholder="<?php esc_attr_e( 'Woo product ID', 'saleson-woo-sync' ); ?>" style="width:120px;" required />
+							<?php submit_button( __( 'Relink to existing product', 'saleson-woo-sync' ), 'small', 'submit', false ); ?>
 						</form>
 					</td>
 				</tr>
