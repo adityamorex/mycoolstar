@@ -445,6 +445,8 @@ class Saleson_Matcher_Page {
 
 		echo '<p class="description">' . esc_html__( 'Each group below is one WooCommerce product currently claimed by more than one SalesOn item - the pricing/stock sync has no way to tell these apart, and can pick the wrong one. A row marked "Curated" was deliberately matched and should normally be kept; the SKU column is the next-strongest signal when nothing is marked curated. Reject the rows that should NOT stay linked - they go back to Unmatched, keeping the one correct link in place.', 'saleson-woo-sync' ) . '</p>';
 
+		self::render_standalone_relink_box();
+
 		if ( empty( $woo_ids ) ) {
 			echo '<p>' . esc_html__( 'No collisions detected.', 'saleson-woo-sync' ) . '</p>';
 			return;
@@ -509,6 +511,34 @@ class Saleson_Matcher_Page {
 			<?php
 			echo '</div>';
 		}
+	}
+
+	/**
+	 * Added 2026-08-20: a relink box that works for ANY SalesOn id, not just
+	 * ones on the Unmatched tab (which only ever lists is_curated = 1 rows by
+	 * design - see that tab's own comment). Needed because a rejected row can
+	 * easily turn out to be is_curated = 0 in the live database even when it
+	 * looks like it should be curated - exactly what happened undoing an
+	 * accidental Portable Geyser reject, where the correct record was
+	 * invisible on the Unmatched tab and had no other way to be found and
+	 * relinked. handle_relink() itself never checked is_curated to begin with;
+	 * this only adds a way to reach it that isn't gated by that filter.
+	 */
+	private static function render_standalone_relink_box() {
+		?>
+		<div class="postbox" style="padding: 12px 16px; margin-bottom: 16px; background:#f6f7f7;">
+			<h3><?php esc_html_e( 'Relink any SalesOn product', 'saleson-woo-sync' ); ?></h3>
+			<p class="description"><?php esc_html_e( 'Use this to undo an accidental Reject, or to link any SalesOn id straight to an existing WooCommerce product - works regardless of whether the item is part of the curated list.', 'saleson-woo-sync' ); ?></p>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('<?php echo esc_js( __( 'Link this SalesOn id to that WooCommerce product ID? Only do this if you are sure it is correct.', 'saleson-woo-sync' ) ); ?>');">
+				<?php wp_nonce_field( 'saleson_matcher_row' ); ?>
+				<input type="hidden" name="action" value="saleson_matcher_relink" />
+				<input type="hidden" name="return_tab" value="collisions" />
+				<label><?php esc_html_e( 'SalesOn ID', 'saleson-woo-sync' ); ?> <input type="number" name="saleson_product_id" required /></label>
+				<label style="margin-left:12px;"><?php esc_html_e( 'WooCommerce product ID', 'saleson-woo-sync' ); ?> <input type="number" name="relink_woo_id" required /></label>
+				<?php submit_button( __( 'Relink', 'saleson-woo-sync' ), 'secondary small', 'submit', false, array( 'style' => 'margin-left:12px;' ) ); ?>
+			</form>
+		</div>
+		<?php
 	}
 
 	public static function handle_confirm() {
