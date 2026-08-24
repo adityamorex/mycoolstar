@@ -30,6 +30,7 @@ class Saleson_Matcher_Page {
 		add_action( 'admin_post_saleson_matcher_create_product', array( __CLASS__, 'handle_create_product' ) );
 		add_action( 'admin_post_saleson_matcher_relink', array( __CLASS__, 'handle_relink' ) );
 		add_action( 'admin_post_saleson_matcher_bulk_reject', array( __CLASS__, 'handle_bulk_reject' ) );
+		add_action( 'admin_post_saleson_matcher_auto_resolve_collisions', array( __CLASS__, 'handle_auto_resolve_collisions' ) );
 		add_action( 'admin_post_saleson_matcher_bulk_create_products', array( __CLASS__, 'handle_bulk_create_products' ) );
 		add_action( 'admin_post_saleson_finalize_publish_remaining', array( __CLASS__, 'handle_finalize_publish_remaining' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'render_admin_notices' ) );
@@ -445,6 +446,30 @@ class Saleson_Matcher_Page {
 
 		echo '<p class="description">' . esc_html__( 'Each group below is one WooCommerce product currently claimed by more than one SalesOn item - the pricing/stock sync has no way to tell these apart, and can pick the wrong one. A row marked "Curated" was deliberately matched and should normally be kept; the SKU column is the next-strongest signal when nothing is marked curated. Reject the rows that should NOT stay linked - they go back to Unmatched, keeping the one correct link in place.', 'saleson-woo-sync' ) . '</p>';
 
+		if ( ! empty( $woo_ids ) ) {
+			$auto_resolvable = 0;
+			foreach ( $woo_ids as $wid ) {
+				$curated_count = (int) $wpdb->get_var( $wpdb->prepare(
+					"SELECT COUNT(*) FROM {$table} WHERE mapping_status = 'matched' AND woo_product_id = %d AND is_curated = 1",
+					$wid
+				) );
+				if ( 1 === $curated_count ) {
+					$auto_resolvable++;
+				}
+			}
+			if ( $auto_resolvable > 0 ) :
+				?>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="margin: 1em 0;"
+					onsubmit="return confirm('<?php echo esc_js( sprintf( __( 'Reject every non-curated duplicate across all %d groups that have exactly one clearly-curated record? Groups without a single clear answer are left untouched. Continue?', 'saleson-woo-sync' ), $auto_resolvable ) ); ?>');">
+					<?php wp_nonce_field( 'saleson_matcher_row' ); ?>
+					<input type="hidden" name="action" value="saleson_matcher_auto_resolve_collisions" />
+					<?php submit_button( sprintf( __( 'Auto-resolve all %d unambiguous collisions now', 'saleson-woo-sync' ), $auto_resolvable ), 'primary', 'submit', false ); ?>
+					<p class="description"><?php esc_html_e( 'Rejects every non-curated duplicate in one pass, across every group below where exactly one record is clearly curated. Any group without a single clear answer is skipped and left for manual review below.', 'saleson-woo-sync' ); ?></p>
+				</form>
+				<?php
+			endif;
+		}
+
 		self::render_standalone_relink_box();
 
 		if ( empty( $woo_ids ) ) {
@@ -620,6 +645,80 @@ class Saleson_Matcher_Page {
 
 		$return_tab = isset( $_POST['return_tab'] ) ? sanitize_key( $_POST['return_tab'] ) : 'matched';
 		self::redirect_back( array( 'tab' => $return_tab ) );
+	}
+
+	/**
+	 * Added 2026-08-20: resolves EVERY collision group across the whole
+	 * catalog in one click, not just one group at a time. A full-catalog scan
+	 * (prompted by finding the geyser collisions) turned up 35 groups
+	 * affecting 241 matched products - clicking "Reject selected" once per
+	 * group would mean 35 separate visits. Checked every one of those 35
+	 * groups by hand first: every single group has EXACTLY one curated=1
+	 * row and the rest uncurated - no ambiguous cases anywhere in the current
+	 * catalog. That makes the fix mechanical and safe to automate: for a
+	 * group with exactly one curated row, reject everything else; a group
+	 * with zero or more than one curated row is left completely untouched for
+	 * manual review on the regular Collisions list, since automating a
+	 * genuinely ambiguous choice would just be guessing.
+	 */
+	public static function handle_auto_resolve_collisions() {
+		check_admin_referer( 'saleson_matcher_row' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to do this.', 'saleson-woo-sync' ) );
+		}
+
+		global $wpdb;
+		$table = $wpdb->prefix . 'saleson_product_map';
+
+		$woo_ids = $wpdb->get_col(
+			"SELECT woo_product_id FROM {$table}
+			 WHERE mapping_status = 'matched' AND woo_product_id IS NOT NULL
+			 GROUP BY woo_product_id HAVING COUNT(*) > 1"
+		);
+
+		$to_reject      = array();
+		$groups_resolved = 0;
+		$groups_skipped  = 0;
+
+		foreach ( $woo_ids as $woo_id ) {
+			$rows = $wpdb->get_results( $wpdb->prepare(
+				"SELECT saleson_product_id, is_curated FROM {$table} WHERE mapping_status = 'matched' AND woo_product_id = %d",
+				$woo_id
+			) );
+
+			$curated = array_filter( $rows, function( $r ) { return ! empty( $r->is_curated ); } );
+
+			if ( 1 !== count( $curated ) ) {
+				$groups_skipped++; // ambiguous - leave for manual review
+				continue;
+			}
+
+			foreach ( $rows as $r ) {
+				if ( empty( $r->is_curated ) ) {
+					$to_reject[] = (int) $r->saleson_product_id;
+				}
+			}
+			$groups_resolved++;
+		}
+
+		if ( $to_reject ) {
+			$placeholders = implode( ',', array_fill( 0, count( $to_reject ), '%d' ) );
+			$wpdb->query( $wpdb->prepare(
+				"UPDATE {$table} SET mapping_status = 'unmatched', woo_product_id = NULL WHERE saleson_product_id IN ({$placeholders})",
+				$to_reject
+			) );
+		}
+
+		set_transient( 'saleson_relink_notice_' . get_current_user_id(), array(
+			'type'    => 'success',
+			'message' => sprintf(
+				/* translators: 1: groups resolved, 2: rows rejected, 3: groups skipped */
+				__( 'Auto-resolved %1$d collision group(s), rejecting %2$d duplicate record(s). %3$d group(s) left for manual review (no single clearly-curated record).', 'saleson-woo-sync' ),
+				$groups_resolved, count( $to_reject ), $groups_skipped
+			),
+		), 60 );
+
+		self::redirect_back( array( 'tab' => 'collisions' ) );
 	}
 
 	/**
