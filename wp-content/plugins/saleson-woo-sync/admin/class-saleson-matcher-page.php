@@ -29,6 +29,7 @@ class Saleson_Matcher_Page {
 		add_action( 'admin_post_saleson_matcher_reject', array( __CLASS__, 'handle_reject' ) );
 		add_action( 'admin_post_saleson_matcher_create_product', array( __CLASS__, 'handle_create_product' ) );
 		add_action( 'admin_post_saleson_matcher_relink', array( __CLASS__, 'handle_relink' ) );
+		add_action( 'admin_post_saleson_matcher_bulk_reject', array( __CLASS__, 'handle_bulk_reject' ) );
 		add_action( 'admin_post_saleson_matcher_bulk_create_products', array( __CLASS__, 'handle_bulk_create_products' ) );
 		add_action( 'admin_post_saleson_finalize_publish_remaining', array( __CLASS__, 'handle_finalize_publish_remaining' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'render_admin_notices' ) );
@@ -472,33 +473,40 @@ class Saleson_Matcher_Page {
 			echo '<div class="postbox" style="padding: 12px 16px; margin-bottom: 16px;">';
 			echo '<h3>' . esc_html( sprintf( __( 'WooCommerce: %s (id %d)', 'saleson-woo-sync' ), $woo_title, $woo_id ) ) . '</h3>';
 			echo '<p><strong>' . esc_html__( 'SKU:', 'saleson-woo-sync' ) . '</strong> ' . ( $woo_sku ? esc_html( $woo_sku ) : '<em>' . esc_html__( '(none set - no strong signal for this group, review manually)', 'saleson-woo-sync' ) . '</em>' ) . '</p>';
-			echo '<table class="widefat striped"><thead><tr>';
-			echo '<th>' . esc_html__( 'SalesOn ID', 'saleson-woo-sync' ) . '</th>';
-			echo '<th>' . esc_html__( 'SalesOn Name', 'saleson-woo-sync' ) . '</th>';
-			echo '<th>' . esc_html__( 'Curated?', 'saleson-woo-sync' ) . '</th>';
-			echo '<th>' . esc_html__( 'Action', 'saleson-woo-sync' ) . '</th>';
-			echo '</tr></thead><tbody>';
-			foreach ( $rows as $row ) {
-				$is_sku_match = $woo_sku && trim( strtolower( $woo_sku ) ) === trim( strtolower( $row->saleson_name ) );
-				$is_curated   = ! empty( $row->is_curated );
-				echo '<tr' . ( $is_curated ? ' style="background: #d7f7d7;"' : '' ) . '>';
-				echo '<td>' . esc_html( $row->saleson_product_id ) . '</td>';
-				echo '<td>' . esc_html( $row->saleson_name ) . ( $is_sku_match ? ' <strong>' . esc_html__( '(SKU match)', 'saleson-woo-sync' ) . '</strong>' : '' ) . '</td>';
-				echo '<td>' . ( $is_curated ? '<strong>' . esc_html__( 'Yes - keep this one', 'saleson-woo-sync' ) . '</strong>' : esc_html__( 'No', 'saleson-woo-sync' ) ) . '</td>';
-				echo '<td>';
-				?>
-				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline;">
-					<?php wp_nonce_field( 'saleson_matcher_row' ); ?>
-					<input type="hidden" name="action" value="saleson_matcher_reject" />
-					<input type="hidden" name="saleson_product_id" value="<?php echo esc_attr( $row->saleson_product_id ); ?>" />
-					<input type="hidden" name="return_tab" value="collisions" />
-					<?php submit_button( __( 'Reject (keep Woo link elsewhere / create separately)', 'saleson-woo-sync' ), 'delete', 'submit', false ); ?>
-				</form>
-				<?php
-				echo '</td>';
-				echo '</tr>';
-			}
-			echo '</tbody></table>';
+			?>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<?php wp_nonce_field( 'saleson_matcher_row' ); ?>
+				<input type="hidden" name="action" value="saleson_matcher_bulk_reject" />
+				<input type="hidden" name="return_tab" value="collisions" />
+				<table class="widefat striped"><thead><tr>
+					<td class="check-column"><input type="checkbox" onclick="jQuery(this).closest('table').find('input[name=\'saleson_product_ids[]\']').prop('checked', this.checked);" /></td>
+					<th><?php esc_html_e( 'SalesOn ID', 'saleson-woo-sync' ); ?></th>
+					<th><?php esc_html_e( 'SalesOn Name', 'saleson-woo-sync' ); ?></th>
+					<th><?php esc_html_e( 'Curated?', 'saleson-woo-sync' ); ?></th>
+				</tr></thead><tbody>
+				<?php foreach ( $rows as $row ) : ?>
+					<?php
+					$is_sku_match = $woo_sku && trim( strtolower( $woo_sku ) ) === trim( strtolower( $row->saleson_name ) );
+					$is_curated   = ! empty( $row->is_curated );
+					?>
+					<tr<?php echo $is_curated ? ' style="background: #d7f7d7;"' : ''; ?>>
+						<th class="check-column">
+							<?php if ( ! $is_curated ) : ?>
+								<input type="checkbox" name="saleson_product_ids[]" value="<?php echo esc_attr( $row->saleson_product_id ); ?>" />
+							<?php endif; ?>
+						</th>
+						<td><?php echo esc_html( $row->saleson_product_id ); ?></td>
+						<td><?php echo esc_html( $row->saleson_name ); ?><?php echo $is_sku_match ? ' <strong>' . esc_html__( '(SKU match)', 'saleson-woo-sync' ) . '</strong>' : ''; ?></td>
+						<td><?php echo $is_curated ? '<strong>' . esc_html__( 'Yes - keep this one', 'saleson-woo-sync' ) . '</strong>' : esc_html__( 'No', 'saleson-woo-sync' ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+				</tbody></table>
+				<p style="margin-top:8px;">
+					<?php submit_button( __( 'Reject selected', 'saleson-woo-sync' ), 'delete small', 'submit', false, array( 'onclick' => "return confirm('" . esc_js( __( 'Reject the checked rows? They go back to Unmatched - nothing is deleted.', 'saleson-woo-sync' ) ) . "');" ) ); ?>
+					<span class="description"><?php esc_html_e( 'The curated row has no checkbox - it stays linked by default. Select any/all of the rest to reject in one click.', 'saleson-woo-sync' ); ?></span>
+				</p>
+			</form>
+			<?php
 			echo '</div>';
 		}
 	}
@@ -533,6 +541,45 @@ class Saleson_Matcher_Page {
 		}
 
 		$return_tab = isset( $_POST['return_tab'] ) ? sanitize_key( $_POST['return_tab'] ) : 'matched';
+		self::redirect_back( array( 'tab' => $return_tab ) );
+	}
+
+	/**
+	 * Added 2026-08-20 (Collisions tab, requested after a single-row Reject
+	 * click hit the wrong row by mistake): rejects every checked row in one
+	 * submit instead of one confirm-click per row. Exact same underlying
+	 * update as handle_reject(), just looped - the curated row in each group
+	 * has no checkbox in the form at all (see render_collisions_tab()), so it
+	 * can't be selected for rejection even by mistake.
+	 */
+	public static function handle_bulk_reject() {
+		check_admin_referer( 'saleson_matcher_row' );
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_die( esc_html__( 'You do not have permission to do this.', 'saleson-woo-sync' ) );
+		}
+
+		$ids = isset( $_POST['saleson_product_ids'] ) ? array_map( 'absint', (array) wp_unslash( $_POST['saleson_product_ids'] ) ) : array();
+		$ids = array_filter( array_unique( $ids ) );
+
+		if ( $ids ) {
+			global $wpdb;
+			$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+			$wpdb->query( $wpdb->prepare(
+				"UPDATE {$wpdb->prefix}saleson_product_map SET mapping_status = 'unmatched', woo_product_id = NULL WHERE saleson_product_id IN ({$placeholders})",
+				$ids
+			) );
+		}
+
+		set_transient( 'saleson_relink_notice_' . get_current_user_id(), array(
+			'type'    => 'success',
+			'message' => sprintf(
+				/* translators: %d: number of rows rejected */
+				_n( '%d row rejected.', '%d rows rejected.', count( $ids ), 'saleson-woo-sync' ),
+				count( $ids )
+			),
+		), 60 );
+
+		$return_tab = isset( $_POST['return_tab'] ) ? sanitize_key( $_POST['return_tab'] ) : 'collisions';
 		self::redirect_back( array( 'tab' => $return_tab ) );
 	}
 
