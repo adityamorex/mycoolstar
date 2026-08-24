@@ -97,6 +97,20 @@ Verified live via a real browser session, logged in as a dealer test account (mo
 
 **Scope of impact**: every wholesale-only product was affected, not just the originally-identified 16 curated ones - now potentially more, since Phase 3.5 opened syncing to the full SalesOn catalog rather than only the curated 220.
 
+## Second bug found and fixed: mapping collisions the Collisions tool couldn't see (2026-08-20)
+
+Client cross-checked SalesOn's real Dealer/Distributor/Supermart geyser prices against a reference sheet and caught a real live pricing error: **50L geyser showed ₹4,666 to a dealer instead of the correct ₹4,840.** Root cause: the same "many-to-one mapping collision" bug class from Phase 1 (multiple SalesOn records pointing at one website product, so pricing lookups pick arbitrarily) - but a shape of it the existing Collisions tool structurally couldn't detect.
+
+**Why the existing tool missed it**: `count_collision_groups()` and `render_collisions_tab()` both filtered to `is_curated = 1` on every row, since their original purpose (Phase 1) was untangling two *curated* records both vaguely name-matched to one product. The new collisions are a different shape - one correctly-curated record plus one-or-more never-curated leftovers (old brand-duplicate entries, "CANCEL..." voided records, a generic combined-size listing) - which never satisfies `COUNT(*) > 1` under an `is_curated = 1` filter, so the tool reported zero collisions while 5 geyser products were actively affected.
+
+Found via manual cross-check against a static map export, not live-discovered by any tool - worth remembering this export can go stale; a live DB query would be more reliable if this needs re-checking.
+
+**Fixed**: widened both queries in `class-saleson-matcher-page.php` to drop the `is_curated` restriction entirely - now catches a product claimed by multiple SalesOn records regardless of curated status. The Collisions tab now also shows a "Curated?" column and highlights the curated row in green as the one to keep, since curated status is a stronger signal than the pre-existing SKU-text-match heuristic (a deliberate human decision vs. a text guess).
+
+**Still to do**: use the widened Collisions tab to actually resolve the 5 known-affected geyser products (Portable Geyser, 10L, 15L, 25L, 50L) - reject the non-curated rows on each, per the plan's "Curated? Yes" highlighting. Also worth running a full-catalog check for the same pattern beyond geysers once this is deployed, since it's evidently systemic rather than isolated to one product line.
+
+**Separately flagged, not yet resolved**: client's own reference sheet shows Portable Geyser as unpriced (0/blank) across all three tiers, while SalesOn's tagged record has real prices. Portable Geyser is also the worst-collided product (4 SalesOn records, two literally named "CANCEL PORTABLE GEYSER"), including one named "REPLACEMENT PORTABLE GEYSER" - raised as a real question for the client rather than assumed: is this product discontinued/replaced, not just a mapping bug?
+
 ## Verification checklist (after deploy)
 1. Deactivate/reactivate the plugin; confirm `listing_status` and `first_seen_at` exist and that already-live products migrated to `listed`, not `not_listed`.
 2. Confirm a **non-curated linked** product now receives stock and price on the next cycle — the exact case that failed in Phase 3 testing.

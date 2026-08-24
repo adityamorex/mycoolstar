@@ -404,13 +404,26 @@ class Saleson_Matcher_Page {
 	 *             variants, shouldn't both point at one generic-named Woo listing).
 	 *             Not fixable automatically - each group needs a human decision.
 	 */
+	/**
+	 * Widened 2026-08-20: was `is_curated = 1` on both sides, which only
+	 * caught two CURATED records claiming the same product (the original
+	 * Phase 1 purpose - untangling generic name-matches like two things both
+	 * called "Ring"). Confirmed live that a different, more common shape of
+	 * the same bug hides from that filter entirely: one correctly-curated
+	 * record plus one or more never-curated leftovers (old brand-duplicate
+	 * entries, "CANCEL..." voided records, generic combined listings) sharing
+	 * a product. Found on 5 geyser products this way - one (50L) confirmed
+	 * actively showing the wrong price to a real dealer, because the pricing
+	 * lookup has no way to prefer the curated row when more than one row
+	 * matches. Dropping `is_curated` from this query catches both shapes.
+	 */
 	private static function count_collision_groups() {
 		global $wpdb;
 		$table = $wpdb->prefix . 'saleson_product_map';
 		return (int) $wpdb->get_var(
 			"SELECT COUNT(*) FROM (
 				SELECT woo_product_id FROM {$table}
-				WHERE mapping_status = 'matched' AND is_curated = 1 AND woo_product_id IS NOT NULL
+				WHERE mapping_status = 'matched' AND woo_product_id IS NOT NULL
 				GROUP BY woo_product_id HAVING COUNT(*) > 1
 			) AS collision_groups"
 		);
@@ -422,12 +435,12 @@ class Saleson_Matcher_Page {
 
 		$woo_ids = $wpdb->get_col(
 			"SELECT woo_product_id FROM {$table}
-			 WHERE mapping_status = 'matched' AND is_curated = 1 AND woo_product_id IS NOT NULL
+			 WHERE mapping_status = 'matched' AND woo_product_id IS NOT NULL
 			 GROUP BY woo_product_id HAVING COUNT(*) > 1
 			 ORDER BY woo_product_id ASC"
 		);
 
-		echo '<p class="description">' . esc_html__( 'Each group below is one WooCommerce product currently claimed by more than one curated SalesOn item - the original name-based matching had no way to tell these apart (e.g. "Ring" vs "Hanger" variants sharing a generic Woo product name). The SKU column is the strongest signal available: when it spells out one specific SalesOn name, that row is very likely the correct one (highlighted below) - keep that one, Reject the rest so they go back to Unmatched and can each get their own proper listing created.', 'saleson-woo-sync' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Each group below is one WooCommerce product currently claimed by more than one SalesOn item - the pricing/stock sync has no way to tell these apart, and can pick the wrong one. A row marked "Curated" was deliberately matched and should normally be kept; the SKU column is the next-strongest signal when nothing is marked curated. Reject the rows that should NOT stay linked - they go back to Unmatched, keeping the one correct link in place.', 'saleson-woo-sync' ) . '</p>';
 
 		if ( empty( $woo_ids ) ) {
 			echo '<p>' . esc_html__( 'No collisions detected.', 'saleson-woo-sync' ) . '</p>';
@@ -437,9 +450,9 @@ class Saleson_Matcher_Page {
 		foreach ( $woo_ids as $woo_id ) {
 			$rows = $wpdb->get_results(
 				$wpdb->prepare(
-					"SELECT saleson_product_id, saleson_name FROM {$table}
-					 WHERE mapping_status = 'matched' AND is_curated = 1 AND woo_product_id = %d
-					 ORDER BY saleson_name ASC",
+					"SELECT saleson_product_id, saleson_name, is_curated FROM {$table}
+					 WHERE mapping_status = 'matched' AND woo_product_id = %d
+					 ORDER BY is_curated DESC, saleson_name ASC",
 					$woo_id
 				)
 			);
@@ -460,13 +473,16 @@ class Saleson_Matcher_Page {
 			echo '<table class="widefat striped"><thead><tr>';
 			echo '<th>' . esc_html__( 'SalesOn ID', 'saleson-woo-sync' ) . '</th>';
 			echo '<th>' . esc_html__( 'SalesOn Name', 'saleson-woo-sync' ) . '</th>';
+			echo '<th>' . esc_html__( 'Curated?', 'saleson-woo-sync' ) . '</th>';
 			echo '<th>' . esc_html__( 'Action', 'saleson-woo-sync' ) . '</th>';
 			echo '</tr></thead><tbody>';
 			foreach ( $rows as $row ) {
 				$is_sku_match = $woo_sku && trim( strtolower( $woo_sku ) ) === trim( strtolower( $row->saleson_name ) );
-				echo '<tr' . ( $is_sku_match ? ' style="background: #d7f7d7;"' : '' ) . '>';
+				$is_curated   = ! empty( $row->is_curated );
+				echo '<tr' . ( $is_curated ? ' style="background: #d7f7d7;"' : '' ) . '>';
 				echo '<td>' . esc_html( $row->saleson_product_id ) . '</td>';
 				echo '<td>' . esc_html( $row->saleson_name ) . ( $is_sku_match ? ' <strong>' . esc_html__( '(SKU match)', 'saleson-woo-sync' ) . '</strong>' : '' ) . '</td>';
+				echo '<td>' . ( $is_curated ? '<strong>' . esc_html__( 'Yes - keep this one', 'saleson-woo-sync' ) . '</strong>' : esc_html__( 'No', 'saleson-woo-sync' ) ) . '</td>';
 				echo '<td>';
 				?>
 				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" style="display:inline;">
