@@ -525,10 +525,58 @@ class Saleson_Matcher_Page {
 	 * this only adds a way to reach it that isn't gated by that filter.
 	 */
 	private static function render_standalone_relink_box() {
+		global $wpdb;
 		?>
 		<div class="postbox" style="padding: 12px 16px; margin-bottom: 16px; background:#f6f7f7;">
-			<h3><?php esc_html_e( 'Relink any SalesOn product', 'saleson-woo-sync' ); ?></h3>
-			<p class="description"><?php esc_html_e( 'Use this to undo an accidental Reject, or to link any SalesOn id straight to an existing WooCommerce product - works regardless of whether the item is part of the curated list.', 'saleson-woo-sync' ); ?></p>
+			<h3><?php esc_html_e( 'Look up / relink any SalesOn product', 'saleson-woo-sync' ); ?></h3>
+			<p class="description"><?php esc_html_e( 'Check exactly what a SalesOn id is currently doing - useful when a product has gone quiet on the Unmatched or Collisions tabs and it is not obvious why (both are filtered views, not the full picture). Then relink it directly if needed - works regardless of whether the item is part of the curated list.', 'saleson-woo-sync' ); ?></p>
+
+			<form method="get" action="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>" style="margin-bottom:10px;">
+				<input type="hidden" name="page" value="<?php echo esc_attr( self::PAGE_SLUG ); ?>" />
+				<input type="hidden" name="tab" value="collisions" />
+				<label><?php esc_html_e( 'Check status of SalesOn ID', 'saleson-woo-sync' ); ?>
+					<input type="number" name="lookup_saleson_id" value="<?php echo isset( $_GET['lookup_saleson_id'] ) ? esc_attr( absint( $_GET['lookup_saleson_id'] ) ) : ''; ?>" />
+				</label>
+				<?php submit_button( __( 'Check', 'saleson-woo-sync' ), 'secondary small', 'submit', false, array( 'style' => 'margin-left:8px;' ) ); ?>
+			</form>
+
+			<?php if ( ! empty( $_GET['lookup_saleson_id'] ) ) : ?>
+				<?php
+				$lookup_id = absint( $_GET['lookup_saleson_id'] );
+				$row       = $wpdb->get_row( $wpdb->prepare(
+					"SELECT saleson_name, mapping_status, woo_product_id, is_curated FROM {$wpdb->prefix}saleson_product_map WHERE saleson_product_id = %d",
+					$lookup_id
+				) );
+				?>
+				<div class="notice notice-info inline" style="margin:0 0 10px;padding:8px 12px;">
+					<?php if ( ! $row ) : ?>
+						<p><?php esc_html_e( 'Not found in the map table at all - this SalesOn id has never been seen by a sync.', 'saleson-woo-sync' ); ?></p>
+					<?php else : ?>
+						<p>
+							<strong><?php echo esc_html( $row->saleson_name ); ?></strong><br />
+							<?php echo esc_html( sprintf(
+								/* translators: 1: mapping status, 2: curated yes/no */
+								__( 'Status: %1$s | Curated: %2$s', 'saleson-woo-sync' ),
+								$row->mapping_status,
+								$row->is_curated ? __( 'Yes', 'saleson-woo-sync' ) : __( 'No', 'saleson-woo-sync' )
+							) ); ?><br />
+							<?php if ( $row->woo_product_id ) : ?>
+								<?php
+								$linked_title = get_the_title( $row->woo_product_id );
+								echo esc_html( sprintf(
+									/* translators: 1: Woo product id, 2: Woo product title */
+									__( 'Linked to WooCommerce product #%1$d (%2$s)', 'saleson-woo-sync' ),
+									$row->woo_product_id, $linked_title ? $linked_title : '?'
+								) );
+								?>
+							<?php else : ?>
+								<?php esc_html_e( 'Not linked to any WooCommerce product right now.', 'saleson-woo-sync' ); ?>
+							<?php endif; ?>
+						</p>
+					<?php endif; ?>
+				</div>
+			<?php endif; ?>
+
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('<?php echo esc_js( __( 'Link this SalesOn id to that WooCommerce product ID? Only do this if you are sure it is correct.', 'saleson-woo-sync' ) ); ?>');">
 				<?php wp_nonce_field( 'saleson_matcher_row' ); ?>
 				<input type="hidden" name="action" value="saleson_matcher_relink" />
