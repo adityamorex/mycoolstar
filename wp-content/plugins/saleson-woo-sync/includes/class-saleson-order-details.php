@@ -19,7 +19,13 @@ class Saleson_Order_Details {
 
 	public static function init() {
 		add_action( 'add_meta_boxes', array( __CLASS__, 'add_meta_box' ) );
-		add_action( 'save_post', array( __CLASS__, 'save_bilty_field' ) );
+		// woocommerce_process_shop_order_meta, NOT save_post: this site runs
+		// HPOS (confirmed live 2026-08-20 - Woo's newer order storage keeps
+		// orders in their own table, not wp_posts), and save_post never fires
+		// for an HPOS order screen since there's no WordPress post being
+		// saved. This hook is WooCommerce's own HPOS-compatible equivalent,
+		// firing on both classic and HPOS order edit screens alike.
+		add_action( 'woocommerce_process_shop_order_meta', array( __CLASS__, 'save_bilty_field' ) );
 		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'render_customer_view' ) );
 	}
 
