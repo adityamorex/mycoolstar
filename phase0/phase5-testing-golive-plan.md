@@ -23,31 +23,24 @@ Two things are effectively still "Phase 4 verification" wearing a Phase 5 hat �
 
 ## Checklist
 
-### 1. Failure-mode / resilience testing
-- [ ] SalesOn API unreachable during order placement — confirm the order still saves on the website (as pending/unsynced) with a clear order note, not a lost order or a customer-facing 500.
-- [ ] SalesOn API unreachable during a sync cycle (stock/price/status/invoice) — confirm the cron logs the failure (`Saleson_Logger`) and retries next cycle rather than crashing the whole run.
-- [ ] Bad/partial data from SalesOn (e.g. a product with no price, a party with no credit fields) — confirm it degrades to "no price shown" / "not orderable," not a PHP fatal.
-- [ ] Re-run the order submitter on an order that already synced — confirm no duplicate SalesOn order is created (idempotency guard via `_saleson_transaction_no` meta).
-- [ ] Re-run party creation on a customer who already has a party — confirm no duplicate SalesOn party is created.
-- [ ] Re-run product auto-import on a SalesOn product that already has a draft — confirm no duplicate WooCommerce product (existing duplicate-guard from `class-saleson-matcher-page.php`).
+Ordered to go top to bottom: no-setup checks against data that already exists first, then things needing one piece of test data, then failure-injection, then the full end-to-end test, then cleanup.
 
-### 2. Phase 4 live verification (carried over, still outstanding)
-- [ ] Confirm an already-invoiced order (e.g. `HBIPL-17162`) shows invoice number/amount/paid/due in the wp-admin SalesOn meta box.
-- [ ] Confirm the same order's invoice info shows on the customer's own order-details page.
-- [ ] Add Bilty/LR text as staff on one order; confirm it saves (re-test specifically — this was broken until the HPOS fix landed this session) and appears on the customer's page.
-- [ ] Confirm an order with no invoice yet renders "No invoice yet," not blank/broken markup.
-- [ ] Confirm the invoice `public_url` opens a real print-ready page.
-
-### 3. Phase 3.5 live verification (carried over, still outstanding)
-- [ ] Place one order as a genuinely new retail signup (no existing SalesOn party) — confirm a real party gets created in SalesOn, mapped, and the order submits successfully.
-- [ ] Add one throwaway product in SalesOn directly — confirm it appears as a draft under the Product console's "New in SalesOn" tab within one cron cycle, with correct name/price/stock, and is NOT visible on the storefront until listed.
-- [ ] List it from the console, confirm it's live and purchasable; delist it, confirm it disappears from the storefront but keeps receiving stock/price updates.
-
-### 4. End-to-end real order test
-- [ ] One real, low-value order placed by a real staff member (or the dealer test account) end to end: place → auto-submits to SalesOn → status updates as staff move it through SalesOn → invoice appears on the website once generated → mark it delivered → confirm the full lifecycle is visible on both the wp-admin order screen and the customer's own order page.
-
-### 5. Cleanup discipline (same as every prior phase)
-- [ ] Delete/cancel every test product, test party, and test order created during this phase — in both WooCommerce and SalesOn — before calling go-live done.
+1. [ ] Confirm an already-invoiced order (e.g. `HBIPL-17162`) shows invoice number/amount/paid/due in the wp-admin SalesOn meta box.
+2. [ ] Confirm that same order's invoice info shows on the customer's own order-details page.
+3. [ ] Confirm an order with no invoice yet renders "No invoice yet," not blank/broken markup.
+4. [ ] Confirm the invoice `public_url` opens a real print-ready page.
+5. [ ] Add Bilty/LR text as staff on one order; confirm it saves (re-test specifically — this was broken until the HPOS fix landed this session) and appears on the customer's page.
+6. [ ] Add one throwaway product in SalesOn directly — confirm it appears as a draft under the Product console's "New in SalesOn" tab within one cron cycle, with correct name/price/stock, and is NOT visible on the storefront until listed.
+7. [ ] List it from the console, confirm it's live and purchasable; delist it, confirm it disappears from the storefront but keeps receiving stock/price updates.
+8. [ ] Place one order as a genuinely new retail signup (no existing SalesOn party) — confirm a real party gets created in SalesOn, mapped, and the order submits successfully.
+9. [ ] Re-run the order submitter on an order that already synced — confirm no duplicate SalesOn order is created (idempotency guard via `_saleson_transaction_no` meta).
+10. [ ] Re-run party creation on a customer who already has a party — confirm no duplicate SalesOn party is created.
+11. [ ] Re-run product auto-import on a SalesOn product that already has a draft — confirm no duplicate WooCommerce product (existing duplicate-guard from `class-saleson-matcher-page.php`).
+12. [ ] SalesOn API unreachable during order placement — confirm the order still saves on the website (as pending/unsynced) with a clear order note, not a lost order or a customer-facing 500.
+13. [ ] SalesOn API unreachable during a sync cycle (stock/price/status/invoice) — confirm the cron logs the failure (`Saleson_Logger`) and retries next cycle rather than crashing the whole run.
+14. [ ] Bad/partial data from SalesOn (e.g. a product with no price, a party with no credit fields) — confirm it degrades to "no price shown" / "not orderable," not a PHP fatal.
+15. [ ] One real, low-value order placed by a real staff member (or the dealer test account) end to end: place → auto-submits to SalesOn → status updates as staff move it through SalesOn → invoice appears on the website once generated → mark it delivered → confirm the full lifecycle is visible on both the wp-admin order screen and the customer's own order page.
+16. [ ] Delete/cancel every test product, test party, and test order created during this phase — in both WooCommerce and SalesOn — before calling go-live done.
 
 ## Open items not blocking go-live but worth flagging to the client
 - Portable Geyser price discrepancy (client reference sheet shows 0, SalesOn shows real prices) — business decision, not a bug.
