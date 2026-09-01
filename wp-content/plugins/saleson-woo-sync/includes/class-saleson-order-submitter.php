@@ -30,13 +30,23 @@ class Saleson_Order_Submitter {
 	}
 
 	public static function submit( $order_id ) {
-		// Idempotency guard - never submit the same order twice.
-		if ( get_post_meta( $order_id, self::META_TRANSACTION_ID, true ) ) {
+		$order = wc_get_order( $order_id );
+		if ( ! $order ) {
 			return;
 		}
 
-		$order = wc_get_order( $order_id );
-		if ( ! $order ) {
+		// Idempotency guard - never submit the same order twice.
+		// $order->get_meta(), NOT get_post_meta(): this site runs HPOS, where
+		// order meta lives in wc_orders_meta, not wp_postmeta. The write
+		// below used get_post_meta()/update_post_meta() until 2026-09-01,
+		// which meant this guard was self-consistent with its own writes but
+		// every OTHER reader of this meta ($order->get_meta() in the wp-admin
+		// SalesOn meta box, the customer-facing order status section, the
+		// Orders-list Invoice column) saw nothing - so a website order could
+		// be genuinely submitted and synced yet still show "Not yet submitted
+		// to SalesOn" everywhere a human actually looks. Found while tracing
+		// why an invoiced order showed no invoice in the Orders list.
+		if ( $order->get_meta( self::META_TRANSACTION_ID ) ) {
 			return;
 		}
 
@@ -107,9 +117,10 @@ class Saleson_Order_Submitter {
 			$transaction_no = $detail['data']['invoice']['transaction_no'];
 		}
 
-		update_post_meta( $order_id, self::META_TRANSACTION_ID, $transaction_id );
-		update_post_meta( $order_id, self::META_TRANSACTION_NO, sanitize_text_field( $transaction_no ) );
-		update_post_meta( $order_id, self::META_SUBMITTED_AT, current_time( 'mysql' ) );
+		$order->update_meta_data( self::META_TRANSACTION_ID, $transaction_id );
+		$order->update_meta_data( self::META_TRANSACTION_NO, sanitize_text_field( $transaction_no ) );
+		$order->update_meta_data( self::META_SUBMITTED_AT, current_time( 'mysql' ) );
+		$order->save();
 
 		$order->add_order_note( sprintf(
 			/* translators: %s: SalesOn transaction number */

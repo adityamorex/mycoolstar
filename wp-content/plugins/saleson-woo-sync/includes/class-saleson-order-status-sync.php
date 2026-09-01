@@ -59,7 +59,34 @@ class Saleson_Order_Status_Sync {
 			$api = new Saleson_API();
 
 			foreach ( $order_ids as $order_id ) {
-				$transaction_id = get_post_meta( $order_id, Saleson_Order_Submitter::META_TRANSACTION_ID, true );
+				$order = wc_get_order( $order_id );
+				if ( ! $order ) {
+					continue;
+				}
+
+				// $order->get_meta() is the HPOS-correct read - but every order
+				// submitted BEFORE the 2026-09-01 fix has its transaction id
+				// sitting only in the legacy wp_postmeta table (which is why
+				// the discovery query above still unions both tables), so
+				// get_meta() alone would find nothing for those and silently
+				// stop syncing their status. Fall back to the legacy read,
+				// and if that's where it's found, re-save it onto the order
+				// properly so it self-heals into wc_orders_meta the first
+				// time this runs for it - a one-time migration spread across
+				// however many cron cycles it takes to touch every old order.
+				$transaction_id = $order->get_meta( Saleson_Order_Submitter::META_TRANSACTION_ID );
+				if ( ! $transaction_id ) {
+					$legacy_id = get_post_meta( $order_id, Saleson_Order_Submitter::META_TRANSACTION_ID, true );
+					if ( $legacy_id ) {
+						$transaction_id = $legacy_id;
+						$legacy_no      = get_post_meta( $order_id, Saleson_Order_Submitter::META_TRANSACTION_NO, true );
+						$order->update_meta_data( Saleson_Order_Submitter::META_TRANSACTION_ID, $legacy_id );
+						if ( $legacy_no ) {
+							$order->update_meta_data( Saleson_Order_Submitter::META_TRANSACTION_NO, $legacy_no );
+						}
+						$order->save();
+					}
+				}
 				if ( ! $transaction_id ) {
 					continue;
 				}
@@ -76,11 +103,6 @@ class Saleson_Order_Status_Sync {
 				if ( ! $target_status ) {
 					// Unknown/unexpected status value from SalesOn - skip rather
 					// than guess at a mapping, so it doesn't silently misfile.
-					continue;
-				}
-
-				$order = wc_get_order( $order_id );
-				if ( ! $order ) {
 					continue;
 				}
 
@@ -128,7 +150,7 @@ class Saleson_Order_Status_Sync {
 	 * once generated, doesn't need refetching every cycle.
 	 */
 	public static function maybe_sync_invoice( $order, $saleson_order, $api ) {
-		if ( get_post_meta( $order->get_id(), self::META_INVOICE_ID, true ) ) {
+		if ( $order->get_meta( self::META_INVOICE_ID ) ) {
 			return; // already synced
 		}
 
@@ -147,12 +169,21 @@ class Saleson_Order_Status_Sync {
 
 		$invoice = $detail['data']['invoice'];
 
-		update_post_meta( $order->get_id(), self::META_INVOICE_ID, $invoice_id );
-		update_post_meta( $order->get_id(), self::META_INVOICE_NO, sanitize_text_field( $invoice['transaction_no'] ?? '' ) );
-		update_post_meta( $order->get_id(), self::META_INVOICE_AMOUNT, isset( $invoice['amount'] ) ? (float) $invoice['amount'] : 0 );
-		update_post_meta( $order->get_id(), self::META_INVOICE_PAID, isset( $invoice['paid'] ) ? (float) $invoice['paid'] : 0 );
-		update_post_meta( $order->get_id(), self::META_INVOICE_DUE, isset( $invoice['amount_due'] ) ? (float) $invoice['amount_due'] : 0 );
-		update_post_meta( $order->get_id(), self::META_INVOICE_URL, isset( $invoice['public_url'] ) ? esc_url_raw( $invoice['public_url'] ) : '' );
+		// $order->update_meta_data()+save(), NOT update_post_meta(): this site
+		// runs HPOS, where order meta lives in wc_orders_meta, not wp_postmeta.
+		// update_post_meta() was writing here silently succeeding but into the
+		// wrong table - every reader of this data (the meta box, the customer
+		// view, the Orders-list Invoice column) uses $order->get_meta(), which
+		// is HPOS-aware, so the invoice data never actually appeared anywhere
+		// despite the sync itself reporting success (found 2026-09-01, tracing
+		// why invoiced orders showed no invoice number in Orders list).
+		$order->update_meta_data( self::META_INVOICE_ID, $invoice_id );
+		$order->update_meta_data( self::META_INVOICE_NO, sanitize_text_field( $invoice['transaction_no'] ?? '' ) );
+		$order->update_meta_data( self::META_INVOICE_AMOUNT, isset( $invoice['amount'] ) ? (float) $invoice['amount'] : 0 );
+		$order->update_meta_data( self::META_INVOICE_PAID, isset( $invoice['paid'] ) ? (float) $invoice['paid'] : 0 );
+		$order->update_meta_data( self::META_INVOICE_DUE, isset( $invoice['amount_due'] ) ? (float) $invoice['amount_due'] : 0 );
+		$order->update_meta_data( self::META_INVOICE_URL, isset( $invoice['public_url'] ) ? esc_url_raw( $invoice['public_url'] ) : '' );
+		$order->save();
 
 		$order->add_order_note( sprintf(
 			/* translators: %s: SalesOn invoice number */

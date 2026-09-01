@@ -120,7 +120,12 @@ class Saleson_Order_Importer {
 	 */
 	const BACKFILL_CURSOR_OPTION = 'saleson_order_backfill_cursor';
 	const BACKFILL_DONE_OPTION   = 'saleson_order_backfill_done';
-	const BACKFILL_BATCH_SIZE    = 25;
+	// Reduced from 25 to 10 (2026-09-01): 25 extra sequential API calls on
+	// top of every other sync step, every ~1-minute cron tick, is a lot of
+	// added load on shared hosting with a limited PHP worker pool - lowering
+	// this trades a slower backfill (~29 hours instead of ~11 to cover all
+	// 17,146 orders) for less risk of starving the worker pool during it.
+	const BACKFILL_BATCH_SIZE    = 10;
 
 	public static function backfill_batch( $batch_size = self::BACKFILL_BATCH_SIZE ) {
 		if ( get_option( self::BACKFILL_DONE_OPTION ) ) {
