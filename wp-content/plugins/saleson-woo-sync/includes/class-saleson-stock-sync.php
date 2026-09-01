@@ -73,16 +73,32 @@ class Saleson_Stock_Sync {
 	 * in wp_saleson_product_map (see class-saleson-matcher-page.php's
 	 * "Collisions" tab), not by anything in this file.
 	 */
+	// Soft time budget: bails out cleanly (releasing the lock, finishing the
+	// log) before risking a hard PHP execution-time kill, which cannot be
+	// caught by try/catch and would leave the lock stuck for its full TTL.
+	// Added 2026-09-01 after the lock was found stuck "held" across multiple
+	// consecutive cron cycles with no other explanation - a hard timeout
+	// killing the process mid-run, silently, is the only mechanism that
+	// bypasses the catch block below entirely.
+	const TIME_BUDGET_SECONDS = 20;
+
 	public static function run() {
-		if ( get_transient( self::LOCK_KEY ) ) {
+		$existing_lock = get_transient( self::LOCK_KEY );
+		if ( $existing_lock ) {
+			$age = time() - (int) $existing_lock;
 			$skip_log_id = Saleson_Logger::start( 'stock_price_pull' );
-			Saleson_Logger::finish( $skip_log_id, 0, 1, 'Skipped - another sync run is already in progress (lock held).' );
+			Saleson_Logger::finish( $skip_log_id, 0, 1, sprintf(
+				'Skipped - another sync run has held the lock for %ds (acquired at %s, expires after 300s). If this age is consistently near 300s, the previous run is very likely being killed by a PHP execution-time limit rather than finishing normally - check hosting PHP error logs for "Maximum execution time" around that timestamp.',
+				$age,
+				gmdate( 'Y-m-d H:i:s', (int) $existing_lock ) . ' UTC'
+			) );
 			return;
 		}
 		set_transient( self::LOCK_KEY, time(), 5 * MINUTE_IN_SECONDS ); // safety expiry in case of a fatal that skips the cleanup below
 
-		$log_id    = Saleson_Logger::start( 'stock_price_pull' );
-		$processed = 0;
+		$log_id     = Saleson_Logger::start( 'stock_price_pull' );
+		$processed  = 0;
+		$start_time = microtime( true );
 
 		try {
 			$api = new Saleson_API();
@@ -178,19 +194,49 @@ class Saleson_Stock_Sync {
 			// curated SalesOn id the rate-list loop above didn't already cover.
 			self::backfill_stock_cache_for_linked( $name_to_product, $cache_table, $now );
 
+			// Push the freshly-cached stock/price onto Woo products that are
+			// already matched, so the storefront reflects this run immediately.
+			// Moved ahead of the steps below (2026-09-01): this is the one
+			// with direct customer-facing impact (prices/stock on the live
+			// site), so it should complete even on a cycle that later runs
+			// out of time budget, rather than risk being skipped because
+			// something further down the list ran long.
+			$push_result = self::push_to_matched_woo_products();
+
+			$skipped_steps = array();
+			$budget_exceeded = function() use ( $start_time ) {
+				return ( microtime( true ) - $start_time ) > self::TIME_BUDGET_SECONDS;
+			};
+
 			// Same cadence: price tiers, logged as its own run.
-			Saleson_Price_Sync_Pull::pull_all_tiers();
+			if ( $budget_exceeded() ) {
+				$skipped_steps[] = 'price_tiers';
+			} else {
+				Saleson_Price_Sync_Pull::pull_all_tiers();
+			}
 
 			// Same cadence: party credit/balance refresh, logged as its own run.
-			Saleson_Party_Balance_Sync::run();
+			if ( $budget_exceeded() ) {
+				$skipped_steps[] = 'party_balance';
+			} else {
+				Saleson_Party_Balance_Sync::run();
+			}
 
 			// Same cadence: mirror each submitted order's real SalesOn status
 			// onto its WooCommerce order, logged as its own run.
-			Saleson_Order_Status_Sync::run();
+			if ( $budget_exceeded() ) {
+				$skipped_steps[] = 'order_status_sync';
+			} else {
+				Saleson_Order_Status_Sync::run();
+			}
 
 			// Same cadence: import new SalesOn orders (offline/phone/ERP direct)
 			// into WooCommerce so all orders are visible in wp-admin.
-			Saleson_Order_Importer::sync_from_saleson();
+			if ( $budget_exceeded() ) {
+				$skipped_steps[] = 'order_inbound_sync';
+			} else {
+				Saleson_Order_Importer::sync_from_saleson();
+			}
 
 			// PAUSED 2026-09-01: the site hit 503s three times this session
 			// while this was running (once from an unrelated unthrottled
@@ -205,17 +251,18 @@ class Saleson_Stock_Sync {
 			// on the website, so staff only have to add a photo and publish.
 			// Runs AFTER the stock/price pull above so a newly imported product
 			// already has its cache row to read stock and price from.
-			Saleson_Product_Importer::auto_import_new();
-
-			// Push the freshly-cached stock/price onto Woo products that are
-			// already matched, so the storefront reflects this run immediately.
-			$push_result = self::push_to_matched_woo_products();
-
-			if ( ! empty( $push_result['mismatches'] ) ) {
-				Saleson_Logger::finish( $log_id, $processed, count( $push_result['mismatches'] ), implode( ' | ', $push_result['mismatches'] ) );
+			if ( $budget_exceeded() ) {
+				$skipped_steps[] = 'product_import';
 			} else {
-				Saleson_Logger::finish( $log_id, $processed, 0, null );
+				Saleson_Product_Importer::auto_import_new();
 			}
+
+			$notes = ! empty( $push_result['mismatches'] ) ? implode( ' | ', $push_result['mismatches'] ) : null;
+			if ( $skipped_steps ) {
+				$skip_note = 'Time budget exceeded (' . self::TIME_BUDGET_SECONDS . 's) - skipped this cycle: ' . implode( ', ', $skipped_steps ) . '. Will run next cycle.';
+				$notes     = $notes ? $notes . ' | ' . $skip_note : $skip_note;
+			}
+			Saleson_Logger::finish( $log_id, $processed, ! empty( $push_result['mismatches'] ) ? count( $push_result['mismatches'] ) : 0, $notes );
 		} catch ( \Throwable $e ) {
 			Saleson_Logger::finish( $log_id, $processed, 1, $e->getMessage() );
 		}
