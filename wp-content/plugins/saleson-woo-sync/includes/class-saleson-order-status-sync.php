@@ -41,11 +41,20 @@ class Saleson_Order_Status_Sync {
 		$processed = 0;
 		$errors    = 0;
 
-		try {
 			global $wpdb;
 			$order_ids = $wpdb->get_col(
-				"SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '" . Saleson_Order_Submitter::META_TRANSACTION_ID . "'"
+				"SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key = '" . Saleson_Order_Submitter::META_TRANSACTION_ID . "'"
 			);
+
+			$hpos_table = $wpdb->prefix . 'wc_orders_meta';
+			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $hpos_table ) ) === $hpos_table ) {
+				$hpos_ids = $wpdb->get_col(
+					"SELECT DISTINCT order_id FROM {$hpos_table} WHERE meta_key = '" . Saleson_Order_Submitter::META_TRANSACTION_ID . "'"
+				);
+				if ( ! empty( $hpos_ids ) ) {
+					$order_ids = array_unique( array_merge( $order_ids, $hpos_ids ) );
+				}
+			}
 
 			$api = new Saleson_API();
 
@@ -118,7 +127,7 @@ class Saleson_Order_Status_Sync {
 	 * reading the association field already in hand) but the invoice itself,
 	 * once generated, doesn't need refetching every cycle.
 	 */
-	private static function maybe_sync_invoice( $order, $saleson_order, $api ) {
+	public static function maybe_sync_invoice( $order, $saleson_order, $api ) {
 		if ( get_post_meta( $order->get_id(), self::META_INVOICE_ID, true ) ) {
 			return; // already synced
 		}

@@ -25,6 +25,7 @@ require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-order-status-sync.ph
 require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-order-details.php';
 require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-product-importer.php';
 require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-party-creator.php';
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-order-importer.php';
 require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-admin-menu.php';
 require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-settings-page.php';
 require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-matcher-page.php';

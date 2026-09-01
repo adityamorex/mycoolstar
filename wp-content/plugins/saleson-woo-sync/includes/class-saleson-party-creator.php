@@ -48,6 +48,9 @@ class Saleson_Party_Creator {
 	 * Creates a SalesOn party from a WooCommerce order's customer details and
 	 * records it in wp_saleson_party_map.
 	 *
+	 * Uses double-checked concurrency locking to ensure simultaneous orders from
+	 * the same guest/customer do not create duplicate parties in SalesOn.
+	 *
 	 * @param WC_Order $order
 	 * @return array{ok:bool, saleson_party_id?:int, error?:string}
 	 */
@@ -65,7 +68,36 @@ class Saleson_Party_Creator {
 		}
 
 		$mobile = preg_replace( '/\D/', '', (string) $order->get_billing_phone() );
-		$email  = $order->get_billing_email();
+		$email  = trim( strtolower( (string) $order->get_billing_email() ) );
+
+		// Step 1: Check if party already exists before attempting lock
+		$existing_party_id = Saleson_Order_Submitter::resolve_party_id( $order );
+		if ( $existing_party_id ) {
+			return array( 'ok' => true, 'saleson_party_id' => (int) $existing_party_id );
+		}
+
+		// Step 2: Acquire a short-lived concurrency lock based on mobile or email
+		$lock_suffix = $mobile ? substr( $mobile, -10 ) : ( $email ? md5( $email ) : 'order_' . $order->get_id() );
+		$lock_key    = 'saleson_party_lock_' . $lock_suffix;
+		$locked      = false;
+
+		for ( $attempt = 0; $attempt < 6; $attempt++ ) {
+			if ( false === get_transient( $lock_key ) ) {
+				set_transient( $lock_key, 1, 30 ); // 30-second TTL
+				$locked = true;
+				break;
+			}
+			usleep( 500000 ); // wait 0.5s for in-flight create to finish
+		}
+
+		// Step 3: Double-check party map inside the lock (in case parallel request created it)
+		$existing_party_id = Saleson_Order_Submitter::resolve_party_id( $order );
+		if ( $existing_party_id ) {
+			if ( $locked ) {
+				delete_transient( $lock_key );
+			}
+			return array( 'ok' => true, 'saleson_party_id' => (int) $existing_party_id );
+		}
 
 		$customer_type = $user_id ? get_user_meta( $user_id, 'customer_type', true ) : '';
 
@@ -88,12 +120,16 @@ class Saleson_Party_Creator {
 		if ( $mobile ) {
 			$body['mobile'] = $mobile;
 		}
-		if ( $email && is_email( $email ) ) {
+		if ( $email && is_email( $email ) && false === strpos( $email, '@placeholder.mycoolstar.com' ) ) {
 			$body['email'] = $email;
 		}
 
 		$api    = new Saleson_API();
 		$result = $api->post( 'parties', $body );
+
+		if ( $locked ) {
+			delete_transient( $lock_key );
+		}
 
 		if ( empty( $result['ok'] ) || empty( $result['data']['party']['id'] ) ) {
 			$error = isset( $result['error'] ) ? $result['error'] : 'Unknown error';

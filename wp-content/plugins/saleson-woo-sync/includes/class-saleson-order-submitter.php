@@ -37,24 +37,11 @@ class Saleson_Order_Submitter {
 
 		$party_id = self::resolve_party_id( $order );
 
-		// No SalesOn party yet (a new website signup, or a guest checkout) -
-		// create one, so every order reaches SalesOn rather than being skipped.
+		// If no SalesOn party is mapped yet (neither by User ID, Phone, nor Email),
+		// skip submission with a clear order note for staff.
 		if ( ! $party_id ) {
-			$created = Saleson_Party_Creator::create_from_order( $order );
-			if ( empty( $created['ok'] ) ) {
-				$order->add_order_note( sprintf(
-					/* translators: %s: error detail */
-					__( 'Not synced to SalesOn: could not create a customer record for this order (%s). Add the customer in SalesOn manually, then resubmit.', 'saleson-woo-sync' ),
-					$created['error']
-				) );
-				return;
-			}
-			$party_id = $created['saleson_party_id'];
-			$order->add_order_note( sprintf(
-				/* translators: %d: SalesOn party id */
-				__( 'Created a new customer record in SalesOn (party #%d) for this order.', 'saleson-woo-sync' ),
-				$party_id
-			) );
+			$order->add_order_note( __( 'Not synced to SalesOn: Customer is not mapped to any SalesOn party (checked by User ID, mobile number, and email). Create or map the customer in SalesOn to link future orders.', 'saleson-woo-sync' ) );
+			return;
 		}
 
 		$products = self::build_line_items( $order );
@@ -112,21 +99,93 @@ class Saleson_Order_Submitter {
 	}
 
 	/**
-	 * Only resolves parties that already exist in wp_saleson_party_map - see
-	 * class docblock re: party auto-creation being deferred. Guest checkout
-	 * (no WordPress user at all) can never resolve here yet either.
+	 * Resolves the SalesOn party ID for an order using a multi-signal hierarchy:
+	 * 1. Logged-in WordPress user ID (if matched in wp_saleson_party_map)
+	 * 2. Normalized billing phone (matching last 10 digits against party map)
+	 * 3. Billing email (matching saleson_email or woo_login_email, ignoring placeholders)
+	 *
+	 * If a match is found for a logged-in user who was not yet linked, automatically
+	 * links their woo_user_id in wp_saleson_party_map to avoid future lookups.
+	 *
+	 * @param WC_Order $order
+	 * @return int|null SalesOn party ID or null if not found
 	 */
-	private static function resolve_party_id( $order ) {
+	public static function resolve_party_id( $order ) {
+		global $wpdb;
+		$table       = $wpdb->prefix . 'saleson_party_map';
 		$customer_id = $order->get_customer_id();
-		if ( ! $customer_id ) {
-			return null;
+
+		// Tier 1: Direct link by WordPress User ID
+		if ( $customer_id ) {
+			$party_id = $wpdb->get_var( $wpdb->prepare(
+				"SELECT saleson_party_id FROM {$table} WHERE woo_user_id = %d AND mapping_status != 'excluded' LIMIT 1",
+				$customer_id
+			) );
+			if ( $party_id ) {
+				return (int) $party_id;
+			}
 		}
 
-		global $wpdb;
-		return $wpdb->get_var( $wpdb->prepare(
-			"SELECT saleson_party_id FROM {$wpdb->prefix}saleson_party_map WHERE woo_user_id = %d",
-			$customer_id
-		) );
+		// Tier 2: Normalized Billing Phone (matches exact digits or last 10 digits for Indian mobiles)
+		$raw_phone = $order->get_billing_phone();
+		$digits    = preg_replace( '/\D/', '', (string) $raw_phone );
+		if ( strlen( $digits ) >= 10 ) {
+			$last10 = substr( $digits, -10 );
+			$matched_row = $wpdb->get_row( $wpdb->prepare(
+				"SELECT saleson_party_id, woo_user_id FROM {$table} 
+				 WHERE (mobile = %s OR mobile = %s OR mobile LIKE %s) 
+				   AND mapping_status != 'excluded' 
+				 ORDER BY (woo_user_id IS NOT NULL) DESC, saleson_party_id ASC 
+				 LIMIT 1",
+				$digits,
+				$last10,
+				'%' . $wpdb->esc_like( $last10 )
+			) );
+
+			if ( $matched_row ) {
+				// Auto-link registered user if they weren't linked yet
+				if ( $customer_id && empty( $matched_row->woo_user_id ) ) {
+					$wpdb->update(
+						$table,
+						array( 'woo_user_id' => $customer_id, 'last_synced_at' => current_time( 'mysql' ) ),
+						array( 'saleson_party_id' => $matched_row->saleson_party_id ),
+						array( '%d', '%s' ),
+						array( '%d' )
+					);
+				}
+				return (int) $matched_row->saleson_party_id;
+			}
+		}
+
+		// Tier 3: Billing Email (ignoring synthetic placeholder emails)
+		$email = trim( strtolower( (string) $order->get_billing_email() ) );
+		if ( $email && is_email( $email ) && false === strpos( $email, '@placeholder.mycoolstar.com' ) ) {
+			$matched_row = $wpdb->get_row( $wpdb->prepare(
+				"SELECT saleson_party_id, woo_user_id FROM {$table} 
+				 WHERE (LOWER(saleson_email) = %s OR LOWER(woo_login_email) = %s) 
+				   AND mapping_status != 'excluded' 
+				 ORDER BY (woo_user_id IS NOT NULL) DESC, saleson_party_id ASC 
+				 LIMIT 1",
+				$email,
+				$email
+			) );
+
+			if ( $matched_row ) {
+				// Auto-link registered user if they weren't linked yet
+				if ( $customer_id && empty( $matched_row->woo_user_id ) ) {
+					$wpdb->update(
+						$table,
+						array( 'woo_user_id' => $customer_id, 'last_synced_at' => current_time( 'mysql' ) ),
+						array( 'saleson_party_id' => $matched_row->saleson_party_id ),
+						array( '%d', '%s' ),
+						array( '%d' )
+					);
+				}
+				return (int) $matched_row->saleson_party_id;
+			}
+		}
+
+		return null;
 	}
 
 	/**

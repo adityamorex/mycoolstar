@@ -188,6 +188,10 @@ class Saleson_Stock_Sync {
 			// onto its WooCommerce order, logged as its own run.
 			Saleson_Order_Status_Sync::run();
 
+			// Same cadence: import new SalesOn orders (offline/phone/ERP direct)
+			// into WooCommerce so all orders are visible in wp-admin.
+			Saleson_Order_Importer::sync_from_saleson();
+
 			// Same cadence: give genuinely new SalesOn products a draft listing
 			// on the website, so staff only have to add a photo and publish.
 			// Runs AFTER the stock/price pull above so a newly imported product
