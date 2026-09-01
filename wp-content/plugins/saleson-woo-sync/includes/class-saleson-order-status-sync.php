@@ -41,6 +41,7 @@ class Saleson_Order_Status_Sync {
 		$processed = 0;
 		$errors    = 0;
 
+		try {
 			global $wpdb;
 			$order_ids = $wpdb->get_col(
 				"SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key = '" . Saleson_Order_Submitter::META_TRANSACTION_ID . "'"
