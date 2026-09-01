@@ -27,6 +27,62 @@ class Saleson_Order_Details {
 		// firing on both classic and HPOS order edit screens alike.
 		add_action( 'woocommerce_process_shop_order_meta', array( __CLASS__, 'save_bilty_field' ) );
 		add_action( 'woocommerce_order_details_after_order_table', array( __CLASS__, 'render_customer_view' ) );
+
+		// Invoice column on the wp-admin Orders list - so staff can see which
+		// orders are invoiced without opening each one. HPOS is this site's
+		// active storage (confirmed 2026-08-20), so those hooks are what
+		// actually fire; the classic manage_* hooks are added too in case
+		// HPOS compatibility mode ever changes, and cost nothing if unused.
+		add_filter( 'woocommerce_shop_order_list_table_columns', array( __CLASS__, 'add_invoice_column' ) );
+		add_action( 'woocommerce_shop_order_list_table_custom_column', array( __CLASS__, 'render_invoice_column' ), 10, 2 );
+		add_filter( 'manage_edit-shop_order_columns', array( __CLASS__, 'add_invoice_column' ) );
+		add_action( 'manage_shop_order_posts_custom_column', array( __CLASS__, 'render_invoice_column_classic' ), 10, 2 );
+	}
+
+	// --- Orders list column (wp-admin Orders screen) --------------------------
+
+	public static function add_invoice_column( $columns ) {
+		$new = array();
+		foreach ( $columns as $key => $label ) {
+			$new[ $key ] = $label;
+			if ( 'order_status' === $key ) {
+				$new['saleson_invoice'] = __( 'Invoice', 'saleson-woo-sync' );
+			}
+		}
+		if ( ! isset( $new['saleson_invoice'] ) ) {
+			$new['saleson_invoice'] = __( 'Invoice', 'saleson-woo-sync' ); // order_status column not found - append instead
+		}
+		return $new;
+	}
+
+	public static function render_invoice_column( $column, $order ) {
+		if ( 'saleson_invoice' !== $column ) {
+			return;
+		}
+		self::render_invoice_cell( $order );
+	}
+
+	public static function render_invoice_column_classic( $column, $post_id ) {
+		if ( 'saleson_invoice' !== $column ) {
+			return;
+		}
+		$order = wc_get_order( $post_id );
+		if ( $order ) {
+			self::render_invoice_cell( $order );
+		}
+	}
+
+	private static function render_invoice_cell( $order ) {
+		$invoice_no = $order->get_meta( Saleson_Order_Status_Sync::META_INVOICE_NO );
+		if ( ! $invoice_no ) {
+			echo '<span style="color:#999;">&#8212;</span>';
+			return;
+		}
+		$url = $order->get_meta( Saleson_Order_Status_Sync::META_INVOICE_URL );
+		echo esc_html( $invoice_no );
+		if ( $url ) {
+			echo ' <a href="' . esc_url( $url ) . '" target="_blank" rel="noopener noreferrer">' . esc_html__( 'View', 'saleson-woo-sync' ) . '</a>';
+		}
 	}
 
 	// --- Staff view (wp-admin order edit screen) ------------------------------
