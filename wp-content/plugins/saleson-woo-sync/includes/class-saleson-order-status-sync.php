@@ -90,6 +90,23 @@ class Saleson_Order_Status_Sync {
 
 			$api = new Saleson_API();
 
+			// One bulk call instead of one-per-order: the list endpoint's
+			// summary already includes each order's `status` directly (just
+			// not its invoice `association`, which still needs the detail
+			// endpoint - but only orders that actually need that get one).
+			// page_size=200 comfortably covers the 150-row tracked-order cap
+			// above, since active (non-terminal) SalesOn orders are, in
+			// practice, near-always among its most recent ones.
+			$bulk_status_by_txn = array();
+			$list_result        = $api->get( 'transactions/sales-order', array( 'page_size' => 200 ) );
+			if ( ! empty( $list_result['ok'] ) && ! empty( $list_result['data']['invoices'] ) ) {
+				foreach ( $list_result['data']['invoices'] as $row ) {
+					if ( ! empty( $row['id'] ) && isset( $row['status'] ) ) {
+						$bulk_status_by_txn[ (int) $row['id'] ] = $row['status'];
+					}
+				}
+			}
+
 			foreach ( $order_ids as $order_id ) {
 				$order = wc_get_order( $order_id );
 				if ( ! $order ) {
@@ -123,14 +140,23 @@ class Saleson_Order_Status_Sync {
 					continue;
 				}
 
-				$result = $api->get( 'transactions/sales-order/' . (int) $transaction_id );
-				if ( empty( $result['ok'] ) || empty( $result['data']['invoice']['status'] ) ) {
-					$errors++;
-					continue;
+				$saleson_status = isset( $bulk_status_by_txn[ (int) $transaction_id ] ) ? $bulk_status_by_txn[ (int) $transaction_id ] : null;
+
+				// Not in the bulk list's first 200 - a rare case (a very old
+				// order that's somehow still non-terminal). Fall back to the
+				// one-off detail call rather than leaving it unsynced forever.
+				$detail_fetched = null;
+				if ( null === $saleson_status ) {
+					$fallback = $api->get( 'transactions/sales-order/' . (int) $transaction_id );
+					if ( empty( $fallback['ok'] ) || empty( $fallback['data']['invoice']['status'] ) ) {
+						$errors++;
+						continue;
+					}
+					$detail_fetched = $fallback['data']['invoice'];
+					$saleson_status = $detail_fetched['status'];
 				}
 
-				$saleson_status = $result['data']['invoice']['status'];
-				$target_status  = isset( self::STATUS_MAP[ $saleson_status ] ) ? self::STATUS_MAP[ $saleson_status ] : null;
+				$target_status = isset( self::STATUS_MAP[ $saleson_status ] ) ? self::STATUS_MAP[ $saleson_status ] : null;
 
 				if ( ! $target_status ) {
 					// Unknown/unexpected status value from SalesOn - skip rather
@@ -143,12 +169,24 @@ class Saleson_Order_Status_Sync {
 					$order->save();
 				}
 
-				// Phase 4: once SalesOn has generated an invoice for this order,
-				// pull it in. Reuses the order-detail response already fetched
-				// above (association is included there) rather than a separate
-				// pass - only makes the ONE extra call per order that actually
-				// needs it (most orders have no invoice yet).
-				self::maybe_sync_invoice( $order, $result['data']['invoice'], $api );
+				// Invoice sync needs the `association` field, which only the
+				// per-order detail endpoint has - but only fetch it for
+				// orders that could plausibly have an invoice by now (skips
+				// the API call entirely for every order still Pending/Onhold/
+				// Confirmed, which is most of them) AND don't already have
+				// one synced.
+				$invoice_relevant_statuses = array( 'Invoiced', 'Dispatched', 'Delivered' );
+				if ( in_array( $saleson_status, $invoice_relevant_statuses, true ) && ! $order->get_meta( self::META_INVOICE_ID ) ) {
+					if ( null === $detail_fetched ) {
+						$detail = $api->get( 'transactions/sales-order/' . (int) $transaction_id );
+						if ( ! empty( $detail['ok'] ) && ! empty( $detail['data']['invoice'] ) ) {
+							$detail_fetched = $detail['data']['invoice'];
+						}
+					}
+					if ( null !== $detail_fetched ) {
+						self::maybe_sync_invoice( $order, $detail_fetched, $api );
+					}
+				}
 
 				$processed++;
 			}
