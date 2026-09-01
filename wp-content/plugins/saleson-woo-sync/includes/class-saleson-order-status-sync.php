@@ -43,19 +43,50 @@ class Saleson_Order_Status_Sync {
 
 		try {
 			global $wpdb;
-			$order_ids = $wpdb->get_col(
-				"SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key = '" . Saleson_Order_Submitter::META_TRANSACTION_ID . "'"
-			);
+
+			// Terminal statuses never change again in SalesOn's lifecycle
+			// (Delivered, Cancelled), so excluding them here is what keeps
+			// this step's cost bounded as order count grows - checking EVERY
+			// tracked order EVERY cycle with no cap (as this did until
+			// 2026-09-01) meant one API call per order, unconditionally,
+			// forever, and became unsustainable the moment the historical
+			// backfill pushed the tracked order count into the hundreds:
+			// a single cycle started taking longer than the cron interval,
+			// so Saleson_Stock_Sync's own self-lock (a real safety feature)
+			// began skipping most ticks with "another sync run is already in
+			// progress" - a livelock, not a crash, but just as stuck.
+			// LIMIT below is a hard backstop on top of the exclusion, in case
+			// the active (non-terminal) set itself ever grows past what one
+			// cron cycle can process in time.
+			$terminal = array( 'wc-saleson-delivered', 'wc-cancelled' );
+			$placeholders = implode( ',', array_fill( 0, count( $terminal ), '%s' ) );
+
+			$order_ids = $wpdb->get_col( $wpdb->prepare(
+				"SELECT DISTINCT pm.post_id FROM {$wpdb->postmeta} pm
+				 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+				 WHERE pm.meta_key = %s AND p.post_status NOT IN ({$placeholders})
+				 LIMIT 150",
+				array_merge( array( Saleson_Order_Submitter::META_TRANSACTION_ID ), $terminal )
+			) );
 
 			$hpos_table = $wpdb->prefix . 'wc_orders_meta';
+			$hpos_orders_table = $wpdb->prefix . 'wc_orders';
 			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $hpos_table ) ) === $hpos_table ) {
-				$hpos_ids = $wpdb->get_col(
-					"SELECT DISTINCT order_id FROM {$hpos_table} WHERE meta_key = '" . Saleson_Order_Submitter::META_TRANSACTION_ID . "'"
-				);
+				$hpos_ids = $wpdb->get_col( $wpdb->prepare(
+					"SELECT DISTINCT wom.order_id FROM {$hpos_table} wom
+					 INNER JOIN {$hpos_orders_table} o ON o.id = wom.order_id
+					 WHERE wom.meta_key = %s AND o.status NOT IN ({$placeholders})
+					 LIMIT 150",
+					array_merge( array( Saleson_Order_Submitter::META_TRANSACTION_ID ), $terminal )
+				) );
 				if ( ! empty( $hpos_ids ) ) {
 					$order_ids = array_unique( array_merge( $order_ids, $hpos_ids ) );
 				}
 			}
+
+			// Backstop cap across the merged set too, in case both queries
+			// each returned close to their own 150-row limit.
+			$order_ids = array_slice( $order_ids, 0, 150 );
 
 			$api = new Saleson_API();
 
