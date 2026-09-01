@@ -192,6 +192,12 @@ class Saleson_Stock_Sync {
 			// into WooCommerce so all orders are visible in wp-admin.
 			Saleson_Order_Importer::sync_from_saleson();
 
+			// Same cadence: walk one small batch of SalesOn's older order
+			// history into WooCommerce too (17,000+ orders total - far too
+			// many for one request, so this resumes a few dozen at a time
+			// every cron tick until the full history is mirrored).
+			Saleson_Order_Importer::backfill_batch();
+
 			// Same cadence: give genuinely new SalesOn products a draft listing
 			// on the website, so staff only have to add a photo and publish.
 			// Runs AFTER the stock/price pull above so a newly imported product

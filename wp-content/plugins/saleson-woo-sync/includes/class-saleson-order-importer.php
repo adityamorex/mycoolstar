@@ -105,6 +105,104 @@ class Saleson_Order_Importer {
 	}
 
 	/**
+	 * Walks SalesOn's full order history (17,000+ orders, going back years -
+	 * far too many to fetch in one request) into WooCommerce, a small batch
+	 * at a time, one batch per cron tick, resuming from where it left off.
+	 *
+	 * Shares LOCK_KEY with sync_from_saleson() so the two can never run
+	 * concurrently and race each other (same class of bug as the cron-overlap
+	 * duplicate issue this lock already fixes for the "recent" path).
+	 *
+	 * Cursor position and completion are persisted in wp_options so this
+	 * survives across the many cron ticks a full backfill takes - at
+	 * page_size=25 that's roughly 17,146 / 25 ~= 686 ticks, well under a day
+	 * on the existing ~1-minute cron.
+	 */
+	const BACKFILL_CURSOR_OPTION = 'saleson_order_backfill_cursor';
+	const BACKFILL_DONE_OPTION   = 'saleson_order_backfill_done';
+	const BACKFILL_BATCH_SIZE    = 25;
+
+	public static function backfill_batch( $batch_size = self::BACKFILL_BATCH_SIZE ) {
+		if ( get_option( self::BACKFILL_DONE_OPTION ) ) {
+			return 0; // Full SalesOn order history is already mirrored - nothing left to do.
+		}
+		if ( false !== get_transient( self::LOCK_KEY ) ) {
+			return 0; // sync_from_saleson() or another backfill tick is still running - try next tick.
+		}
+		set_transient( self::LOCK_KEY, 1, self::LOCK_TTL );
+
+		$log_id    = Saleson_Logger::start( 'order_backfill' );
+		$processed = 0;
+		$errors    = 0;
+
+		try {
+			$api    = new Saleson_API();
+			$cursor = get_option( self::BACKFILL_CURSOR_OPTION, '' );
+
+			$params = array( 'page_size' => (int) $batch_size );
+			if ( $cursor ) {
+				$params['cursor'] = $cursor;
+			}
+
+			$result = $api->get( 'transactions/sales-order', $params );
+			if ( empty( $result['ok'] ) ) {
+				Saleson_Logger::finish( $log_id, 0, 1, $result['error'] ?? null );
+				return 0;
+			}
+
+			$invoices = isset( $result['data']['invoices'] ) && is_array( $result['data']['invoices'] )
+				? $result['data']['invoices']
+				: array();
+
+			foreach ( $invoices as $inv_summary ) {
+				$transaction_id = isset( $inv_summary['id'] ) ? (int) $inv_summary['id'] : 0;
+				if ( ! $transaction_id ) {
+					continue;
+				}
+
+				// Already in WooCommerce - either a website order, or a batch
+				// already imported by a previous backfill/recent-sync tick.
+				if ( self::order_exists_for_transaction( $transaction_id ) ) {
+					continue;
+				}
+
+				$detail = $api->get( 'transactions/sales-order/' . $transaction_id );
+				if ( empty( $detail['ok'] ) || empty( $detail['data']['invoice'] ) ) {
+					$errors++;
+					continue;
+				}
+
+				$order_id = self::create_woo_order( $detail['data']['invoice'], $api );
+				if ( $order_id ) {
+					$processed++;
+				} else {
+					$errors++;
+				}
+			}
+
+			$next_cursor = isset( $result['data']['page_info']['next_cursor'] )
+				? $result['data']['page_info']['next_cursor']
+				: null;
+
+			if ( $next_cursor ) {
+				update_option( self::BACKFILL_CURSOR_OPTION, $next_cursor, false );
+			} else {
+				// No more pages - reached the end of SalesOn's order history.
+				update_option( self::BACKFILL_DONE_OPTION, 1, false );
+				delete_option( self::BACKFILL_CURSOR_OPTION );
+			}
+
+			Saleson_Logger::finish( $log_id, $processed, $errors, null );
+		} catch ( \Throwable $e ) {
+			Saleson_Logger::finish( $log_id, $processed, 1, $e->getMessage() );
+		} finally {
+			delete_transient( self::LOCK_KEY );
+		}
+
+		return $processed;
+	}
+
+	/**
 	 * Creates a WooCommerce order from SalesOn order data.
 	 *
 	 * @param array       $order_data SalesOn order detail payload
@@ -344,7 +442,7 @@ class Saleson_Order_Importer {
 						if ( $oid !== (int) $dup->keep_id ) {
 							$order = wc_get_order( $oid );
 							if ( $order ) {
-								$order->delete( true );
+								$order->delete();
 							}
 						}
 					}

@@ -8,11 +8,16 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * exactly as they do today; the website's only job is to create the order
  * there and later mirror its status back, see Saleson_Order_Status_Sync).
  *
- * Party creation is deliberately NOT built yet (client decision 2026-08-16:
- * "we will look into new party creation later") - only customers who already
- * have a wp_saleson_party_map row (Phase 2 accounts, or a pre-existing match)
- * get submitted. Everyone else gets a clear order note explaining why, so
- * nothing is silently dropped.
+ * Party resolution tries, in order: existing link by WordPress user ID,
+ * then billing phone, then billing email (resolve_party_id() below) - so a
+ * returning customer who was matched by phone/email gets auto-linked for
+ * next time instead of creating a second party. Only when none of those
+ * match does this fall back to Saleson_Party_Creator::create_from_order(),
+ * which is safe to call from here even under concurrent orders: it takes
+ * a short transient lock keyed on the customer's phone/email and re-checks
+ * for an existing party inside that lock before creating one (2026-09-01 -
+ * closes the race that otherwise let two near-simultaneous orders from a
+ * brand-new customer create two SalesOn parties).
  */
 class Saleson_Order_Submitter {
 
@@ -37,11 +42,26 @@ class Saleson_Order_Submitter {
 
 		$party_id = self::resolve_party_id( $order );
 
-		// If no SalesOn party is mapped yet (neither by User ID, Phone, nor Email),
-		// skip submission with a clear order note for staff.
+		// No existing match by User ID, phone, or email - create a new
+		// SalesOn party rather than leaving the order stuck, so every order
+		// still reaches SalesOn. Locked in Saleson_Party_Creator to prevent
+		// duplicate parties from concurrent orders.
 		if ( ! $party_id ) {
-			$order->add_order_note( __( 'Not synced to SalesOn: Customer is not mapped to any SalesOn party (checked by User ID, mobile number, and email). Create or map the customer in SalesOn to link future orders.', 'saleson-woo-sync' ) );
-			return;
+			$created = Saleson_Party_Creator::create_from_order( $order );
+			if ( empty( $created['ok'] ) ) {
+				$order->add_order_note( sprintf(
+					/* translators: %s: error detail */
+					__( 'Not synced to SalesOn: could not create a customer record for this order (%s). Add the customer in SalesOn manually, then resubmit.', 'saleson-woo-sync' ),
+					$created['error']
+				) );
+				return;
+			}
+			$party_id = $created['saleson_party_id'];
+			$order->add_order_note( sprintf(
+				/* translators: %d: SalesOn party id */
+				__( 'Created a new customer record in SalesOn (party #%d) for this order.', 'saleson-woo-sync' ),
+				$party_id
+			) );
 		}
 
 		$products = self::build_line_items( $order );
