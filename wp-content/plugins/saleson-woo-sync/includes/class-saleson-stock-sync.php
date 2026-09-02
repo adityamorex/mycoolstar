@@ -27,18 +27,16 @@ class Saleson_Stock_Sync {
 	public static function init() {
 		add_filter( 'cron_schedules', array( __CLASS__, 'register_cron_schedule' ) );
 
-		if ( ! wp_next_scheduled( self::CRON_HOOK ) ) {
-			wp_schedule_event( time(), self::CRON_INTERVAL_KEY, self::CRON_HOOK );
-		}
-
-		// Fallback only (2026-09-02): the real trigger for this and every
-		// other step is now its own hPanel cron job hitting
-		// Saleson_Cron_Endpoints's dedicated URL. This WP-Cron registration
-		// stays only so stock/price syncing doesn't stop dead if that hPanel
-		// job hasn't been set up yet or ever misses a run - WP-Cron fires on
-		// page-load, so it's not reliable as the PRIMARY mechanism, but it's
-		// a reasonable safety net for just this one (fast, cheap) piece.
-		add_action( self::CRON_HOOK, array( __CLASS__, 'run_stock_price_only' ) );
+		// WP-Cron fallback removed (2026-09-02): the dispatch-all hPanel
+		// cron job (Saleson_Cron_Endpoints) is confirmed working reliably,
+		// so this redundant page-load-triggered trigger was doing nothing
+		// but occasionally firing within a couple seconds of the real one -
+		// harmless (the lock caught it every time), but noisy: it showed up
+		// as a spurious FAILED row on the Sync Status table for what was
+		// genuinely just two triggers landing close together, not a stuck
+		// or crashed run. Clear any previously-scheduled event left over
+		// from before this change.
+		wp_clear_scheduled_hook( self::CRON_HOOK );
 	}
 
 	/**
