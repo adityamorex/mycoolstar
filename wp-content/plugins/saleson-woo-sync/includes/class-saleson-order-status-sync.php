@@ -64,58 +64,62 @@ class Saleson_Order_Status_Sync {
 			$terminal = array( 'wc-saleson-delivered', 'wc-cancelled' );
 			$placeholders = implode( ',', array_fill( 0, count( $terminal ), '%s' ) );
 
-			// Ordered by least-recently-checked first (NULLs - never checked
-			// at all - sort first in MySQL ASC), not left unordered: with
-			// more non-terminal tracked orders than the 150 cap (very
-			// plausible once history is backfilled), an unordered LIMIT can
-			// return the SAME subset every single cycle, starving the rest
-			// indefinitely. Confirmed live 2026-09-02: a real invoiced order
-			// went 24+ hours with date_modified never once changing, despite
-			// other orders processing successfully every cycle. checked_at
-			// is stamped on every order this loop examines below, regardless
-			// of outcome, so coverage now rotates through the full set.
-			//
-			// Status filtering uses wc_orders (HPOS), NOT wp_posts.post_status
-			// - this site runs HPOS, and most current orders have NO real row
-			// in wp_posts at all. The original version INNER JOINed wp_posts,
-			// which silently excluded every such order from ever being a
-			// candidate - confirmed live 2026-09-02: an invoiced order that
-			// genuinely needed processing was never once selected, and a
-			// cancelled order's stale wp_posts row kept it showing up as
-			// still-active for cycles after it was actually cancelled. LEFT
-			// JOIN (not INNER) so a row missing from wc_orders is INCLUDED
-			// rather than silently dropped - status unknown is not the same
-			// as status terminal.
+			// Simplified 2026-09-02 (second pass): the previous LEFT JOIN
+			// version, meant to fix wp_posts silently excluding HPOS-only
+			// orders, instead returned ZERO candidates live (confirmed:
+			// order_status_sync logged SUCCESS with 0 processed, 0 errors -
+			// the loop body never ran at all, meaning $order_ids came back
+			// empty). Rather than keep debugging an increasingly elaborate
+			// dual-table query, this drops the legacy wp_postmeta table from
+			// candidate DISCOVERY entirely and queries wc_orders_meta/
+			// wc_orders directly - confirmed live via the REST API that a
+			// real order's transaction id is readable there (HPOS is this
+			// site's actual authoritative store), so this is the source that
+			// should have been used from the start. The per-order loop below
+			// still has its own legacy-postmeta fallback for orders whose
+			// transaction id somehow ended up ONLY in the old table.
 			$hpos_orders_table = $wpdb->prefix . 'wc_orders';
-			$order_ids = $wpdb->get_col( $wpdb->prepare(
-				"SELECT DISTINCT pm.post_id FROM {$wpdb->postmeta} pm
-				 LEFT JOIN {$hpos_orders_table} o ON o.id = pm.post_id
-				 LEFT JOIN {$wpdb->postmeta} checked ON checked.post_id = pm.post_id AND checked.meta_key = %s
-				 WHERE pm.meta_key = %s AND ( o.status IS NULL OR o.status NOT IN ({$placeholders}) )
-				 ORDER BY checked.meta_value ASC
-				 LIMIT 150",
-				array_merge( array( self::META_STATUS_CHECKED_AT, Saleson_Order_Submitter::META_TRANSACTION_ID ), $terminal )
-			) );
+			$hpos_meta_table   = $wpdb->prefix . 'wc_orders_meta';
 
-			$hpos_table = $wpdb->prefix . 'wc_orders_meta';
-			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $hpos_table ) ) === $hpos_table ) {
-				$hpos_ids = $wpdb->get_col( $wpdb->prepare(
-					"SELECT DISTINCT wom.order_id FROM {$hpos_table} wom
-					 LEFT JOIN {$hpos_orders_table} o ON o.id = wom.order_id
-					 LEFT JOIN {$hpos_table} checked ON checked.order_id = wom.order_id AND checked.meta_key = %s
-					 WHERE wom.meta_key = %s AND ( o.status IS NULL OR o.status NOT IN ({$placeholders}) )
+			$order_ids = array();
+			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $hpos_meta_table ) ) === $hpos_meta_table ) {
+				$order_ids = $wpdb->get_col( $wpdb->prepare(
+					"SELECT DISTINCT wom.order_id FROM {$hpos_meta_table} wom
+					 INNER JOIN {$hpos_orders_table} o ON o.id = wom.order_id
+					 LEFT JOIN {$hpos_meta_table} checked ON checked.order_id = wom.order_id AND checked.meta_key = %s
+					 WHERE wom.meta_key = %s AND o.status NOT IN ({$placeholders})
 					 ORDER BY checked.meta_value ASC
 					 LIMIT 150",
 					array_merge( array( self::META_STATUS_CHECKED_AT, Saleson_Order_Submitter::META_TRANSACTION_ID ), $terminal )
 				) );
-				if ( ! empty( $hpos_ids ) ) {
-					$order_ids = array_unique( array_merge( $order_ids, $hpos_ids ) );
-				}
 			}
 
-			// Backstop cap across the merged set too, in case both queries
+			// Legacy fallback: orders whose transaction id exists ONLY in
+			// wp_postmeta (pre-HPOS-fix orders not yet self-healed) and
+			// aren't already in the list above. No status filtering here -
+			// wp_posts.post_status can't be trusted on this site (see prior
+			// commit) - so these are checked every cycle regardless of
+			// status until the per-order loop self-heals their meta into
+			// wc_orders_meta, after which the query above picks them up
+			// (and correctly excludes them once terminal).
+			$legacy_ids = $wpdb->get_col( $wpdb->prepare(
+				"SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s LIMIT 150",
+				Saleson_Order_Submitter::META_TRANSACTION_ID
+			) );
+			$order_ids = array_unique( array_merge( $order_ids, array_diff( $legacy_ids, $order_ids ) ) );
+
+			// Backstop cap across the merged set too, in case both sources
 			// each returned close to their own 150-row limit.
 			$order_ids = array_slice( $order_ids, 0, 150 );
+
+			if ( empty( $order_ids ) ) {
+				$error_detail[] = sprintf(
+					'Discovery found 0 candidate orders (wc_orders_meta table %s, legacy wp_postmeta rows: %d) - check that Saleson_Order_Submitter::META_TRANSACTION_ID (%s) actually matches what orders are stamped with.',
+					( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $hpos_meta_table ) ) === $hpos_meta_table ) ? 'exists' : 'MISSING',
+					count( $legacy_ids ),
+					Saleson_Order_Submitter::META_TRANSACTION_ID
+				);
+			}
 
 			$api = new Saleson_API();
 
