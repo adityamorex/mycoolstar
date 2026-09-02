@@ -253,46 +253,73 @@ class Saleson_Settings_Page {
 
 	// --- Last run summary ----------------------------------------------------
 
+	/**
+	 * Friendly label per endpoint key - falls back to the raw key for
+	 * anything not listed here, so a future/renamed step still shows up
+	 * rather than being silently dropped from the table.
+	 */
+	const ENDPOINT_LABELS = array(
+		'stock_price_pull'   => 'Stock, price & price tiers',
+		'party_balance_sync' => 'Party credit/balance refresh',
+		'order_status_sync'  => 'Order status & invoice sync',
+		'order_inbound_sync' => 'Import SalesOn-direct orders',
+		'product_auto_import'=> 'Auto-import new products',
+		'order_backfill'     => 'Historical order backfill (paused)',
+	);
+
 	private static function render_last_run() {
 		if ( ! class_exists( 'Saleson_Logger' ) ) {
 			return;
 		}
 
-		$run = Saleson_Logger::last_run();
+		$runs = method_exists( 'Saleson_Logger', 'last_run_per_endpoint' )
+			? Saleson_Logger::last_run_per_endpoint()
+			: array();
 
-		if ( ! $run ) {
+		if ( ! $runs ) {
 			?>
 			<div class="notice notice-info inline">
-				<p><?php esc_html_e( 'Last sync: no sync runs recorded yet.', 'saleson-woo-sync' ); ?></p>
+				<p><?php esc_html_e( 'No sync runs recorded yet.', 'saleson-woo-sync' ); ?></p>
 			</div>
 			<?php
 			return;
 		}
-
-		$status       = isset( $run->status ) ? $run->status : '';
-		$is_failed    = ( 'failed' === $status );
-		$notice_class = $is_failed ? 'notice-error' : ( 'running' === $status ? 'notice-warning' : 'notice-success' );
-
-		$when = ! empty( $run->run_finished_at ) ? $run->run_finished_at : $run->run_started_at;
 		?>
-		<div class="notice <?php echo esc_attr( $notice_class ); ?> inline">
-			<p>
-				<strong><?php esc_html_e( 'Last sync:', 'saleson-woo-sync' ); ?></strong>
-				<?php
-				printf(
-					/* translators: 1: endpoint, 2: date/time, 3: status, 4: items processed */
-					esc_html__( '%1$s ran at %2$s — status: %3$s — items processed: %4$s', 'saleson-woo-sync' ),
-					esc_html( $run->endpoint ),
-					esc_html( $when ),
-					esc_html( strtoupper( $status ) ),
-					esc_html( isset( $run->items_processed ) ? $run->items_processed : '0' )
-				);
-				?>
-			</p>
-			<?php if ( $is_failed && ! empty( $run->error_message ) ) : ?>
-				<p><strong><?php esc_html_e( 'Error:', 'saleson-woo-sync' ); ?></strong> <?php echo esc_html( $run->error_message ); ?></p>
-			<?php endif; ?>
-		</div>
+		<h2><?php esc_html_e( 'Sync Status', 'saleson-woo-sync' ); ?></h2>
+		<table class="widefat striped" style="max-width: 1100px;">
+			<thead>
+				<tr>
+					<th><?php esc_html_e( 'Step', 'saleson-woo-sync' ); ?></th>
+					<th><?php esc_html_e( 'Last run', 'saleson-woo-sync' ); ?></th>
+					<th><?php esc_html_e( 'Status', 'saleson-woo-sync' ); ?></th>
+					<th><?php esc_html_e( 'Items processed', 'saleson-woo-sync' ); ?></th>
+					<th><?php esc_html_e( 'Error', 'saleson-woo-sync' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach ( $runs as $run ) :
+					$status    = isset( $run->status ) ? $run->status : '';
+					$is_failed = ( 'failed' === $status );
+					$color     = $is_failed ? '#d63638' : ( 'running' === $status ? '#dba617' : '#00a32a' );
+					$when      = ! empty( $run->run_finished_at ) ? $run->run_finished_at : $run->run_started_at;
+					$label     = isset( self::ENDPOINT_LABELS[ $run->endpoint ] ) ? self::ENDPOINT_LABELS[ $run->endpoint ] : $run->endpoint;
+					?>
+					<tr>
+						<td><strong><?php echo esc_html( $label ); ?></strong><br /><code style="font-size:11px;color:#787c82;"><?php echo esc_html( $run->endpoint ); ?></code></td>
+						<td><?php echo esc_html( $when ); ?></td>
+						<td><span style="color:<?php echo esc_attr( $color ); ?>;font-weight:600;"><?php echo esc_html( strtoupper( $status ) ); ?></span></td>
+						<td><?php echo esc_html( isset( $run->items_processed ) ? $run->items_processed : '0' ); ?></td>
+						<td style="max-width:400px;">
+							<?php if ( $is_failed && ! empty( $run->error_message ) ) : ?>
+								<span style="color:#d63638;"><?php echo esc_html( $run->error_message ); ?></span>
+							<?php else : ?>
+								<span style="color:#787c82;">&#8212;</span>
+							<?php endif; ?>
+						</td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
 		<?php
 	}
 

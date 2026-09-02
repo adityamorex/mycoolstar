@@ -38,4 +38,23 @@ class Saleson_Logger {
 			"SELECT * FROM {$wpdb->prefix}saleson_sync_logs ORDER BY id DESC LIMIT 1"
 		);
 	}
+
+	/**
+	 * One row per distinct endpoint (its most recent run), not just the
+	 * single most recent row overall - added 2026-09-02 alongside the
+	 * split-endpoint cron redesign, so the Settings page can show every
+	 * sync step's status side by side instead of whichever one happened to
+	 * log last.
+	 */
+	public static function last_run_per_endpoint() {
+		global $wpdb;
+		$table = $wpdb->prefix . 'saleson_sync_logs';
+		return $wpdb->get_results(
+			"SELECT l.* FROM {$table} l
+			 INNER JOIN (
+				 SELECT endpoint, MAX(id) AS max_id FROM {$table} GROUP BY endpoint
+			 ) latest ON latest.max_id = l.id
+			 ORDER BY l.endpoint ASC"
+		);
+	}
 }
