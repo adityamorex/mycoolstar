@@ -74,24 +74,36 @@ class Saleson_Order_Status_Sync {
 			// other orders processing successfully every cycle. checked_at
 			// is stamped on every order this loop examines below, regardless
 			// of outcome, so coverage now rotates through the full set.
+			//
+			// Status filtering uses wc_orders (HPOS), NOT wp_posts.post_status
+			// - this site runs HPOS, and most current orders have NO real row
+			// in wp_posts at all. The original version INNER JOINed wp_posts,
+			// which silently excluded every such order from ever being a
+			// candidate - confirmed live 2026-09-02: an invoiced order that
+			// genuinely needed processing was never once selected, and a
+			// cancelled order's stale wp_posts row kept it showing up as
+			// still-active for cycles after it was actually cancelled. LEFT
+			// JOIN (not INNER) so a row missing from wc_orders is INCLUDED
+			// rather than silently dropped - status unknown is not the same
+			// as status terminal.
+			$hpos_orders_table = $wpdb->prefix . 'wc_orders';
 			$order_ids = $wpdb->get_col( $wpdb->prepare(
 				"SELECT DISTINCT pm.post_id FROM {$wpdb->postmeta} pm
-				 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+				 LEFT JOIN {$hpos_orders_table} o ON o.id = pm.post_id
 				 LEFT JOIN {$wpdb->postmeta} checked ON checked.post_id = pm.post_id AND checked.meta_key = %s
-				 WHERE pm.meta_key = %s AND p.post_status NOT IN ({$placeholders})
+				 WHERE pm.meta_key = %s AND ( o.status IS NULL OR o.status NOT IN ({$placeholders}) )
 				 ORDER BY checked.meta_value ASC
 				 LIMIT 150",
 				array_merge( array( self::META_STATUS_CHECKED_AT, Saleson_Order_Submitter::META_TRANSACTION_ID ), $terminal )
 			) );
 
 			$hpos_table = $wpdb->prefix . 'wc_orders_meta';
-			$hpos_orders_table = $wpdb->prefix . 'wc_orders';
 			if ( $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $hpos_table ) ) === $hpos_table ) {
 				$hpos_ids = $wpdb->get_col( $wpdb->prepare(
 					"SELECT DISTINCT wom.order_id FROM {$hpos_table} wom
-					 INNER JOIN {$hpos_orders_table} o ON o.id = wom.order_id
+					 LEFT JOIN {$hpos_orders_table} o ON o.id = wom.order_id
 					 LEFT JOIN {$hpos_table} checked ON checked.order_id = wom.order_id AND checked.meta_key = %s
-					 WHERE wom.meta_key = %s AND o.status NOT IN ({$placeholders})
+					 WHERE wom.meta_key = %s AND ( o.status IS NULL OR o.status NOT IN ({$placeholders}) )
 					 ORDER BY checked.meta_value ASC
 					 LIMIT 150",
 					array_merge( array( self::META_STATUS_CHECKED_AT, Saleson_Order_Submitter::META_TRANSACTION_ID ), $terminal )
