@@ -44,7 +44,14 @@ class Saleson_API {
 		$args = array(
 			'method'  => $method,
 			'headers' => $this->headers( $body !== null ? array( 'Content-Type' => 'application/json' ) : array() ),
-			'timeout' => 60,
+			// Reduced from 60 (2026-09-02): on a 5xx, maybe_retry() below
+			// retries the SAME request with this SAME timeout again, so one
+			// failing call could take up to ~121s (60 + 1s sleep + 60) before
+			// this plugin even got to decide what to do about it - more than
+			// enough on its own to exceed a shared-hosting PHP execution
+			// limit and leave Saleson_Stock_Sync::run()'s lock stuck. 15s is
+			// still generous for calls that are actually succeeding.
+			'timeout' => 15,
 		);
 		if ( $body !== null ) {
 			$args['body'] = wp_json_encode( $body );
@@ -83,7 +90,14 @@ class Saleson_API {
 			'method'  => $method,
 			'headers' => $this->headers( array( 'Content-Type' => 'multipart/form-data; boundary=' . $boundary ) ),
 			'body'    => $body,
-			'timeout' => 60,
+			// Reduced from 60 (2026-09-02): on a 5xx, maybe_retry() below
+			// retries the SAME request with this SAME timeout again, so one
+			// failing call could take up to ~121s (60 + 1s sleep + 60) before
+			// this plugin even got to decide what to do about it - more than
+			// enough on its own to exceed a shared-hosting PHP execution
+			// limit and leave Saleson_Stock_Sync::run()'s lock stuck. 15s is
+			// still generous for calls that are actually succeeding.
+			'timeout' => 15,
 		);
 
 		$response = wp_remote_request( $url, $args );

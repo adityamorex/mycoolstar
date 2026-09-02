@@ -309,9 +309,19 @@ class Saleson_Stock_Sync {
 	 * page_info.next_cursor - confirmed shape in Phase 0).
 	 */
 	private static function fetch_paginated( Saleson_API $api, $path ) {
-		$rows   = array();
-		$cursor = null;
-		$page   = 0;
+		$rows       = array();
+		$cursor     = null;
+		$page       = 0;
+		$start_time = microtime( true );
+		// Time cap alongside the page-count safety valve (2026-09-02): the
+		// lock in run() was found stuck at 192s+ with no syntax or other
+		// code error found, pointing at SalesOn's API itself responding
+		// slowly on a given day - the 50-page cap alone doesn't help if
+		// individual page requests are just slow, only if there are too many
+		// of them. Two calls to this function happen per run() (rate-list,
+		// low-stock), before run()'s own time-budget checks even start, so
+		// capping each one here is what actually bounds the worst case.
+		$max_seconds = 25;
 
 		do {
 			$params = array( 'page_size' => 100 );
@@ -330,7 +340,7 @@ class Saleson_Stock_Sync {
 
 			$cursor = isset( $data['page_info']['next_cursor'] ) ? $data['page_info']['next_cursor'] : null;
 			$page++;
-		} while ( $cursor && ! empty( $batch ) && $page < 50 ); // safety valve
+		} while ( $cursor && ! empty( $batch ) && $page < 50 && ( microtime( true ) - $start_time ) < $max_seconds );
 
 		return $rows;
 	}
