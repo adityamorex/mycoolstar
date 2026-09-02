@@ -34,32 +34,82 @@ class Saleson_Party_Balance_Sync {
 			$table = $wpdb->prefix . 'saleson_party_map';
 			$now   = current_time( 'mysql' );
 
+			// Batched CASE-WHEN bulk update, NOT one $wpdb->update() per party
+			// (2026-09-02): with 2,779 real parties confirmed live, that was
+			// 2,779 synchronous DB round-trips in a single PHP request - even
+			// at a modest 15-40ms each on shared hosting, easily 40-100+
+			// seconds on its own, with nothing to do with the SalesOn API
+			// (confirmed separately: the API call itself takes ~2.5s). This
+			// is very likely what was actually behind Saleson_Stock_Sync's
+			// lock dying silently right after price_tiers (the step
+			// immediately before this one). CASE-WHEN keeps this UPDATE-only
+			// (never INSERT) so a party not already in the map still can't
+			// be created here, matching this class's existing contract.
+			$rows = array();
 			foreach ( $result['data']['parties'] as $party ) {
 				$party_id = isset( $party['id'] ) ? (int) $party['id'] : 0;
 				if ( ! $party_id ) {
 					continue;
 				}
-
-				$updated = $wpdb->update(
-					$table,
-					array(
-						'credit_limit'   => isset( $party['credit_limit'] ) ? (float) $party['credit_limit'] : null,
-						'credit_period'  => isset( $party['credit_period'] ) ? (int) $party['credit_period'] : null,
-						'amount_balance' => isset( $party['amount_balance'] ) ? (float) $party['amount_balance'] : null,
-						'last_synced_at' => $now,
-					),
-					array( 'saleson_party_id' => $party_id ),
-					array( '%f', '%d', '%f', '%s' ),
-					array( '%d' )
+				$rows[ $party_id ] = array(
+					'credit_limit'   => isset( $party['credit_limit'] ) ? (float) $party['credit_limit'] : 0,
+					'credit_period'  => isset( $party['credit_period'] ) ? (int) $party['credit_period'] : 0,
+					'amount_balance' => isset( $party['amount_balance'] ) ? (float) $party['amount_balance'] : 0,
 				);
+			}
 
-				if ( false === $updated ) {
-					$errors++;
+			$chunk_size = 300;
+			$chunks     = array_chunk( $rows, $chunk_size, true );
+
+			foreach ( $chunks as $chunk ) {
+				$ids = array_keys( $chunk );
+				$placeholders = implode( ',', array_fill( 0, count( $ids ), '%d' ) );
+
+				$credit_limit_case   = 'credit_limit = CASE saleson_party_id ';
+				$credit_period_case  = 'credit_period = CASE saleson_party_id ';
+				$amount_balance_case = 'amount_balance = CASE saleson_party_id ';
+				$case_params         = array();
+
+				foreach ( $chunk as $party_id => $vals ) {
+					$credit_limit_case   .= 'WHEN %d THEN %f ';
+					$credit_period_case  .= 'WHEN %d THEN %d ';
+					$amount_balance_case .= 'WHEN %d THEN %f ';
+					$case_params[]        = array( $party_id, $vals['credit_limit'], $party_id, $vals['credit_period'], $party_id, $vals['amount_balance'] );
+				}
+
+				// Flatten case_params in the same order the three CASE blocks
+				// are concatenated below: all credit_limit pairs, then all
+				// credit_period pairs, then all amount_balance pairs.
+				$flat_params = array();
+				foreach ( $case_params as $p ) {
+					$flat_params[] = $p[0];
+					$flat_params[] = $p[1];
+				}
+				foreach ( $case_params as $p ) {
+					$flat_params[] = $p[2];
+					$flat_params[] = $p[3];
+				}
+				foreach ( $case_params as $p ) {
+					$flat_params[] = $p[4];
+					$flat_params[] = $p[5];
+				}
+
+				$sql = "UPDATE {$table} SET "
+					. $credit_limit_case . 'END, '
+					. $credit_period_case . 'END, '
+					. $amount_balance_case . 'END, '
+					. 'last_synced_at = %s '
+					. "WHERE saleson_party_id IN ({$placeholders})";
+
+				$params = array_merge( $flat_params, array( $now ), $ids );
+
+				$result_rows = $wpdb->query( $wpdb->prepare( $sql, $params ) );
+
+				if ( false === $result_rows ) {
+					$errors += count( $chunk );
 					continue;
 				}
-				if ( $updated > 0 ) {
-					$processed++;
-				}
+				$processed += count( $chunk );
 			}
 
 			self::push_to_wp_users();
