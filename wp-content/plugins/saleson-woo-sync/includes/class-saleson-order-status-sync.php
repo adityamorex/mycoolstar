@@ -38,6 +38,18 @@ class Saleson_Order_Status_Sync {
 
 	const META_STATUS_CHECKED_AT = '_saleson_status_checked_at';
 
+	// Raised from 150 to 500 (2026-09-02): 150 was a conservative backstop
+	// set before the bulk-list optimization existed, back when this step did
+	// one API call per tracked order with no cap at all and a single cycle
+	// could run longer than the cron interval. With the bulk call in place,
+	// 150 items now process in a few seconds (confirmed live) - the old cap
+	// was causing real orders to sit unrotated for multiple cycles even
+	// though the actual cost of processing more per cycle is small. 500
+	// comfortably covers the current ~300 tracked orders in one pass with
+	// room for growth, while still being a real backstop against an
+	// unbounded tracked set.
+	const DISCOVERY_LIMIT = 500;
+
 	public static function run() {
 		$log_id       = Saleson_Logger::start( 'order_status_sync' );
 		$processed    = 0;
@@ -89,7 +101,7 @@ class Saleson_Order_Status_Sync {
 					 LEFT JOIN {$hpos_meta_table} checked ON checked.order_id = wom.order_id AND checked.meta_key = %s
 					 WHERE wom.meta_key = %s AND o.status NOT IN ({$placeholders})
 					 ORDER BY checked.meta_value ASC
-					 LIMIT 150",
+					 LIMIT " . self::DISCOVERY_LIMIT,
 					array_merge( array( self::META_STATUS_CHECKED_AT, Saleson_Order_Submitter::META_TRANSACTION_ID ), $terminal )
 				) );
 			}
@@ -103,14 +115,14 @@ class Saleson_Order_Status_Sync {
 			// wc_orders_meta, after which the query above picks them up
 			// (and correctly excludes them once terminal).
 			$legacy_ids = $wpdb->get_col( $wpdb->prepare(
-				"SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s LIMIT 150",
+				"SELECT DISTINCT post_id FROM {$wpdb->postmeta} WHERE meta_key = %s LIMIT " . self::DISCOVERY_LIMIT,
 				Saleson_Order_Submitter::META_TRANSACTION_ID
 			) );
 			$order_ids = array_unique( array_merge( $order_ids, array_diff( $legacy_ids, $order_ids ) ) );
 
 			// Backstop cap across the merged set too, in case both sources
-			// each returned close to their own 150-row limit.
-			$order_ids = array_slice( $order_ids, 0, 150 );
+			// each returned close to their own limit.
+			$order_ids = array_slice( $order_ids, 0, self::DISCOVERY_LIMIT );
 
 			if ( empty( $order_ids ) ) {
 				$error_detail[] = sprintf(
@@ -127,11 +139,11 @@ class Saleson_Order_Status_Sync {
 			// summary already includes each order's `status` directly (just
 			// not its invoice `association`, which still needs the detail
 			// endpoint - but only orders that actually need that get one).
-			// page_size=200 comfortably covers the 150-row tracked-order cap
-			// above, since active (non-terminal) SalesOn orders are, in
-			// practice, near-always among its most recent ones.
+			// page_size matches DISCOVERY_LIMIT so this one call still covers
+			// the whole raised cap, since active (non-terminal) SalesOn
+			// orders are, in practice, near-always among its most recent ones.
 			$bulk_status_by_txn = array();
-			$list_result        = $api->get( 'transactions/sales-order', array( 'page_size' => 200 ) );
+			$list_result        = $api->get( 'transactions/sales-order', array( 'page_size' => self::DISCOVERY_LIMIT ) );
 			if ( ! empty( $list_result['ok'] ) && ! empty( $list_result['data']['invoices'] ) ) {
 				foreach ( $list_result['data']['invoices'] as $row ) {
 					if ( ! empty( $row['id'] ) && isset( $row['status'] ) ) {
