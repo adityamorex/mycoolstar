@@ -31,7 +31,14 @@ class Saleson_Stock_Sync {
 			wp_schedule_event( time(), self::CRON_INTERVAL_KEY, self::CRON_HOOK );
 		}
 
-		add_action( self::CRON_HOOK, array( __CLASS__, 'run' ) );
+		// Fallback only (2026-09-02): the real trigger for this and every
+		// other step is now its own hPanel cron job hitting
+		// Saleson_Cron_Endpoints's dedicated URL. This WP-Cron registration
+		// stays only so stock/price syncing doesn't stop dead if that hPanel
+		// job hasn't been set up yet or ever misses a run - WP-Cron fires on
+		// page-load, so it's not reliable as the PRIMARY mechanism, but it's
+		// a reasonable safety net for just this one (fast, cheap) piece.
+		add_action( self::CRON_HOOK, array( __CLASS__, 'run_stock_price_only' ) );
 	}
 
 	/**
@@ -73,15 +80,6 @@ class Saleson_Stock_Sync {
 	 * in wp_saleson_product_map (see class-saleson-matcher-page.php's
 	 * "Collisions" tab), not by anything in this file.
 	 */
-	// Soft time budget: bails out cleanly (releasing the lock, finishing the
-	// log) before risking a hard PHP execution-time kill, which cannot be
-	// caught by try/catch and would leave the lock stuck for its full TTL.
-	// Added 2026-09-01 after the lock was found stuck "held" across multiple
-	// consecutive cron cycles with no other explanation - a hard timeout
-	// killing the process mid-run, silently, is the only mechanism that
-	// bypasses the catch block below entirely.
-	const TIME_BUDGET_SECONDS = 20;
-
 	// Breadcrumb trail written to a transient after each major step, so a
 	// run killed mid-flight by a hard PHP timeout (which bypasses the
 	// catch block and Saleson_Logger::finish() entirely) still leaves
@@ -102,7 +100,22 @@ class Saleson_Stock_Sync {
 		update_option( self::TRACE_OPTION, $trace, false );
 	}
 
-	public static function run() {
+	/**
+	 * Restructured 2026-09-02: this used to also run price tiers, party
+	 * balance, order status/invoice sync, order import, and product import
+	 * in sequence, all in one PHP request. hPanel's resource graphs showed
+	 * CPU repeatedly pinned at 100% and memory hitting its cap during these
+	 * runs, causing wp-admin requests on the same account to 503 - a real
+	 * hosting resource ceiling, not something fixable by further optimizing
+	 * code inside one request. Those steps now run as their own separately
+	 * scheduled, independent requests via Saleson_Cron_Endpoints - see that
+	 * class for the URLs each needs its own hPanel cron job. This method is
+	 * now just catalog + two paginated reports + the stock/price cache +
+	 * push to Woo + price tiers (all tightly coupled to the same data, and
+	 * together still fast - ~7s measured live for a 900-product, 250-match
+	 * catalog).
+	 */
+	public static function run_stock_price_only() {
 		$existing_lock = get_transient( self::LOCK_KEY );
 		if ( $existing_lock ) {
 			$age = time() - (int) $existing_lock;
@@ -249,70 +262,13 @@ class Saleson_Stock_Sync {
 			$push_result = self::push_to_matched_woo_products();
 			self::checkpoint( 'push_to_matched_woo_products (' . $push_result['pushed'] . ' products)', $start_time );
 
-			$skipped_steps = array();
-			$budget_exceeded = function() use ( $start_time ) {
-				return ( microtime( true ) - $start_time ) > self::TIME_BUDGET_SECONDS;
-			};
-
-			// Same cadence: price tiers, logged as its own run.
-			if ( $budget_exceeded() ) {
-				$skipped_steps[] = 'price_tiers';
-			} else {
-				Saleson_Price_Sync_Pull::pull_all_tiers();
-				self::checkpoint( 'price_tiers', $start_time );
-			}
-
-			// Same cadence: party credit/balance refresh, logged as its own run.
-			if ( $budget_exceeded() ) {
-				$skipped_steps[] = 'party_balance';
-			} else {
-				Saleson_Party_Balance_Sync::run();
-				self::checkpoint( 'party_balance', $start_time );
-			}
-
-			// Same cadence: mirror each submitted order's real SalesOn status
-			// onto its WooCommerce order, logged as its own run.
-			if ( $budget_exceeded() ) {
-				$skipped_steps[] = 'order_status_sync';
-			} else {
-				Saleson_Order_Status_Sync::run();
-				self::checkpoint( 'order_status_sync', $start_time );
-			}
-
-			// Same cadence: import new SalesOn orders (offline/phone/ERP direct)
-			// into WooCommerce so all orders are visible in wp-admin.
-			if ( $budget_exceeded() ) {
-				$skipped_steps[] = 'order_inbound_sync';
-			} else {
-				Saleson_Order_Importer::sync_from_saleson();
-				self::checkpoint( 'order_inbound_sync', $start_time );
-			}
-
-			// PAUSED 2026-09-01: the site hit 503s three times this session
-			// while this was running (once from an unrelated unthrottled
-			// script, but at least once seemingly on its own). Backfilling
-			// history is a nice-to-have, not something daily operations
-			// depend on the way order/invoice sync is - pausing it entirely
-			// until site stability is confirmed over a real stretch of time,
-			// rather than guessing at a "safer" pace while still live.
-			// Saleson_Order_Importer::backfill_batch();
-
-			// Same cadence: give genuinely new SalesOn products a draft listing
-			// on the website, so staff only have to add a photo and publish.
-			// Runs AFTER the stock/price pull above so a newly imported product
-			// already has its cache row to read stock and price from.
-			if ( $budget_exceeded() ) {
-				$skipped_steps[] = 'product_import';
-			} else {
-				Saleson_Product_Importer::auto_import_new();
-				self::checkpoint( 'product_import', $start_time );
-			}
+			// Kept here (not its own endpoint) - tightly coupled to the same
+			// catalog data just fetched, and cheap on its own (4 price-list
+			// API calls, no per-product local writes).
+			Saleson_Price_Sync_Pull::pull_all_tiers();
+			self::checkpoint( 'price_tiers', $start_time );
 
 			$notes = ! empty( $push_result['mismatches'] ) ? implode( ' | ', $push_result['mismatches'] ) : null;
-			if ( $skipped_steps ) {
-				$skip_note = 'Time budget exceeded (' . self::TIME_BUDGET_SECONDS . 's) - skipped this cycle: ' . implode( ', ', $skipped_steps ) . '. Will run next cycle.';
-				$notes     = $notes ? $notes . ' | ' . $skip_note : $skip_note;
-			}
 			self::checkpoint( 'run_completed', $start_time );
 			Saleson_Logger::finish( $log_id, $processed, ! empty( $push_result['mismatches'] ) ? count( $push_result['mismatches'] ) : 0, $notes );
 		} catch ( \Throwable $e ) {

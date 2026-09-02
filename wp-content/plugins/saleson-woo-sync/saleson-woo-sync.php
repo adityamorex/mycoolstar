@@ -26,6 +26,7 @@ require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-order-details.php';
 require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-product-importer.php';
 require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-party-creator.php';
 require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-order-importer.php';
+require_once SALESON_WOO_SYNC_DIR . 'includes/class-saleson-cron-endpoints.php';
 require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-admin-menu.php';
 require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-settings-page.php';
 require_once SALESON_WOO_SYNC_DIR . 'admin/class-saleson-matcher-page.php';
@@ -50,4 +51,5 @@ add_action( 'plugins_loaded', function () {
 	Saleson_Product_Creator::init();
 	Saleson_Order_Submitter::init();
 	Saleson_Order_Details::init();
+	Saleson_Cron_Endpoints::init();
 } );
