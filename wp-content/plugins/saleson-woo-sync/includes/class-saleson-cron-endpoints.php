@@ -68,7 +68,7 @@ class Saleson_Cron_Endpoints {
 		}
 
 		$step = sanitize_key( wp_unslash( $_GET['saleson_cron'] ) );
-		if ( ! isset( self::STEPS[ $step ] ) ) {
+		if ( 'dispatch-all' !== $step && ! isset( self::STEPS[ $step ] ) ) {
 			status_header( 404 );
 			exit( 'unknown step' );
 		}
@@ -79,10 +79,48 @@ class Saleson_Cron_Endpoints {
 			exit( 'invalid token' );
 		}
 
+		if ( 'dispatch-all' === $step ) {
+			self::dispatch_all();
+			status_header( 200 );
+			header( 'Content-Type: text/plain' );
+			exit( 'ok: dispatched ' . count( self::STEPS ) . ' step(s)' );
+		}
+
 		call_user_func( self::STEPS[ $step ] );
 
 		status_header( 200 );
 		header( 'Content-Type: text/plain' );
 		exit( "ok: {$step}" );
+	}
+
+	/**
+	 * Fires each real step as its own non-blocking loopback request (the
+	 * same pattern wp-cron.php itself uses to spawn background work) rather
+	 * than calling them directly in this process. Added 2026-09-02 after
+	 * the hosting plan turned out to cap the account at 2 cron jobs total -
+	 * far short of the 5 separate hPanel entries the split-endpoint design
+	 * assumed. This keeps the actual goal (each step isolated in its own
+	 * process, not stacked into one big request) while needing only ONE
+	 * hPanel cron job, hitting this one URL.
+	 *
+	 * Staggered with a short sleep between dispatches so the 5 background
+	 * processes don't all start at the very same instant - spread over a
+	 * few seconds, not one simultaneous burst, which would just recreate
+	 * the CPU spike this whole redesign exists to avoid.
+	 */
+	private static function dispatch_all() {
+		$first = true;
+		foreach ( array_keys( self::STEPS ) as $step ) {
+			if ( ! $first ) {
+				sleep( 2 );
+			}
+			$first = false;
+
+			wp_remote_get( self::get_endpoint_url( $step ), array(
+				'timeout'   => 0.5,   // don't wait for the real work to finish
+				'blocking'  => false, // fire-and-forget - this is what makes it a separate process
+				'sslverify' => false,
+			) );
+		}
 	}
 }

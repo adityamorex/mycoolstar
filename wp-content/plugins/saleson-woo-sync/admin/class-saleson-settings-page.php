@@ -346,40 +346,50 @@ class Saleson_Settings_Page {
 		}
 		?>
 		<hr />
-		<h2><?php esc_html_e( 'Scheduled Sync (hPanel Cron Jobs)', 'saleson-woo-sync' ); ?></h2>
+		<h2><?php esc_html_e( 'Scheduled Sync (hPanel Cron Job)', 'saleson-woo-sync' ); ?></h2>
 		<p>
-			<?php esc_html_e( 'Each of these runs one piece of the sync independently, instead of one big job doing everything at once - this is what keeps any single request light on CPU/memory. Set up a separate hPanel cron job for each URL below (replacing any existing job that hits wp-cron.php for this plugin), using a plain wget/curl, on the schedule shown.', 'saleson-woo-sync' ); ?>
+			<?php esc_html_e( 'This one URL is all you need in hPanel. It runs almost instantly itself - it just fires off each real sync step as its own separate background request (spaced a couple seconds apart), so the actual work is still spread across several small, isolated processes instead of one large one, without needing a separate cron job per step (most hosting plans cap the number of cron jobs allowed).', 'saleson-woo-sync' ); ?>
 		</p>
-		<table class="widefat" style="max-width: 900px;">
-			<thead>
-				<tr>
-					<th><?php esc_html_e( 'Step', 'saleson-woo-sync' ); ?></th>
-					<th><?php esc_html_e( 'Suggested schedule', 'saleson-woo-sync' ); ?></th>
-					<th><?php esc_html_e( 'URL', 'saleson-woo-sync' ); ?></th>
-				</tr>
-			</thead>
-			<tbody>
-				<?php
-				$rows = array(
-					'stock-price'    => array( __( 'Stock, price & price tiers', 'saleson-woo-sync' ), __( 'every 15 min', 'saleson-woo-sync' ) ),
-					'order-status'   => array( __( 'Order status & invoice sync', 'saleson-woo-sync' ), __( 'every 15 min', 'saleson-woo-sync' ) ),
-					'order-import'   => array( __( 'Import SalesOn-direct orders', 'saleson-woo-sync' ), __( 'every 15 min', 'saleson-woo-sync' ) ),
-					'product-import' => array( __( 'Auto-import new products', 'saleson-woo-sync' ), __( 'every 30 min', 'saleson-woo-sync' ) ),
-					'party-balance'  => array( __( 'Party credit/balance refresh', 'saleson-woo-sync' ), __( 'hourly', 'saleson-woo-sync' ) ),
-				);
-				foreach ( $rows as $step => $meta ) {
-					printf(
-						'<tr><td>%s</td><td>%s</td><td><code style="user-select:all;">wget -q -O /dev/null "%s"</code></td></tr>',
-						esc_html( $meta[0] ),
-						esc_html( $meta[1] ),
-						esc_url( Saleson_Cron_Endpoints::get_endpoint_url( $step ) )
-					);
-				}
-				?>
-			</tbody>
-		</table>
+		<p>
+			<strong><?php esc_html_e( 'Set up ONE hPanel cron job, every 15 minutes:', 'saleson-woo-sync' ); ?></strong><br />
+			<code style="user-select:all;">wget -q -O /dev/null "<?php echo esc_url( Saleson_Cron_Endpoints::get_endpoint_url( 'dispatch-all' ) ); ?>"</code>
+		</p>
 		<p class="description">
-			<?php esc_html_e( 'The token in these URLs is a secret - anyone with it can trigger a sync step. It is not shown anywhere else and does not need to be memorized, just pasted once into each hPanel cron job.', 'saleson-woo-sync' ); ?>
+			<?php esc_html_e( 'Replace any existing cron job that hits this plugin (including one that hits wp-cron.php directly) with this single one.', 'saleson-woo-sync' ); ?>
+		</p>
+
+		<details style="margin-top: 14px;">
+			<summary><?php esc_html_e( 'Individual step URLs (advanced - for testing one step manually, not for regular scheduling)', 'saleson-woo-sync' ); ?></summary>
+			<table class="widefat" style="max-width: 900px; margin-top: 8px;">
+				<thead>
+					<tr>
+						<th><?php esc_html_e( 'Step', 'saleson-woo-sync' ); ?></th>
+						<th><?php esc_html_e( 'URL', 'saleson-woo-sync' ); ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					$labels = array(
+						'stock-price'    => __( 'Stock, price & price tiers', 'saleson-woo-sync' ),
+						'order-status'   => __( 'Order status & invoice sync', 'saleson-woo-sync' ),
+						'order-import'   => __( 'Import SalesOn-direct orders', 'saleson-woo-sync' ),
+						'product-import' => __( 'Auto-import new products', 'saleson-woo-sync' ),
+						'party-balance'  => __( 'Party credit/balance refresh', 'saleson-woo-sync' ),
+					);
+					foreach ( $labels as $step => $label ) {
+						printf(
+							'<tr><td>%s</td><td><code style="user-select:all;">%s</code></td></tr>',
+							esc_html( $label ),
+							esc_url( Saleson_Cron_Endpoints::get_endpoint_url( $step ) )
+						);
+					}
+					?>
+				</tbody>
+			</table>
+		</details>
+
+		<p class="description" style="margin-top: 10px;">
+			<?php esc_html_e( 'The token in these URLs is a secret - anyone with it can trigger a sync step. It is not shown anywhere else and does not need to be memorized, just pasted once into hPanel.', 'saleson-woo-sync' ); ?>
 		</p>
 		<?php
 	}
