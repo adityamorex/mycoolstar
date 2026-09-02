@@ -37,9 +37,10 @@ class Saleson_Order_Status_Sync {
 	);
 
 	public static function run() {
-		$log_id    = Saleson_Logger::start( 'order_status_sync' );
-		$processed = 0;
-		$errors    = 0;
+		$log_id       = Saleson_Logger::start( 'order_status_sync' );
+		$processed    = 0;
+		$errors       = 0;
+		$error_detail = array(); // collected so a FAILED cycle actually says why, not just "1 error"
 
 		try {
 			global $wpdb;
@@ -105,6 +106,12 @@ class Saleson_Order_Status_Sync {
 						$bulk_status_by_txn[ (int) $row['id'] ] = $row['status'];
 					}
 				}
+			} else {
+				// Every tracked order will fall through to the per-order
+				// fallback call below - not fatal, but worth recording since
+				// it's the difference between "1 quick bulk call" and "up to
+				// 150 individual ones" for this cycle.
+				$error_detail[] = 'Bulk list call failed or returned no invoices (' . ( $list_result['error'] ?? 'no error detail from API wrapper' ) . ') - every order fell back to individual detail calls this cycle.';
 			}
 
 			foreach ( $order_ids as $order_id ) {
@@ -150,6 +157,12 @@ class Saleson_Order_Status_Sync {
 					$fallback = $api->get( 'transactions/sales-order/' . (int) $transaction_id );
 					if ( empty( $fallback['ok'] ) || empty( $fallback['data']['invoice']['status'] ) ) {
 						$errors++;
+						$error_detail[] = sprintf(
+							'Order #%d (txn %s): %s',
+							$order_id,
+							$transaction_id,
+							$fallback['error'] ?? 'detail call returned no status'
+						);
 						continue;
 					}
 					$detail_fetched = $fallback['data']['invoice'];
@@ -191,7 +204,7 @@ class Saleson_Order_Status_Sync {
 				$processed++;
 			}
 
-			Saleson_Logger::finish( $log_id, $processed, $errors, null );
+			Saleson_Logger::finish( $log_id, $processed, $errors, $error_detail ? implode( ' | ', $error_detail ) : null );
 		} catch ( \Throwable $e ) {
 			Saleson_Logger::finish( $log_id, $processed, 1, $e->getMessage() );
 		}
