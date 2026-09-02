@@ -36,6 +36,8 @@ class Saleson_Order_Status_Sync {
 		'Cancelled'  => 'cancelled',
 	);
 
+	const META_STATUS_CHECKED_AT = '_saleson_status_checked_at';
+
 	public static function run() {
 		$log_id       = Saleson_Logger::start( 'order_status_sync' );
 		$processed    = 0;
@@ -62,12 +64,24 @@ class Saleson_Order_Status_Sync {
 			$terminal = array( 'wc-saleson-delivered', 'wc-cancelled' );
 			$placeholders = implode( ',', array_fill( 0, count( $terminal ), '%s' ) );
 
+			// Ordered by least-recently-checked first (NULLs - never checked
+			// at all - sort first in MySQL ASC), not left unordered: with
+			// more non-terminal tracked orders than the 150 cap (very
+			// plausible once history is backfilled), an unordered LIMIT can
+			// return the SAME subset every single cycle, starving the rest
+			// indefinitely. Confirmed live 2026-09-02: a real invoiced order
+			// went 24+ hours with date_modified never once changing, despite
+			// other orders processing successfully every cycle. checked_at
+			// is stamped on every order this loop examines below, regardless
+			// of outcome, so coverage now rotates through the full set.
 			$order_ids = $wpdb->get_col( $wpdb->prepare(
 				"SELECT DISTINCT pm.post_id FROM {$wpdb->postmeta} pm
 				 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+				 LEFT JOIN {$wpdb->postmeta} checked ON checked.post_id = pm.post_id AND checked.meta_key = %s
 				 WHERE pm.meta_key = %s AND p.post_status NOT IN ({$placeholders})
+				 ORDER BY checked.meta_value ASC
 				 LIMIT 150",
-				array_merge( array( Saleson_Order_Submitter::META_TRANSACTION_ID ), $terminal )
+				array_merge( array( self::META_STATUS_CHECKED_AT, Saleson_Order_Submitter::META_TRANSACTION_ID ), $terminal )
 			) );
 
 			$hpos_table = $wpdb->prefix . 'wc_orders_meta';
@@ -76,9 +90,11 @@ class Saleson_Order_Status_Sync {
 				$hpos_ids = $wpdb->get_col( $wpdb->prepare(
 					"SELECT DISTINCT wom.order_id FROM {$hpos_table} wom
 					 INNER JOIN {$hpos_orders_table} o ON o.id = wom.order_id
+					 LEFT JOIN {$hpos_table} checked ON checked.order_id = wom.order_id AND checked.meta_key = %s
 					 WHERE wom.meta_key = %s AND o.status NOT IN ({$placeholders})
+					 ORDER BY checked.meta_value ASC
 					 LIMIT 150",
-					array_merge( array( Saleson_Order_Submitter::META_TRANSACTION_ID ), $terminal )
+					array_merge( array( self::META_STATUS_CHECKED_AT, Saleson_Order_Submitter::META_TRANSACTION_ID ), $terminal )
 				) );
 				if ( ! empty( $hpos_ids ) ) {
 					$order_ids = array_unique( array_merge( $order_ids, $hpos_ids ) );
@@ -168,6 +184,14 @@ class Saleson_Order_Status_Sync {
 					$detail_fetched = $fallback['data']['invoice'];
 					$saleson_status = $detail_fetched['status'];
 				}
+
+				// Stamped regardless of what happens next (unknown status,
+				// no change needed, etc.) - this is what the discovery query
+				// above rotates on, so every tracked order gets its turn
+				// instead of a fixed subset being checked forever while the
+				// rest starve.
+				$order->update_meta_data( self::META_STATUS_CHECKED_AT, current_time( 'mysql' ) );
+				$order->save();
 
 				$target_status = isset( self::STATUS_MAP[ $saleson_status ] ) ? self::STATUS_MAP[ $saleson_status ] : null;
 
