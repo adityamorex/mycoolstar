@@ -310,8 +310,8 @@ class Saleson_Settings_Page {
 						<td><span style="color:<?php echo esc_attr( $color ); ?>;font-weight:600;"><?php echo esc_html( strtoupper( $status ) ); ?></span></td>
 						<td><?php echo esc_html( isset( $run->items_processed ) ? $run->items_processed : '0' ); ?></td>
 						<td style="max-width:400px;">
-							<?php if ( $is_failed && ! empty( $run->error_message ) ) : ?>
-								<span style="color:#d63638;"><?php echo esc_html( $run->error_message ); ?></span>
+							<?php if ( ! empty( $run->error_message ) ) : ?>
+								<span style="color:<?php echo $is_failed ? '#d63638' : '#787c82'; ?>;"><?php echo esc_html( $run->error_message ); ?></span>
 							<?php else : ?>
 								<span style="color:#787c82;">&#8212;</span>
 							<?php endif; ?>

@@ -146,9 +146,20 @@ class Saleson_Order_Status_Sync {
 				$error_detail[] = 'Bulk list call failed or returned no invoices (' . ( $list_result['error'] ?? 'no error detail from API wrapper' ) . ') - every order fell back to individual detail calls this cycle.';
 			}
 
+			// Counted separately from $errors/$processed so a cycle that
+			// silently skips everything (order object not found, no
+			// transaction id, unmapped status) is distinguishable from one
+			// that's genuinely idle - added 2026-09-02 after a run logged
+			// SUCCESS with 0 processed AND 0 errors, giving no clue which of
+			// the loop's several silent `continue` paths was responsible.
+			$skip_no_order   = 0;
+			$skip_no_txn_id  = 0;
+			$skip_no_mapping = 0;
+
 			foreach ( $order_ids as $order_id ) {
 				$order = wc_get_order( $order_id );
 				if ( ! $order ) {
+					$skip_no_order++;
 					continue;
 				}
 
@@ -176,8 +187,25 @@ class Saleson_Order_Status_Sync {
 					}
 				}
 				if ( ! $transaction_id ) {
+					$skip_no_txn_id++;
 					continue;
 				}
+
+				// Stamped here - the moment we commit to attempting this
+				// order this cycle - NOT after a successful status
+				// resolution. Previously it only happened much further down,
+				// after $saleson_status resolved successfully: any order
+				// whose lookup failed (API timeout, or genuinely not among
+				// SalesOn's 200 most recent transactions - a real
+				// possibility for an order that's a few days old and no
+				// longer "recent" relative to real ongoing business volume)
+				// NEVER got stamped, so it kept re-winning the "never
+				// checked" NULL-sorts-first priority every single cycle,
+				// permanently starving other equally-unchecked orders that
+				// just hadn't had a turn yet. "Checked" should mean "we
+				// attempted it this cycle," not "we succeeded."
+				$order->update_meta_data( self::META_STATUS_CHECKED_AT, current_time( 'mysql' ) );
+				$order->save();
 
 				$saleson_status = isset( $bulk_status_by_txn[ (int) $transaction_id ] ) ? $bulk_status_by_txn[ (int) $transaction_id ] : null;
 
@@ -201,19 +229,12 @@ class Saleson_Order_Status_Sync {
 					$saleson_status = $detail_fetched['status'];
 				}
 
-				// Stamped regardless of what happens next (unknown status,
-				// no change needed, etc.) - this is what the discovery query
-				// above rotates on, so every tracked order gets its turn
-				// instead of a fixed subset being checked forever while the
-				// rest starve.
-				$order->update_meta_data( self::META_STATUS_CHECKED_AT, current_time( 'mysql' ) );
-				$order->save();
-
 				$target_status = isset( self::STATUS_MAP[ $saleson_status ] ) ? self::STATUS_MAP[ $saleson_status ] : null;
 
 				if ( ! $target_status ) {
 					// Unknown/unexpected status value from SalesOn - skip rather
 					// than guess at a mapping, so it doesn't silently misfile.
+					$skip_no_mapping++;
 					continue;
 				}
 
@@ -244,7 +265,20 @@ class Saleson_Order_Status_Sync {
 				$processed++;
 			}
 
-			Saleson_Logger::finish( $log_id, $processed, $errors, $error_detail ? implode( ' | ', $error_detail ) : null );
+			// Always logged (even on a fully successful cycle with a real
+			// $processed count) - a cheap breakdown that answers "where did
+			// the rest of the 150 candidates go" without needing another
+			// round of speculative fixes if this ever comes up short again.
+			$error_detail[] = sprintf(
+				'Breakdown of %d candidates: %d processed, %d skipped (order not found), %d skipped (no transaction id), %d skipped (unmapped SalesOn status).',
+				count( $order_ids ),
+				$processed,
+				$skip_no_order,
+				$skip_no_txn_id,
+				$skip_no_mapping
+			);
+
+			Saleson_Logger::finish( $log_id, $processed, $errors, implode( ' | ', $error_detail ) );
 		} catch ( \Throwable $e ) {
 			Saleson_Logger::finish( $log_id, $processed, 1, $e->getMessage() );
 		}
