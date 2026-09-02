@@ -82,15 +82,46 @@ class Saleson_Stock_Sync {
 	// bypasses the catch block below entirely.
 	const TIME_BUDGET_SECONDS = 20;
 
+	// Breadcrumb trail written to a transient after each major step, so a
+	// run killed mid-flight by a hard PHP timeout (which bypasses the
+	// catch block and Saleson_Logger::finish() entirely) still leaves
+	// evidence: whatever step has no checkpoint recorded after it is the
+	// one that was running when the process died. Added 2026-09-02 after
+	// the lock was repeatedly found stuck at 200s+ with no other diagnostic
+	// able to pin down which step. Short TTL - only meant to survive one
+	// in-flight run, not accumulate history (Saleson_Logger is for that).
+	const TRACE_OPTION = 'saleson_stock_sync_trace';
+
+	private static function checkpoint( $label, $run_started_at ) {
+		$trace   = get_option( self::TRACE_OPTION, array() );
+		$trace[] = array(
+			'step'          => $label,
+			'elapsed_total' => round( microtime( true ) - $run_started_at, 2 ),
+			'at'            => gmdate( 'H:i:s' ) . ' UTC',
+		);
+		update_option( self::TRACE_OPTION, $trace, false );
+	}
+
 	public static function run() {
 		$existing_lock = get_transient( self::LOCK_KEY );
 		if ( $existing_lock ) {
 			$age = time() - (int) $existing_lock;
+			$trace = get_option( self::TRACE_OPTION, array() );
+			$trace_summary = 'no checkpoints recorded at all - died before or during the first step (fetch_id_catalog)';
+			if ( $trace ) {
+				$parts = array();
+				foreach ( $trace as $t ) {
+					$parts[] = "{$t['step']}@{$t['elapsed_total']}s";
+				}
+				$trace_summary = 'last completed steps this run: ' . implode( ' -> ', $parts )
+					. ' - whatever step normally follows the LAST one listed is where it died';
+			}
 			$skip_log_id = Saleson_Logger::start( 'stock_price_pull' );
 			Saleson_Logger::finish( $skip_log_id, 0, 1, sprintf(
-				'Skipped - another sync run has held the lock for %ds (acquired at %s, expires after 300s). If this age is consistently near 300s, the previous run is very likely being killed by a PHP execution-time limit rather than finishing normally - check hosting PHP error logs for "Maximum execution time" around that timestamp.',
+				'Skipped - another sync run has held the lock for %ds (acquired at %s, expires after 300s). If this age is consistently near 300s, the previous run is very likely being killed by a PHP execution-time limit rather than finishing normally - check hosting PHP error logs for "Maximum execution time" around that timestamp. Diagnostic trace from the stuck run: %s',
 				$age,
-				gmdate( 'Y-m-d H:i:s', (int) $existing_lock ) . ' UTC'
+				gmdate( 'Y-m-d H:i:s', (int) $existing_lock ) . ' UTC',
+				$trace_summary
 			) );
 			return;
 		}
@@ -99,13 +130,19 @@ class Saleson_Stock_Sync {
 		$log_id     = Saleson_Logger::start( 'stock_price_pull' );
 		$processed  = 0;
 		$start_time = microtime( true );
+		delete_option( self::TRACE_OPTION ); // clear the previous run's trace - this run's checkpoints start fresh
 
 		try {
 			$api = new Saleson_API();
 
 			$name_to_product = self::fetch_id_catalog( $api );
-			$rate_list       = self::fetch_paginated( $api, 'reports/rate-list' );
-			$low_stock       = self::fetch_paginated( $api, 'reports/low-stock-summary' );
+			self::checkpoint( 'fetch_id_catalog', $start_time );
+
+			$rate_list = self::fetch_paginated( $api, 'reports/rate-list' );
+			self::checkpoint( 'fetch_rate_list', $start_time );
+
+			$low_stock = self::fetch_paginated( $api, 'reports/low-stock-summary' );
+			self::checkpoint( 'fetch_low_stock', $start_time );
 
 			$low_stock_by_name = array();
 			foreach ( $low_stock as $row ) {
@@ -180,6 +217,7 @@ class Saleson_Stock_Sync {
 
 				$processed++;
 			}
+			self::checkpoint( 'rate_list_cache_loop (' . $processed . ' rows)', $start_time );
 
 			// Real bug found 2026-08-05: SalesOn products with state = "DRAFT"
 			// (18 of the 220 curated items, confirmed) are silently absent from
@@ -193,6 +231,7 @@ class Saleson_Stock_Sync {
 			// own `stock` field (which DOES include DRAFT-state items), for any
 			// curated SalesOn id the rate-list loop above didn't already cover.
 			self::backfill_stock_cache_for_linked( $name_to_product, $cache_table, $now );
+			self::checkpoint( 'backfill_stock_cache_for_linked', $start_time );
 
 			// Push the freshly-cached stock/price onto Woo products that are
 			// already matched, so the storefront reflects this run immediately.
@@ -200,8 +239,15 @@ class Saleson_Stock_Sync {
 			// with direct customer-facing impact (prices/stock on the live
 			// site), so it should complete even on a cycle that later runs
 			// out of time budget, rather than risk being skipped because
-			// something further down the list ran long.
+			// something further down the list ran long. This is also the
+			// single most likely slow step (2026-09-02): it does one
+			// wc_get_product() + one ->save() per matched product, and
+			// ->save() is a real WooCommerce CRUD operation, not a cheap
+			// local write - a catalog of hundreds of products here can
+			// dominate the whole cycle's runtime with nothing to do with
+			// SalesOn's API at all.
 			$push_result = self::push_to_matched_woo_products();
+			self::checkpoint( 'push_to_matched_woo_products (' . $push_result['pushed'] . ' products)', $start_time );
 
 			$skipped_steps = array();
 			$budget_exceeded = function() use ( $start_time ) {
@@ -213,6 +259,7 @@ class Saleson_Stock_Sync {
 				$skipped_steps[] = 'price_tiers';
 			} else {
 				Saleson_Price_Sync_Pull::pull_all_tiers();
+				self::checkpoint( 'price_tiers', $start_time );
 			}
 
 			// Same cadence: party credit/balance refresh, logged as its own run.
@@ -220,6 +267,7 @@ class Saleson_Stock_Sync {
 				$skipped_steps[] = 'party_balance';
 			} else {
 				Saleson_Party_Balance_Sync::run();
+				self::checkpoint( 'party_balance', $start_time );
 			}
 
 			// Same cadence: mirror each submitted order's real SalesOn status
@@ -228,6 +276,7 @@ class Saleson_Stock_Sync {
 				$skipped_steps[] = 'order_status_sync';
 			} else {
 				Saleson_Order_Status_Sync::run();
+				self::checkpoint( 'order_status_sync', $start_time );
 			}
 
 			// Same cadence: import new SalesOn orders (offline/phone/ERP direct)
@@ -236,6 +285,7 @@ class Saleson_Stock_Sync {
 				$skipped_steps[] = 'order_inbound_sync';
 			} else {
 				Saleson_Order_Importer::sync_from_saleson();
+				self::checkpoint( 'order_inbound_sync', $start_time );
 			}
 
 			// PAUSED 2026-09-01: the site hit 503s three times this session
@@ -255,6 +305,7 @@ class Saleson_Stock_Sync {
 				$skipped_steps[] = 'product_import';
 			} else {
 				Saleson_Product_Importer::auto_import_new();
+				self::checkpoint( 'product_import', $start_time );
 			}
 
 			$notes = ! empty( $push_result['mismatches'] ) ? implode( ' | ', $push_result['mismatches'] ) : null;
@@ -262,8 +313,10 @@ class Saleson_Stock_Sync {
 				$skip_note = 'Time budget exceeded (' . self::TIME_BUDGET_SECONDS . 's) - skipped this cycle: ' . implode( ', ', $skipped_steps ) . '. Will run next cycle.';
 				$notes     = $notes ? $notes . ' | ' . $skip_note : $skip_note;
 			}
+			self::checkpoint( 'run_completed', $start_time );
 			Saleson_Logger::finish( $log_id, $processed, ! empty( $push_result['mismatches'] ) ? count( $push_result['mismatches'] ) : 0, $notes );
 		} catch ( \Throwable $e ) {
+			self::checkpoint( 'CAUGHT_EXCEPTION: ' . $e->getMessage(), $start_time );
 			Saleson_Logger::finish( $log_id, $processed, 1, $e->getMessage() );
 		}
 
@@ -515,6 +568,19 @@ class Saleson_Stock_Sync {
 			return array( 'pushed' => 0, 'mismatches' => array() );
 		}
 
+		// Consolidated 2026-09-02: previously up to 4 wc_get_product() reloads
+		// and 3 separate ->save() calls PER PRODUCT (one for manage_stock,
+		// one via wc_update_product_stock(), one for price). Each ->save()
+		// is a real cost - multiple DB writes plus every hook a lookup-table
+		// refresh/cache plugin/webhook has registered on product save, not a
+		// cheap local operation. Across a catalog of hundreds of matched
+		// products, every cycle, that redundancy was very likely the actual
+		// dominant cost behind Saleson_Stock_Sync's lock being found stuck
+		// for 250s+ - none of it touches the SalesOn API at all, so no
+		// amount of tuning HTTP timeouts could have fixed it. Now exactly
+		// one load and one save per product; stock quantity/status is set
+		// directly on the object (what wc_update_product_stock() does
+		// internally anyway) so it's part of the same save.
 		foreach ( $rows as $row ) {
 			$woo_id = (int) $row['woo_product_id'];
 			if ( ! $woo_id ) {
@@ -526,24 +592,23 @@ class Saleson_Stock_Sync {
 				continue;
 			}
 
-			// Real bug found 2026-08-05: wc_update_product_stock() only updates
-			// the _stock quantity - it does NOT turn stock management on for a
-			// product that never had it enabled (confirmed live: several
-			// bulk-created products, whose stock was unknown at creation time
-			// because of the DRAFT-state cache gap above, ended up with
-			// manage_stock=false forever, showing a generic "In Stock" label
-			// with no real quantity and no cart-quantity enforcement, even
-			// after this push ran). Explicitly enable it first.
+			// Real bug found 2026-08-05: a product that never had stock
+			// management enabled needs it explicitly turned on, or it shows
+			// a generic "In Stock" label with no real quantity/cart-limit
+			// enforcement forever, regardless of what stock figure is set.
 			if ( ! $product->get_manage_stock() ) {
 				$product->set_manage_stock( true );
-				$product->save();
-				$product = wc_get_product( $woo_id ); // reload after the save
 			}
 
-			wc_update_product_stock( $product, (int) $row['stock'], 'set' );
-			$pushed++;
+			$product->set_stock_quantity( (int) $row['stock'] );
+			if ( (int) $row['stock'] > 0 ) {
+				$product->set_stock_status( 'instock' );
+			} else {
+				$product->set_stock_status( 'outofstock' );
+			}
 
 			$has_retail_price = isset( $row['retail_rate'] ) && $row['retail_rate'] !== null && $row['retail_rate'] !== '';
+			$expected          = null;
 
 			// Option A (client decision, 2026-07-28): when SalesOn has no RETAIL
 			// CUSTOMER price for this item (confirmed: ~16 curated items are
@@ -553,23 +618,19 @@ class Saleson_Stock_Sync {
 			// then falls back to its own "no price set" / non-purchasable display,
 			// which reads as unavailable-to-retail rather than a guessed number.
 			if ( ! $has_retail_price ) {
-				$product = wc_get_product( $woo_id );
-				if ( $product && '' !== $product->get_regular_price() ) {
+				if ( '' !== $product->get_regular_price() ) {
 					$product->set_regular_price( '' );
 					$product->set_sale_price( '' );
-					$product->save();
 				}
+			} else {
+				$expected = number_format( (float) $row['retail_rate'], 2, '.', '' );
+				$product->set_regular_price( $expected );
 			}
 
-			if ( $has_retail_price ) {
-				$expected = number_format( (float) $row['retail_rate'], 2, '.', '' );
+			$product->save();
+			$pushed++;
 
-				$product = wc_get_product( $woo_id ); // reload post-stock-update
-				if ( $product ) {
-					$product->set_regular_price( $expected );
-					$product->save();
-				}
-
+			if ( null !== $expected ) {
 				// Bypass any object cache and read the raw stored value straight
 				// back from the DB, in the same request, to catch anything that
 				// silently reverted it (a duplicate mapping collision, another
