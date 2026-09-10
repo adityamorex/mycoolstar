@@ -1,0 +1,8 @@
+{
+  "name": "mycoolstar",
+  "private": true,
+  "description": "Konstrukt/MyCoolStar SalesOn-WooCommerce integration project",
+  "dependencies": {
+    "php-parser": "^3.7.0"
+  }
+}

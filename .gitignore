@@ -6,6 +6,9 @@ phase0/logs/
 __pycache__/
 *.pyc
 
+# Node dependencies (reinstall via `npm install`, see package.json)
+node_modules/
+
 # Local editor/OS junk
 .DS_Store
 Thumbs.db
